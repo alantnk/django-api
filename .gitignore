@@ -1,0 +1,46 @@
+# Django project files
+*.log
+*.pot
+*.pyc
+__pycache__/
+*.sqlite3
+
+# Django static files
+staticfiles/
+
+# Django media files
+media/
+
+# Byte-compiled Python files
+*.py[cod]
+
+# Virtualenv files
+env/
+.venv/
+venv/
+virtualenv/
+
+# Environment variables
+*.env
+
+# IDE files
+.vscode/
+.pydevproject
+.project
+.settings/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Django debug toolbar files
+.debug-toolbar/
+
+# Django coverage files
+.coverage
+.coverage.*
+.htmlcov/
+
+# Django test files
+.tox/
+.coveragerc
