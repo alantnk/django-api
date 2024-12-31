@@ -69,6 +69,6 @@ O projeto será dividido em cinco principais **apps**:
 ### 1. Clonar o repositório
 
 ```bash
-git clone https://github.com/alant2031/melo-crm.git
+git clone https://github.com/alant2031/melo-crm-backend.git
 cd melo-crm
 ```
