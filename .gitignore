@@ -44,3 +44,6 @@ Thumbs.db
 # Django test files
 .tox/
 .coveragerc
+
+# sandbox
+__lab
