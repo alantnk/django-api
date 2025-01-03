@@ -40,26 +40,26 @@ Este projeto tem como objetivo construir um CRM simples utilizando Django. O sis
 
 O projeto será dividido em cinco principais **apps**:
 
-### 1. `clientes`
+### 1. `leads`
 
 -   Modelos: `Client`, `Contact`
 -   Funcionalidades: Cadastro e gerenciamento de clientes, além de registros de contatos.
 
-### 2. `oportunidades`
+### 2. `sales`
 
--   Modelos: `Opportunity`, `OpportunityHistory`
+-   Modelos: `Sale`, `SaleHistory`
 -   Funcionalidades: Gerenciamento de oportunidades de vendas, incluindo a criação e atualização de estágios.
 
-### 3. `tarefas`
+### 3. `tasks`
 
 -   Modelos: `Task`
 -   Funcionalidades: Gerenciamento de tarefas relacionadas aos clientes e oportunidades, com vencimento e status de conclusão.
 
-### 4. `relatorios`
+### 4. `reports`
 
 -   Funcionalidades: Geração de relatórios e dashboard com métricas de vendas e produtividade.
 
-### 5. `usuarios` (opcional)
+### 5. `users` (opcional)
 
 -   Modelos: `CustomUser`
 -   Funcionalidades: Gerenciamento de usuários e permissões no sistema.
