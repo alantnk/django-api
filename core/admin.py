@@ -13,16 +13,16 @@ class ClientAdmin(admin.ModelAdmin):
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     search_fields = ["name"]
-    list_display = ["name"]
+    list_display = ["name", "created_at", "updated_at"]
 
 
 @admin.register(Contact)
 class ContactAdmin(admin.ModelAdmin):
-    search_fields = ["first_name", "email"]
-    list_display = ["first_name", "last_name", "email", "position"]
+    search_fields = ["full_name", "email"]
+    list_display = ["full_name", "email", "client", "position"]
 
 
 @admin.register(Position)
 class PositionAdmin(admin.ModelAdmin):
     search_fields = ["name"]
-    list_display = ["name"]
+    list_display = ["name", "created_at", "updated_at"]

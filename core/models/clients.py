@@ -12,6 +12,9 @@ class BaseModel(models.Model):
 class Category(BaseModel):
     name = models.CharField(max_length=100)
 
+    class Meta:
+        verbose_name_plural = "Categories"
+
     def __str__(self):
         return self.name
 
@@ -22,7 +25,7 @@ class Client(BaseModel):
 
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
     idoc = models.CharField(max_length=20, unique=True)
-    email = models.EmailField(unique=True)
+    email = models.EmailField()
     phone = models.CharField(max_length=20, null=True)
     location = models.CharField(max_length=100, null=True)
     state_code = models.CharField(max_length=3, null=True)
@@ -43,8 +46,7 @@ class Position(BaseModel):
 
 class Contact(BaseModel):
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
+    full_name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=20, null=True, default=None)
     position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True)
@@ -54,4 +56,4 @@ class Contact(BaseModel):
     notes = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return self.first_name
+        return self.full_name
