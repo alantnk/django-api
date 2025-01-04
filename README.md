@@ -40,7 +40,7 @@ Este projeto tem como objetivo construir um CRM simples utilizando Django. O sis
 
 O projeto será dividido em cinco principais **apps**:
 
-### 1. `leads`
+### 1. `clients`
 
 -   Modelos: `Client`, `Contact`
 -   Funcionalidades: Cadastro e gerenciamento de clientes, além de registros de contatos.

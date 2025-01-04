@@ -21,23 +21,37 @@ class Client(BaseModel):
     office_name = models.CharField(max_length=100)
 
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
-    cnpj = models.CharField(max_length=20, unique=True)
+    idoc = models.CharField(max_length=20, unique=True)
     email = models.EmailField(unique=True)
-    phone = models.CharField(max_length=20, blank=True)
-    city = models.CharField(max_length=100)
-    state = models.CharField(max_length=100)
-    district = models.CharField(max_length=100)
-    address = models.CharField(max_length=200, blank=True)
+    phone = models.CharField(max_length=20, null=True)
+    location = models.CharField(max_length=100, null=True)
+    state_code = models.CharField(max_length=3, null=True)
+    zip_code = models.CharField(max_length=10, null=True)
+    district = models.CharField(max_length=100, null=True)
+    address = models.CharField(max_length=200, null=True)
 
     def __str__(self):
         return self.fantasy_name
+
+
+class Position(BaseModel):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
 
 
 class Contact(BaseModel):
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
-    email = models.EmailField()
-    phone = models.CharField(max_length=20, blank=True, null=True)
-    position = models.CharField(max_length=100, blank=True, null=True)
+    email = models.EmailField(unique=True)
+    phone = models.CharField(max_length=20, null=True, default=None)
+    position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True)
+    location = models.CharField(max_length=100, null=True)
+    district = models.CharField(max_length=100, null=True)
+    address = models.CharField(max_length=200, null=True)
     notes = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.first_name
