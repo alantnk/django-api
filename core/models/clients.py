@@ -33,6 +33,16 @@ class Client(BaseModel):
     district = models.CharField(max_length=100, null=True)
     address = models.CharField(max_length=200, null=True)
 
+    created_by = models.ForeignKey(
+        "auth.User",
+        on_delete=models.SET_NULL,
+        related_name="created_clients",
+        null=True,
+    )
+    edited_by = models.ForeignKey(
+        "auth.User", on_delete=models.SET_NULL, related_name="edited_clients", null=True
+    )
+
     def __str__(self):
         return self.fantasy_name
 
@@ -54,6 +64,18 @@ class Contact(BaseModel):
     district = models.CharField(max_length=100, null=True)
     address = models.CharField(max_length=200, null=True)
     notes = models.TextField(blank=True, null=True)
+    created_by = models.ForeignKey(
+        "auth.User",
+        on_delete=models.SET_NULL,
+        related_name="created_contacts",
+        null=True,
+    )
+    edited_by = models.ForeignKey(
+        "auth.User",
+        on_delete=models.SET_NULL,
+        related_name="edited_contacts",
+        null=True,
+    )
 
     def __str__(self):
         return self.full_name

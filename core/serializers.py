@@ -1,5 +1,12 @@
 from core.models import Client, Category
+from django.conf import settings
 from rest_framework import serializers
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = settings.AUTH_USER_MODEL
+        fields = ["id", "username"]
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -35,7 +42,17 @@ class ClientSerializer(serializers.ModelSerializer):
             "full_address",
             "phone",
             "email",
+            "created_at",
+            "created_by",
+            "updated_at",
+            "edited_by",
         ]
+
+    created_by = serializers.StringRelatedField(read_only=True)
+    edited_by = serializers.StringRelatedField(read_only=True)
+
+    updated_at = serializers.DateTimeField(read_only=True)
+    created_at = serializers.DateTimeField(read_only=True)
 
     full_category = CategorySerializer(source="category", read_only=True)
 

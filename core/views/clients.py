@@ -13,3 +13,10 @@ class ClientViewSet(ModelViewSet):
     def list(self, request, *args, **kwargs):
         self.queryset = self.queryset.order_by("-updated_at")
         return super().list(request, *args, **kwargs)
+
+    def perform_create(self, serializer):
+        serializer.save(created_by=self.request.user)
+
+    def perform_update(self, serializer):
+        serializer.save(edited_by=self.request.user)
+        return super().perform_update(serializer)
