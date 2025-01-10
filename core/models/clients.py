@@ -1,4 +1,5 @@
 from django.db import models
+from django_resized import ResizedImageField
 
 
 class BaseModel(models.Model):
@@ -33,12 +34,17 @@ class Client(BaseModel):
     district = models.CharField(max_length=100, null=True)
     address = models.CharField(max_length=200, null=True)
 
+    cover = ResizedImageField(
+        size=[640, 480], upload_to="clients/covers/%Y%m%d/", blank=True, null=True
+    )
+
     created_by = models.ForeignKey(
         "auth.User",
         on_delete=models.SET_NULL,
         related_name="created_clients",
         null=True,
     )
+
     edited_by = models.ForeignKey(
         "auth.User", on_delete=models.SET_NULL, related_name="edited_clients", null=True
     )

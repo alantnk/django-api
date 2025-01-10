@@ -20,6 +20,9 @@ from django.http import HttpResponse
 from django.urls import path
 from django.conf.urls import include
 
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 def home(_):
     return HttpResponse("Hey, I'm still alive! (and I'm still a dinosaur)")
@@ -30,6 +33,9 @@ urlpatterns = [
     path("api/", include("core.urls")),
     path("", home),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 admin.AdminSite.site_header = "ADM"
 admin.AdminSite.site_title = "Site admin"
