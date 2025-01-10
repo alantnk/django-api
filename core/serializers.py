@@ -40,6 +40,7 @@ class ClientSerializer(serializers.ModelSerializer):
             "district",
             "address",
             "full_address",
+            "cover",
             "phone",
             "email",
             "created_at",
