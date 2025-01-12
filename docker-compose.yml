@@ -4,9 +4,7 @@ services:
         image: mysql:8.0.40-debian
         container_name: django_mysql_db
         environment:
-            MYSQL_ROOT_PASSWORD: root
-            MYSQL_USER: admin
-            MYSQL_PASSWORD: qwerty
+            MYSQL_ROOT_PASSWORD: ${DATABASE_PASSWORD}
             MYSQL_DATABASE: apidb
         ports:
             - 3306:3306

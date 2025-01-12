@@ -1,8 +1,7 @@
 import random
-from django.test import TestCase
 from model_bakery import baker
 
-from .models import Client, Category, Position
+from core.models import Client, Category, Position
 import time
 
 

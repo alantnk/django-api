@@ -9,8 +9,11 @@ from rest_framework_simplejwt.views import (
     TokenVerifyView,
 )
 
+app_name = "core"
+
 clients_router = SimpleRouter()
 clients_router.register("clients", ClientViewSet, basename="clients-api")
+print(clients_router.urls)
 
 urlpatterns = [
     # Auth Routes
@@ -18,7 +21,7 @@ urlpatterns = [
     path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("token/verify/", TokenVerifyView.as_view(), name="token_verify"),
     # Public Routes
-    path("ping/", PingView.as_view()),
+    path("ping/", PingView.as_view(), name="ping"),
     path("", ApiPageView.as_view()),
 ]
 

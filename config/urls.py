@@ -23,15 +23,12 @@ from django.conf.urls import include
 from django.conf import settings
 from django.conf.urls.static import static
 
-
-def home(_):
-    return HttpResponse("Hey, I'm still alive! (and I'm still a dinosaur)")
-
+from django.views.generic.base import RedirectView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/", include("core.urls")),
-    path("", home),
+    path("", RedirectView.as_view(url="api/")),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
