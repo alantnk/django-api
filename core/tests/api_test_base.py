@@ -10,6 +10,10 @@ class APITestBase(APITestCase):
     def setUp(self):
         self.factory = APIRequestFactory()
         self.user = baker.make("auth.User")
+        self.not_staff_user = baker.make(
+            "auth.User", is_staff=False, is_superuser=False
+        )
+        self.admin_user = baker.make("auth.User", is_staff=True)
         self.client_post_obj = {
             "fantasy_name": "spam eggs x1",
             "office_name": "spam eggs xy",

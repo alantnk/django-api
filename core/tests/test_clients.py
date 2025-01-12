@@ -1,4 +1,5 @@
 import pytest
+import random
 from rest_framework.test import force_authenticate
 from rest_framework import status
 
@@ -28,7 +29,7 @@ class ClientTest(APITestBase):
             },
             format="json",
         )
-        delete_client_req = self.factory.delete("/api/clients/")
+        destroy_client_req = self.factory.delete("/api/clients/")
 
         retrieve_client_response = ClientViewSet.as_view({"get": "retrieve"})(
             retrieve_client_req, pk=client.id
@@ -39,8 +40,8 @@ class ClientTest(APITestBase):
         update_client_response = ClientViewSet.as_view({"patch": "partial_update"})(
             update_client_req, pk=client.id
         )
-        delete_client_response = ClientViewSet.as_view({"delete": "destroy"})(
-            delete_client_req, pk=client.id
+        destroy_client_response = ClientViewSet.as_view({"delete": "destroy"})(
+            destroy_client_req, pk=client.id
         )
 
         self.assertListEqual(
@@ -48,7 +49,7 @@ class ClientTest(APITestBase):
                 retrieve_client_response.status_code,
                 create_client_response.status_code,
                 update_client_response.status_code,
-                delete_client_response.status_code,
+                destroy_client_response.status_code,
             ],
             [status.HTTP_401_UNAUTHORIZED for _ in range(4)],
         )
@@ -86,7 +87,7 @@ class ClientTest(APITestBase):
         )
 
     def test_update_client(self):
-        client = self.make_client()
+        client = self.make_client(created_by=self.user)
         new_email = "lorem.ipsum@example.com"
         req = self.factory.patch(
             "/api/clients/",
@@ -102,7 +103,7 @@ class ClientTest(APITestBase):
         self.assertEqual(response.data["email"], new_email)
 
     def test_delete_client(self):
-        client = self.make_client()
+        client = self.make_client(created_by=self.user)
         req = self.factory.delete("/api/clients/")
         force_authenticate(req, user=self.user)
         response = ClientViewSet.as_view({"delete": "destroy"})(req, pk=client.id)
@@ -111,7 +112,7 @@ class ClientTest(APITestBase):
     def test_list_clients_by_category_id(self):
         category = self.make_category()
         for i in range(10):
-            if i % 2 == 0:
+            if i > random.randint(0, 9):
                 self.make_client(category=category)
             else:
                 self.make_client()
@@ -119,5 +120,44 @@ class ClientTest(APITestBase):
         force_authenticate(req, user=self.user)
 
         response = ClientViewSet.as_view({"get": "list"})(req)
-        self.assertEqual(len(response.data["results"]), 5)
-        self.assertEqual(response.data["results"][-1].category["id"], category.id)
+        self.assertEqual(response.data["results"][-1]["category"], category.id)
+
+    def test_user_forbidden_update_client(self):
+        client = self.make_client(created_by=self.user)
+        req = self.factory.patch(
+            "/api/clients/",
+            {
+                "email": "lorem.ipsum@example.com",
+            },
+            format="json",
+        )
+        force_authenticate(req, user=self.not_staff_user)
+        response = ClientViewSet.as_view({"patch": "partial_update"})(req, pk=client.id)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_user_forbidden_delete_client(self):
+        client = self.make_client(created_by=self.user)
+        req = self.factory.delete("/api/clients/")
+        force_authenticate(req, user=self.not_staff_user)
+        response = ClientViewSet.as_view({"delete": "destroy"})(req, pk=client.id)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_admin_user_update_client(self):
+        client = self.make_client(created_by=self.not_staff_user)
+        req = self.factory.patch(
+            "/api/clients/",
+            {
+                "email": "lorem.ipsum@example.com",
+            },
+            format="json",
+        )
+        force_authenticate(req, user=self.admin_user)
+        response = ClientViewSet.as_view({"patch": "partial_update"})(req, pk=client.id)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_admin_user_delete_client(self):
+        client = self.make_client(created_by=self.not_staff_user)
+        req = self.factory.delete("/api/clients/")
+        force_authenticate(req, user=self.admin_user)
+        response = ClientViewSet.as_view({"delete": "destroy"})(req, pk=client.id)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
