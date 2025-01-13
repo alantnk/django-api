@@ -64,7 +64,7 @@ class Contact(BaseModel):
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
     full_name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
-    phone = models.CharField(max_length=20, null=True, default=None)
+    phone = models.CharField(max_length=20, null=True)
     position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True)
     location = models.CharField(max_length=100, null=True)
     district = models.CharField(max_length=100, null=True)

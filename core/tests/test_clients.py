@@ -1,58 +1,22 @@
 import pytest
 import random
-from rest_framework.test import force_authenticate
+from rest_framework.test import force_authenticate, APITestCase
 from rest_framework import status
 
 from django.urls import reverse
 from .api_test_base import APITestBase
-from core.views import ClientViewSet
+from core.views import ClientViewSet, ContactViewSet
 
 
-class ClientTest(APITestBase):
-
+class PingViewTest(APITestCase):
     @pytest.mark.skip
     def test_ping(self):
         response = self.client.get(reverse("core:ping"))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.json(), {"status": "PONG"})
 
-    def test_status_unauthorized(self):
-        client = self.make_client()
-        retrieve_client_req = self.factory.get("/api/clients/")
-        create_client_req = self.factory.post(
-            "/api/clients/", self.client_post_obj, format="json"
-        )
-        update_client_req = self.factory.patch(
-            "/api/clients/",
-            {
-                "email": "lorem.ipsum@example.com",
-            },
-            format="json",
-        )
-        destroy_client_req = self.factory.delete("/api/clients/")
 
-        retrieve_client_response = ClientViewSet.as_view({"get": "retrieve"})(
-            retrieve_client_req, pk=client.id
-        )
-        create_client_response = ClientViewSet.as_view({"post": "create"})(
-            create_client_req
-        )
-        update_client_response = ClientViewSet.as_view({"patch": "partial_update"})(
-            update_client_req, pk=client.id
-        )
-        destroy_client_response = ClientViewSet.as_view({"delete": "destroy"})(
-            destroy_client_req, pk=client.id
-        )
-
-        self.assertListEqual(
-            [
-                retrieve_client_response.status_code,
-                create_client_response.status_code,
-                update_client_response.status_code,
-                destroy_client_response.status_code,
-            ],
-            [status.HTTP_401_UNAUTHORIZED for _ in range(4)],
-        )
+class ClientTest(APITestBase):
 
     def test_list_clients(self):
         count = 50
@@ -109,6 +73,44 @@ class ClientTest(APITestBase):
         response = ClientViewSet.as_view({"delete": "destroy"})(req, pk=client.id)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
+    def test_status_unauthorized(self):
+        client = self.make_client()
+        retrieve_client_req = self.factory.get("/api/clients/")
+        create_client_req = self.factory.post(
+            "/api/clients/", self.client_post_obj, format="json"
+        )
+        update_client_req = self.factory.patch(
+            "/api/clients/",
+            {
+                "email": "lorem.ipsum@example.com",
+            },
+            format="json",
+        )
+        destroy_client_req = self.factory.delete("/api/clients/")
+
+        retrieve_client_response = ClientViewSet.as_view({"get": "retrieve"})(
+            retrieve_client_req, pk=client.id
+        )
+        create_client_response = ClientViewSet.as_view({"post": "create"})(
+            create_client_req
+        )
+        update_client_response = ClientViewSet.as_view({"patch": "partial_update"})(
+            update_client_req, pk=client.id
+        )
+        destroy_client_response = ClientViewSet.as_view({"delete": "destroy"})(
+            destroy_client_req, pk=client.id
+        )
+
+        self.assertListEqual(
+            [
+                retrieve_client_response.status_code,
+                create_client_response.status_code,
+                update_client_response.status_code,
+                destroy_client_response.status_code,
+            ],
+            [status.HTTP_401_UNAUTHORIZED for _ in range(4)],
+        )
+
     def test_list_clients_by_category_id(self):
         category = self.make_category()
         for i in range(10):
@@ -161,3 +163,16 @@ class ClientTest(APITestBase):
         force_authenticate(req, user=self.admin_user)
         response = ClientViewSet.as_view({"delete": "destroy"})(req, pk=client.id)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+
+class ContactTest(APITestBase):
+
+    def test_list_contacts(self):
+        count = random.randint(1, 20)
+        for _ in range(count):
+            self.make_contact()
+        req = self.factory.get("/api/contacts/")
+        force_authenticate(req, user=self.user)
+        response = ContactViewSet.as_view({"get": "list"})(req)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["count"], count)

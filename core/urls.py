@@ -1,6 +1,6 @@
 from django.urls import path
 
-from core.views import ClientViewSet
+from core.views import ClientViewSet, ContactViewSet
 from .views.base import *
 from rest_framework.routers import SimpleRouter
 from rest_framework_simplejwt.views import (
@@ -13,7 +13,9 @@ app_name = "core"
 
 clients_router = SimpleRouter()
 clients_router.register("clients", ClientViewSet, basename="clients-api")
-print(clients_router.urls)
+
+contacts_router = SimpleRouter()
+contacts_router.register("contacts", ContactViewSet, basename="contacts-api")
 
 urlpatterns = [
     # Auth Routes
@@ -26,3 +28,4 @@ urlpatterns = [
 ]
 
 urlpatterns += clients_router.urls
+urlpatterns += contacts_router.urls

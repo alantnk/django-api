@@ -1,4 +1,4 @@
-from core.models import Client, Category
+from core.models import Client, Category, Contact, Position
 from django.conf import settings
 from rest_framework import serializers
 
@@ -12,6 +12,12 @@ class UserSerializer(serializers.ModelSerializer):
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
+        fields = ["id", "name"]
+
+
+class PositionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Position
         fields = ["id", "name"]
 
 
@@ -32,7 +38,7 @@ class ClientSerializer(serializers.ModelSerializer):
             "fantasy_name",
             "office_name",
             "category",
-            "full_category",
+            "category_detail",
             "idoc",
             "location",
             "state_code",
@@ -49,13 +55,19 @@ class ClientSerializer(serializers.ModelSerializer):
             "edited_by",
         ]
 
+    district = serializers.CharField(write_only=True, required=False)
+    zip_code = serializers.CharField(write_only=True, required=False)
+    state_code = serializers.CharField(write_only=True, required=False)
+    location = serializers.CharField(write_only=True, required=False)
+    address = serializers.CharField(write_only=True, required=False)
+
     created_by = serializers.StringRelatedField(read_only=True)
     edited_by = serializers.StringRelatedField(read_only=True)
 
     updated_at = serializers.DateTimeField(read_only=True)
     created_at = serializers.DateTimeField(read_only=True)
 
-    full_category = CategorySerializer(source="category", read_only=True)
+    category_detail = CategorySerializer(source="category", read_only=True)
 
     full_address = serializers.SerializerMethodField(source="address")
 
@@ -68,3 +80,45 @@ class ClientSerializer(serializers.ModelSerializer):
             "zip_code": obj.zip_code,
         }
         return AddressSerializer(obj_addr).data
+
+
+class ClientDetailSerializer(ClientSerializer):
+    class Meta:
+        model = Client
+        fields = [
+            "id",
+            "fantasy_name",
+            "office_name",
+        ]
+
+
+class ContactSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Contact
+        fields = [
+            "id",
+            "full_name",
+            "email",
+            "client",
+            "client_detail",
+            "phone",
+            "position",
+            "position_detail",
+            "location",
+            "district",
+            "address",
+            "notes",
+            "created_at",
+            "created_by",
+            "updated_at",
+            "edited_by",
+        ]
+
+    client_detail = ClientDetailSerializer(source="client", read_only=True)
+    created_by = serializers.StringRelatedField(read_only=True)
+    edited_by = serializers.StringRelatedField(read_only=True)
+
+    position_detail = PositionSerializer(source="position", read_only=True)
+
+    updated_at = serializers.DateTimeField(read_only=True)
+    created_at = serializers.DateTimeField(read_only=True)
