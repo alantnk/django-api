@@ -1,7 +1,7 @@
 from core.permissions import IsOwnerOrAdmin
 
 
-class SaveUserRequestMixin:
+class UserPermissionMixin:
     def get_permissions(self):
         if self.request.method in ["PATCH", "DELETE"]:
             return [IsOwnerOrAdmin()]

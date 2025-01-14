@@ -6,7 +6,7 @@ from model_bakery import baker
 # from core.models import Client, Category, Position
 
 
-class APITestBase(APITestCase):
+class BaseTestCase(APITestCase):
     def setUp(self):
         self.factory = APIRequestFactory()
         self.user = baker.make("auth.User")
@@ -23,8 +23,9 @@ class APITestBase(APITestCase):
             "zip_code": "OXOXOXOX",
             "district": "Alambra",
             "idoc": "x17360284p2z58",
-            "email": "laYwdjmxGj@example.com",
+            "email": "matrix@example.com",
         }
+
         return super().setUp()
 
     def make_position(self, **kwargs):

@@ -69,7 +69,7 @@ class ClientSerializer(serializers.ModelSerializer):
 
     category_detail = CategorySerializer(source="category", read_only=True)
 
-    full_address = serializers.SerializerMethodField(source="address")
+    full_address = serializers.SerializerMethodField(source="address", read_only=True)
 
     def get_full_address(self, obj):
         obj_addr = {
