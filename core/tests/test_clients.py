@@ -4,7 +4,7 @@ from rest_framework.test import force_authenticate, APITestCase
 from rest_framework import status
 
 from django.urls import reverse
-from .api_test_base import BaseTestCase
+from .base import BaseTestCase
 from core.views import ClientViewSet, ContactViewSet
 
 

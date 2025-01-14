@@ -32,7 +32,7 @@ class Client(BaseModel):
     state_code = models.CharField(max_length=3, null=True)
     zip_code = models.CharField(max_length=10, null=True)
     district = models.CharField(max_length=100, null=True)
-    address = models.CharField(max_length=200, null=True)
+    address = models.CharField(max_length=100, null=True)
 
     cover = ResizedImageField(
         size=[640, 480], upload_to="clients/covers/%Y/%m/", blank=True, null=True

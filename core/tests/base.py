@@ -1,4 +1,3 @@
-import time
 from rest_framework.test import APITestCase, APIRequestFactory
 
 from model_bakery import baker

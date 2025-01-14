@@ -55,11 +55,11 @@ class ClientSerializer(serializers.ModelSerializer):
             "edited_by",
         ]
 
-    district = serializers.CharField(write_only=True, required=False)
-    zip_code = serializers.CharField(write_only=True, required=False)
-    state_code = serializers.CharField(write_only=True, required=False)
-    location = serializers.CharField(write_only=True, required=False)
-    address = serializers.CharField(write_only=True, required=False)
+    district = serializers.CharField(max_length=100, write_only=True, required=False)
+    zip_code = serializers.CharField(max_length=10, write_only=True, required=False)
+    state_code = serializers.CharField(max_length=3, write_only=True, required=False)
+    location = serializers.CharField(max_length=100, write_only=True, required=False)
+    address = serializers.CharField(max_length=100, write_only=True, required=False)
 
     created_by = serializers.StringRelatedField(read_only=True)
     edited_by = serializers.StringRelatedField(read_only=True)
