@@ -1,13 +1,6 @@
 from django.db import models
 from django_resized import ResizedImageField
-
-
-class BaseModel(models.Model):
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        abstract = True
+from .base import BaseModel
 
 
 class Category(BaseModel):
