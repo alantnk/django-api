@@ -68,7 +68,7 @@ class Contact(BaseModel):
     position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True)
     location = models.CharField(max_length=100, null=True)
     district = models.CharField(max_length=100, null=True)
-    address = models.CharField(max_length=200, null=True)
+    address = models.CharField(max_length=100, null=True)
     notes = models.TextField(blank=True, null=True)
     created_by = models.ForeignKey(
         "auth.User",

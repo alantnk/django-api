@@ -1,6 +1,6 @@
 from django.urls import path
 
-from core.views import ClientViewSet, ContactViewSet
+from core.views import ClientViewSet, ContactViewSet, CategoryViewSet, PositionViewSet
 from .views.base import *
 from rest_framework.routers import SimpleRouter
 from rest_framework_simplejwt.views import (
@@ -17,6 +17,12 @@ clients_router.register("clients", ClientViewSet, basename="clients-api")
 contacts_router = SimpleRouter()
 contacts_router.register("contacts", ContactViewSet, basename="contacts-api")
 
+categories_router = SimpleRouter()
+categories_router.register("categories", CategoryViewSet, basename="categories-api")
+
+positions_router = SimpleRouter()
+positions_router.register("positions", PositionViewSet, basename="positions-api")
+
 urlpatterns = [
     # Auth Routes
     path("token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
@@ -29,3 +35,5 @@ urlpatterns = [
 
 urlpatterns += clients_router.urls
 urlpatterns += contacts_router.urls
+urlpatterns += categories_router.urls
+urlpatterns += positions_router.urls
