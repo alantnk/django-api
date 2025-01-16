@@ -13,11 +13,17 @@ class Sale(BaseModel):
     in_charge = models.ForeignKey("auth.User", on_delete=models.SET_NULL, null=True)
     notes = models.TextField(blank=True, null=True)
 
+    def __str__(self):
+        return f"Sale - {self.client.fantasy_name}"
 
-class SaleHistory(BaseModel):
+
+class SaleHistory(models.Model):
     sale = models.ForeignKey(Sale, on_delete=models.CASCADE, related_name="history")
     changed_at = models.DateTimeField(auto_now_add=True)
     changed_by = models.ForeignKey("auth.User", on_delete=models.SET_NULL, null=True)
     field = models.CharField(max_length=100)
     old_value = models.TextField()
     new_value = models.TextField()
+
+    def __str__(self):
+        return f"Sale {self.sale.id} History"
