@@ -50,9 +50,9 @@ class ClientSerializer(serializers.ModelSerializer):
             "phone",
             "email",
             "created_at",
-            "created_by",
+            "user",
             "updated_at",
-            "edited_by",
+            "editor",
         ]
 
     district = serializers.CharField(max_length=100, write_only=True, required=False)
@@ -61,8 +61,8 @@ class ClientSerializer(serializers.ModelSerializer):
     location = serializers.CharField(max_length=100, write_only=True, required=False)
     address = serializers.CharField(max_length=100, write_only=True, required=False)
 
-    created_by = serializers.StringRelatedField(read_only=True)
-    edited_by = serializers.StringRelatedField(read_only=True)
+    user = serializers.StringRelatedField(read_only=True)
+    editor = serializers.StringRelatedField(read_only=True)
 
     updated_at = serializers.DateTimeField(read_only=True)
     created_at = serializers.DateTimeField(read_only=True)
@@ -109,14 +109,14 @@ class ContactSerializer(serializers.ModelSerializer):
             "address",
             "notes",
             "created_at",
-            "created_by",
+            "user",
             "updated_at",
-            "edited_by",
+            "editor",
         ]
 
     client_detail = ClientDetailSerializer(source="client", read_only=True)
-    created_by = serializers.StringRelatedField(read_only=True)
-    edited_by = serializers.StringRelatedField(read_only=True)
+    user = serializers.StringRelatedField(read_only=True)
+    editor = serializers.StringRelatedField(read_only=True)
 
     position_detail = PositionSerializer(source="position", read_only=True)
 

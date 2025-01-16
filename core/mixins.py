@@ -1,13 +1,13 @@
 from core.permissions import IsOwnerOrAdmin, isOwner
-from rest_framework.permissions import IsAuthenticated, SAFE_METHODS
+from rest_framework.permissions import IsAuthenticated
 
 
 class SaveUserMixin:
     def perform_create(self, serializer):
-        serializer.save(created_by=self.request.user)
+        serializer.save(user=self.request.user)
 
     def perform_update(self, serializer):
-        serializer.save(edited_by=self.request.user)
+        serializer.save(editor=self.request.user)
         return super().perform_update(serializer)
 
 
@@ -25,6 +25,3 @@ class SaleOwnerPermissionMixin:
             return [isOwner()]
         else:
             return [IsAuthenticated()]
-
-    def get_queryset(self):
-        return super().get_queryset().filter(created_by=self.request.user)

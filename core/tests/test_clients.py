@@ -51,7 +51,7 @@ class ClientTest(BaseTestCase):
         )
 
     def test_update_client(self):
-        client = self.make_client(created_by=self.user)
+        client = self.make_client(user=self.user)
         new_email = "lorem.ipsum@example.com"
         req = self.factory.patch(
             "/api/clients/",
@@ -67,7 +67,7 @@ class ClientTest(BaseTestCase):
         self.assertEqual(response.data["email"], new_email)
 
     def test_delete_client(self):
-        client = self.make_client(created_by=self.user)
+        client = self.make_client(user=self.user)
         req = self.factory.delete("/api/clients/")
         force_authenticate(req, user=self.user)
         response = ClientViewSet.as_view({"delete": "destroy"})(req, pk=client.id)
@@ -138,7 +138,7 @@ class ClientTest(BaseTestCase):
         self.assertEqual(response.data["results"][0]["office_name"], name)
 
     def test_user_forbidden_update_client(self):
-        client = self.make_client(created_by=self.user)
+        client = self.make_client(user=self.user)
         req = self.factory.patch(
             "/api/clients/",
             {
@@ -151,14 +151,14 @@ class ClientTest(BaseTestCase):
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_user_forbidden_delete_client(self):
-        client = self.make_client(created_by=self.user)
+        client = self.make_client(user=self.user)
         req = self.factory.delete("/api/clients/")
         force_authenticate(req, user=self.not_staff_user)
         response = ClientViewSet.as_view({"delete": "destroy"})(req, pk=client.id)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_admin_user_update_client(self):
-        client = self.make_client(created_by=self.not_staff_user)
+        client = self.make_client(user=self.not_staff_user)
         req = self.factory.patch(
             "/api/clients/",
             {
@@ -171,7 +171,7 @@ class ClientTest(BaseTestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_admin_user_delete_client(self):
-        client = self.make_client(created_by=self.not_staff_user)
+        client = self.make_client(user=self.not_staff_user)
         req = self.factory.delete("/api/clients/")
         force_authenticate(req, user=self.admin_user)
         response = ClientViewSet.as_view({"delete": "destroy"})(req, pk=client.id)
@@ -215,7 +215,7 @@ class ContactTest(BaseTestCase):
 
     def test_update_contact(self):
 
-        contact = self.make_contact(created_by=self.user)
+        contact = self.make_contact(user=self.user)
         new_email = "lorem.ipsum@example.com"
         req = self.factory.patch(
             "/api/contacts/",
@@ -233,7 +233,7 @@ class ContactTest(BaseTestCase):
         self.assertEqual(response.data["email"], new_email)
 
     def test_delete_contact(self):
-        contact = self.make_contact(created_by=self.user)
+        contact = self.make_contact(user=self.user)
         req = self.factory.delete("/api/contacts/")
         force_authenticate(req, user=self.user)
         response = ContactViewSet.as_view({"delete": "destroy"})(req, pk=contact.id)
@@ -310,7 +310,7 @@ class ContactTest(BaseTestCase):
         self.assertEqual(response.data["results"][0]["full_name"], name)
 
     def test_forbidden_update_contact(self):
-        contact = self.make_contact(created_by=self.user)
+        contact = self.make_contact(user=self.user)
         req = self.factory.patch(
             "/api/contacts/",
             {
@@ -325,7 +325,7 @@ class ContactTest(BaseTestCase):
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_forbidden_delete_contact(self):
-        contact = self.make_contact(created_by=self.user)
+        contact = self.make_contact(user=self.user)
         req = self.factory.delete("/api/contacts/")
         force_authenticate(req, user=self.not_staff_user)
         response = ContactViewSet.as_view({"delete": "destroy"})(req, pk=contact.id)

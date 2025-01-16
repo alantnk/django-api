@@ -1,6 +1,6 @@
 import os
 import time
-from django.db.models.signals import pre_save, pre_delete
+from django.db.models.signals import pre_save, pre_delete, post_save
 from django.dispatch import receiver
 from core.models import Client, Sale, SaleHistory
 
@@ -54,9 +54,12 @@ def track_sale_changes(sender, instance, **kwargs):
 
             # Se o valor mudou, registra no histórico
             if old_value != new_value:
+
+                print(old_value, new_value)
+                print("MUDOU")
                 SaleHistory.objects.create(
                     sale=instance,
-                    changed_by=instance.in_charge,  # Ou substitua pelo usuário atual
+                    in_charge=instance.user,
                     field=field,
                     old_value=str(old_value),
                     new_value=str(new_value),

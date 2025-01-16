@@ -9,8 +9,8 @@ class Sale(BaseModel):
     chance = models.DecimalField(max_digits=5, decimal_places=2)
     status = models.CharField(max_length=50)
     funnel_stage = models.CharField(max_length=50)
-    expected_date = models.DateField()
-    created_by = models.ForeignKey("auth.User", on_delete=models.SET_NULL, null=True)
+    expected_date = models.DateTimeField()
+    user = models.ForeignKey("auth.User", on_delete=models.SET_NULL, null=True)
     notes = models.TextField(blank=True, null=True)
 
     def __str__(self):

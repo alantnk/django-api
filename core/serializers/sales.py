@@ -3,12 +3,6 @@ from django.conf import settings
 from rest_framework import serializers
 
 
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = settings.AUTH_USER_MODEL
-        fields = ["id", "username"]
-
-
 class SaleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sale
@@ -20,7 +14,7 @@ class SaleSerializer(serializers.ModelSerializer):
             "status",
             "funnel_stage",
             "expected_date",
-            "in_charge",
+            "user",
             "notes",
             "created_at",
             "updated_at",
@@ -28,10 +22,11 @@ class SaleSerializer(serializers.ModelSerializer):
 
     updated_at = serializers.DateTimeField(read_only=True)
     created_at = serializers.DateTimeField(read_only=True)
-    in_charge = UserSerializer(read_only=True)
+    user = serializers.StringRelatedField(read_only=True)
 
 
 class SaleHistorySerializer(serializers.ModelSerializer):
     class Meta:
         model = SaleHistory
-        read_only_fields = "__all__"
+        fields = "__all__"
+        read_only_fields = ["__all__"]

@@ -19,7 +19,7 @@ class ClientViewSet(SaveUserMixin, ClientOwnerPermissionMixin, ModelViewSet):
     search_fields = ["fantasy_name", "office_name"]
     filterset_fields = ["category_id"]
     ordering_fields = ["id", "fantasy_name", "office_name", "updated_at"]
-    http_method_names = ["get", "options", "head", "post", "patch", "delete"]
+    ordering = ["-id"]
 
 
 class ContactViewSet(SaveUserMixin, ClientOwnerPermissionMixin, ModelViewSet):
@@ -29,7 +29,6 @@ class ContactViewSet(SaveUserMixin, ClientOwnerPermissionMixin, ModelViewSet):
     search_fields = ["full_name"]
     filterset_fields = ["client_id", "position_id"]
     ordering_fields = ["id", "full_name", "updated_at"]
-    http_method_names = ["get", "options", "head", "post", "patch", "delete"]
 
 
 class CategoryViewSet(ModelViewSet):
@@ -40,7 +39,7 @@ class CategoryViewSet(ModelViewSet):
     search_fields = ["name"]
     filterset_fields = ["name"]
     ordering_fields = ["id", "name", "updated_at"]
-    http_method_names = ["get", "options", "head", "post", "patch", "delete"]
+    ordering = ["-id"]
 
 
 class PositionViewSet(ModelViewSet):
@@ -51,4 +50,4 @@ class PositionViewSet(ModelViewSet):
     search_fields = ["name"]
     filterset_fields = ["name"]
     ordering_fields = ["id", "name", "updated_at"]
-    http_method_names = ["get", "options", "head", "post", "patch", "delete"]
+    ordering = ["-id"]

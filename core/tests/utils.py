@@ -96,9 +96,9 @@ def make_data(user):
     print("Categories & Positions CREATED")
 
     for i in range(50):
-        make_client(created_by=user)
+        make_client(user=user)
     print("Clients CREATED")
 
     for i in range(120):
-        make_contact(created_by=user)
+        make_contact(user=user)
     print("Contacts CREATED")

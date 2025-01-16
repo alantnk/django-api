@@ -31,14 +31,14 @@ class Client(BaseModel):
         size=[640, 480], upload_to="clients/covers/%Y/%m/", blank=True, null=True
     )
 
-    created_by = models.ForeignKey(
+    user = models.ForeignKey(
         "auth.User",
         on_delete=models.SET_NULL,
         related_name="created_clients",
         null=True,
     )
 
-    edited_by = models.ForeignKey(
+    user_editor = models.ForeignKey(
         "auth.User", on_delete=models.SET_NULL, related_name="edited_clients", null=True
     )
 
@@ -63,13 +63,13 @@ class Contact(BaseModel):
     district = models.CharField(max_length=100, null=True)
     address = models.CharField(max_length=100, null=True)
     notes = models.TextField(blank=True, null=True)
-    created_by = models.ForeignKey(
+    user = models.ForeignKey(
         "auth.User",
         on_delete=models.SET_NULL,
         related_name="created_contacts",
         null=True,
     )
-    edited_by = models.ForeignKey(
+    user_editor = models.ForeignKey(
         "auth.User",
         on_delete=models.SET_NULL,
         related_name="edited_contacts",
