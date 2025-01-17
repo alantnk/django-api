@@ -1,12 +1,6 @@
 from core.models import Client, Category, Contact, Position
-from django.conf import settings
+from .base import UserSerializer
 from rest_framework import serializers
-
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = settings.AUTH_USER_MODEL
-        fields = ["id", "username"]
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -50,26 +44,31 @@ class ClientSerializer(serializers.ModelSerializer):
             "phone",
             "email",
             "created_at",
-            "user",
             "updated_at",
-            "editor",
+            "user_detail",
+            "user_editor_detail",
         ]
-
-    district = serializers.CharField(max_length=100, write_only=True, required=False)
-    zip_code = serializers.CharField(max_length=10, write_only=True, required=False)
-    state_code = serializers.CharField(max_length=3, write_only=True, required=False)
-    location = serializers.CharField(max_length=100, write_only=True, required=False)
-    address = serializers.CharField(max_length=100, write_only=True, required=False)
-
-    user = serializers.StringRelatedField(read_only=True)
-    editor = serializers.StringRelatedField(read_only=True)
-
-    updated_at = serializers.DateTimeField(read_only=True)
-    created_at = serializers.DateTimeField(read_only=True)
+        extra_kwargs = {
+            "category": {"write_only": True},
+            "district": {"write_only": True},
+            "zip_code": {"write_only": True},
+            "state_code": {"write_only": True},
+            "location": {"write_only": True},
+            "address": {"write_only": True},
+        }
+        read_only_fields = [
+            "user_detail",
+            "user_editor_detail",
+            "updated_at",
+            "created_at",
+        ]
 
     category_detail = CategorySerializer(source="category", read_only=True)
 
     full_address = serializers.SerializerMethodField(source="address", read_only=True)
+
+    user_detail = UserSerializer(source="user", read_only=True)
+    user_editor_detail = UserSerializer(source="user_editor", read_only=True)
 
     def get_full_address(self, obj):
         obj_addr = {
@@ -99,24 +98,35 @@ class ContactSerializer(serializers.ModelSerializer):
             "id",
             "full_name",
             "email",
-            "client",
             "client_detail",
             "phone",
-            "position",
             "position_detail",
             "location",
             "district",
             "address",
             "notes",
+            "user_detail",
+            "user_editor_detail",
+            # READ_ONLY
             "created_at",
-            "user",
             "updated_at",
-            "editor",
+            # WRITE_ONLY
+            "client",
+            "position",
+        ]
+        extra_kwargs = {
+            "client": {"write_only": True},
+            "position": {"write_only": True},
+        }
+        read_only_fields = [
+            "created_at",
+            "updated_at",
         ]
 
+    user_detail = UserSerializer(source="user", read_only=True)
+    user_editor_detail = UserSerializer(source="user_editor", read_only=True)
+
     client_detail = ClientDetailSerializer(source="client", read_only=True)
-    user = serializers.StringRelatedField(read_only=True)
-    editor = serializers.StringRelatedField(read_only=True)
 
     position_detail = PositionSerializer(source="position", read_only=True)
 

@@ -1,6 +1,6 @@
 from core.models import Sale, SaleHistory
-from django.conf import settings
 from rest_framework import serializers
+from .base import UserSerializer
 
 
 class SaleSerializer(serializers.ModelSerializer):
@@ -16,13 +16,17 @@ class SaleSerializer(serializers.ModelSerializer):
             "expected_date",
             "user",
             "notes",
+            "user_detail",
+            "user_editor_detail",
             "created_at",
             "updated_at",
         ]
+        read_only_fields = [
+            "updated_at",
+            "created_at",
+        ]
 
-    updated_at = serializers.DateTimeField(read_only=True)
-    created_at = serializers.DateTimeField(read_only=True)
-    user = serializers.StringRelatedField(read_only=True)
+    user_detail = UserSerializer(source="user", read_only=True)
 
 
 class SaleHistorySerializer(serializers.ModelSerializer):

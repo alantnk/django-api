@@ -122,7 +122,9 @@ class ClientTest(BaseTestCase):
         force_authenticate(req, user=self.user)
 
         response = ClientViewSet.as_view({"get": "list"})(req)
-        self.assertEqual(response.data["results"][0]["category"], category.id)
+        self.assertEqual(
+            response.data["results"][0]["category_detail"]["id"], category.id
+        )
 
     def test_order_list_client_by_office_name(self):
         name = "BACON POTATO"
@@ -281,7 +283,7 @@ class ContactTest(BaseTestCase):
         force_authenticate(req, user=self.user)
 
         response = ContactViewSet.as_view({"get": "list"})(req)
-        self.assertEqual(response.data["results"][0]["client"], client.id)
+        self.assertEqual(response.data["results"][0]["client_detail"]["id"], client.id)
 
     def test_list_contacts_by_position_id(self):
         position = self.make_position()
@@ -294,7 +296,9 @@ class ContactTest(BaseTestCase):
         force_authenticate(req, user=self.user)
 
         response = ContactViewSet.as_view({"get": "list"})(req)
-        self.assertEqual(response.data["results"][0]["position"], position.id)
+        self.assertEqual(
+            response.data["results"][0]["position_detail"]["id"], position.id
+        )
 
     def test_order_list_contact_by_full_name(self):
         name = "lorem ipsum"

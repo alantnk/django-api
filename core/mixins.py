@@ -7,7 +7,7 @@ class SaveUserMixin:
         serializer.save(user=self.request.user)
 
     def perform_update(self, serializer):
-        serializer.save(editor=self.request.user)
+        serializer.save(user_editor=self.request.user)
         return super().perform_update(serializer)
 
 
