@@ -11,7 +11,7 @@ class SaveUserMixin:
         return super().perform_update(serializer)
 
 
-class ClientOwnerPermissionMixin:
+class OwnerAdminPermissionMixin:
     def get_permissions(self):
         if self.request.method in ["PATCH", "DELETE"]:
             return [IsOwnerOrAdmin()]
@@ -19,7 +19,7 @@ class ClientOwnerPermissionMixin:
             return [IsAuthenticated()]
 
 
-class SaleOwnerPermissionMixin:
+class OwnerPermissionMixin:
     def get_permissions(self):
         if self.request.method in ["PATCH", "DELETE"]:
             return [isOwner()]

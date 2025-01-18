@@ -1,13 +1,13 @@
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.permissions import IsAdminUser, IsAuthenticated
+from rest_framework.permissions import IsAdminUser
 from rest_framework.filters import OrderingFilter, SearchFilter
 from django_filters.rest_framework import DjangoFilterBackend
-from core.mixins import SaleOwnerPermissionMixin
+from core.mixins import OwnerPermissionMixin
 from core.models import Sale, SaleHistory
 from ..serializers import SaleSerializer, SaleHistorySerializer
 
 
-class SaleViewSet(SaleOwnerPermissionMixin, ModelViewSet):
+class SaleViewSet(OwnerPermissionMixin, ModelViewSet):
     queryset = Sale.objects.all()
     serializer_class = SaleSerializer
     filter_backends = [DjangoFilterBackend, OrderingFilter, SearchFilter]

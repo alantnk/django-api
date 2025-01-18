@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from core.models import Task
+from core.models import Task, Tag
 
 
 class TaskSerializer(serializers.ModelSerializer):
@@ -10,12 +10,21 @@ class TaskSerializer(serializers.ModelSerializer):
             "title",
             "description",
             "user",
-            "sale",
-            "client",
+            "tags",
             "status",
-            "level",
             "due_date",
+            "completed",
             "created_at",
             "updated_at",
         ]
-        read_only_fields = ["user", "updated_at", "created_at"]
+        read_only_fields = [
+            "user",
+            "updated_at",
+            "created_at",
+        ]
+
+
+class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = ["id", "name"]

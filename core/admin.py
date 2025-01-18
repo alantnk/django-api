@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from core.models import Client, Category, Contact, Position, Sale
+from core.models import Client, Category, Contact, Position, Sale, Task, Tag
 
 
 # Register your models here.
@@ -32,3 +32,15 @@ class PositionAdmin(admin.ModelAdmin):
 class SaleAdmin(admin.ModelAdmin):
     search_fields = ["client"]
     list_display = ["client", "created_at", "updated_at"]
+
+
+@admin.register(Task)
+class TaskAdmin(admin.ModelAdmin):
+    search_fields = ["title"]
+    list_display = ["title", "user", "status", "due_date"]
+
+
+@admin.register(Tag)
+class TagAdmin(admin.ModelAdmin):
+    search_fields = ["name"]
+    list_display = ["name"]

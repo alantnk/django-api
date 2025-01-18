@@ -7,6 +7,8 @@ from core.views import (
     PositionViewSet,
     SaleViewSet,
     SaleHistoryViewSet,
+    TaskViewSet,
+    TagViewSet,
 )
 from .views.base import *
 from rest_framework.routers import SimpleRouter
@@ -38,6 +40,13 @@ sales_history_router.register(
     "sales-history", SaleHistoryViewSet, basename="sales-history-api"
 )
 
+tasks_router = SimpleRouter()
+tasks_router.register("tasks", TaskViewSet, basename="tasks-api")
+
+tags_router = SimpleRouter()
+tags_router.register("tags", TagViewSet, basename="tags-api")
+
+
 urlpatterns = [
     # Auth Routes
     path("token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
@@ -54,3 +63,5 @@ urlpatterns += categories_router.urls
 urlpatterns += positions_router.urls
 urlpatterns += sales_router.urls
 urlpatterns += sales_history_router.urls
+urlpatterns += tasks_router.urls
+urlpatterns += tags_router.urls
