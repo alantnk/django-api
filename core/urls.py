@@ -54,7 +54,7 @@ urlpatterns = [
     path("token/verify/", TokenVerifyView.as_view(), name="token_verify"),
     # Public Routes
     path("ping/", PingView.as_view(), name="ping"),
-    path("", ApiPageView.as_view()),
+    path("", ApiPageView.as_view(), name="api_index"),
 ]
 
 urlpatterns += clients_router.urls
