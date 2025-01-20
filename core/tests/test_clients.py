@@ -73,6 +73,7 @@ class ClientTest(BaseTestCase):
         response = ClientViewSet.as_view({"delete": "destroy"})(req, pk=client.id)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
+    # TODO: Refact BaseTestCase for only unauthorized routes
     def test_status_unauthorized(self):
         client = self.make_client()
         retrieve_client_req = self.factory.get("/api/clients/")
@@ -118,7 +119,7 @@ class ClientTest(BaseTestCase):
                 self.make_client(category=category)
             else:
                 self.make_client()
-        req = self.factory.get(f"/api/clients/?category_id={category.id}")
+        req = self.factory.get(f"/api/clients?category_id={category.id}")
         force_authenticate(req, user=self.user)
 
         response = ClientViewSet.as_view({"get": "list"})(req)
@@ -133,7 +134,7 @@ class ClientTest(BaseTestCase):
                 self.make_client(office_name=name)
             else:
                 self.make_client(office_name="NOT " + name)
-        req = self.factory.get(f"/api/clients/?ordering=office_name")
+        req = self.factory.get(f"/api/clients?ordering=office_name")
         force_authenticate(req, user=self.user)
 
         response = ClientViewSet.as_view({"get": "list"})(req)
@@ -241,7 +242,9 @@ class ContactTest(BaseTestCase):
         response = ContactViewSet.as_view({"delete": "destroy"})(req, pk=contact.id)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
+    # TODO: Refact BaseTestCase for only unauthorized routes
     def test_status_unauthorized(self):
+
         contact = self.make_contact()
         retrieve_contact_req = self.factory.get("/api/contacts/")
         update_contact_req = self.factory.patch(
@@ -279,7 +282,7 @@ class ContactTest(BaseTestCase):
                 self.make_contact(client=client)
             else:
                 self.make_contact()
-        req = self.factory.get(f"/api/contacts/?client_id={client.id}")
+        req = self.factory.get(f"/api/contacts?client_id={client.id}")
         force_authenticate(req, user=self.user)
 
         response = ContactViewSet.as_view({"get": "list"})(req)
@@ -292,7 +295,7 @@ class ContactTest(BaseTestCase):
                 self.make_contact(position=position)
             else:
                 self.make_contact()
-        req = self.factory.get(f"/api/contacts/?position_id={position.id}")
+        req = self.factory.get(f"/api/contacts?position_id={position.id}")
         force_authenticate(req, user=self.user)
 
         response = ContactViewSet.as_view({"get": "list"})(req)
@@ -307,7 +310,7 @@ class ContactTest(BaseTestCase):
                 self.make_contact(full_name=name)
             else:
                 self.make_contact(full_name="NOT " + name)
-        req = self.factory.get(f"/api/contacts/?ordering=full_name")
+        req = self.factory.get(f"/api/contacts?ordering=full_name")
         force_authenticate(req, user=self.user)
 
         response = ContactViewSet.as_view({"get": "list"})(req)

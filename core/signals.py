@@ -55,8 +55,6 @@ def track_sale_changes(sender, instance, **kwargs):
             # Se o valor mudou, registra no histórico
             if old_value != new_value:
 
-                print(old_value, new_value)
-                print("MUDOU")
                 SaleHistory.objects.create(
                     sale=instance,
                     in_charge=instance.user,

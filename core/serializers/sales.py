@@ -17,7 +17,6 @@ class SaleSerializer(serializers.ModelSerializer):
             "user",
             "notes",
             "user_detail",
-            "user_editor_detail",
             "created_at",
             "updated_at",
         ]

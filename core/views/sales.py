@@ -20,8 +20,6 @@ class SaleViewSet(OwnerPermissionMixin, ModelViewSet):
     ]
     ordering = ["-id"]
 
-    http_method_names = ["get", "options", "head", "post", "patch", "delete"]
-
     def get_queryset(self):
         qs = super().get_queryset()
         if self.request.user.is_staff:
@@ -45,4 +43,4 @@ class SaleHistoryViewSet(ModelViewSet):
     ]
     ordering = ["-id"]
 
-    http_method_names = ["get", "options", "head"]
+    http_method_names = ["get", "head", "options"]

@@ -1,6 +1,6 @@
-from rest_framework.test import APITestCase, APIRequestFactory
-
+from rest_framework.test import APITestCase, APIRequestFactory, APIClient
 from model_bakery import baker
+import datetime
 
 # from core.models import Client, Category, Position
 
@@ -8,6 +8,7 @@ from model_bakery import baker
 class BaseTestCase(APITestCase):
     def setUp(self):
         self.factory = APIRequestFactory()
+        self.APIClient = APIClient()
         self.user = baker.make("auth.User")
         self.not_staff_user = baker.make(
             "auth.User", is_staff=False, is_superuser=False
@@ -23,6 +24,13 @@ class BaseTestCase(APITestCase):
             "district": "Alambra",
             "idoc": "x17360284p2z58",
             "email": "matrix@example.com",
+        }
+        self.sale_post_obj = {
+            "estimated_value": 90.4,
+            "chance": 100,
+            "status": "Ok",
+            "funnel_stage": "lorem ipsum",
+            "expected_date": datetime.datetime.now(),
         }
 
         return super().setUp()
@@ -42,3 +50,7 @@ class BaseTestCase(APITestCase):
     def make_contact(self, **kwargs):
         contact = baker.make("core.Contact", _refresh_after_create=True, **kwargs)
         return contact
+
+    def make_sale(self, **kwargs):
+        sale = baker.make("core.Sale", _refresh_after_create=True, **kwargs)
+        return sale

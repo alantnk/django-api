@@ -31,7 +31,7 @@ class PositionAdmin(admin.ModelAdmin):
 @admin.register(Sale)
 class SaleAdmin(admin.ModelAdmin):
     search_fields = ["client"]
-    list_display = ["client", "created_at", "updated_at"]
+    list_display = ["client", "user", "status", "chance"]
 
 
 @admin.register(Task)

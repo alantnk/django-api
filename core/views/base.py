@@ -4,7 +4,7 @@ from rest_framework.response import Response
 
 
 class ApiPageView(TemplateView):
-    template_name = "api-index.html"
+    template_name = "api_index.html"
 
 
 class PingView(APIView):

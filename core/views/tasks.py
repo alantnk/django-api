@@ -16,9 +16,13 @@ class TaskViewSet(SaveUserMixin, OwnerPermissionMixin, ModelViewSet):
     ordering_fields = ["id", "title", "updated_at"]
     ordering = ["-id"]
 
+    def get_queryset(self):
+        qs = super().get_queryset()
+        if self.request.user.is_staff:
+            return qs
+        return qs.filter(user=self.request.user)
+
     def create(self, request, *args, **kwargs):
-        ts = Task.objects.filter(user=request.user, completed=False)
-        print(ts)
         if Task.objects.filter(user=request.user, completed=False).exists():
             raise serializers.ValidationError(
                 {
@@ -27,7 +31,7 @@ class TaskViewSet(SaveUserMixin, OwnerPermissionMixin, ModelViewSet):
             )
         return super().create(request, *args, **kwargs)
 
-    def update(self, request, *args, **kwargs):
+    def partial_update(self, request, *args, **kwargs):
         if Task.objects.filter(user=request.user, completed=True).exists():
             raise serializers.ValidationError(
                 {
