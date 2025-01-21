@@ -26,7 +26,6 @@ class BaseTestCase(APITestCase):
         self.sale_post_obj = {
             "estimated_value": 90.4,
             "chance": 100,
-            "status": "Ok",
             "funnel_stage": "lorem ipsum",
             "expected_date": datetime.datetime.now(),
         }
@@ -52,3 +51,11 @@ class BaseTestCase(APITestCase):
     def make_sale(self, **kwargs):
         sale = baker.make("core.Sale", _refresh_after_create=True, **kwargs)
         return sale
+
+    def make_task(self, **kwargs):
+        task = baker.make("core.Task", _refresh_after_create=True, **kwargs)
+        return task
+
+    def make_tag(self, **kwargs):
+        tag = baker.make("core.Tag", _refresh_after_create=True, **kwargs)
+        return tag

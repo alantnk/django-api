@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from core.models import Task, Tag
+from .base import UserSerializer
 
 
 class TaskSerializer(serializers.ModelSerializer):
@@ -9,19 +10,19 @@ class TaskSerializer(serializers.ModelSerializer):
             "id",
             "title",
             "description",
-            "user",
             "tags",
             "status",
             "due_date",
-            "completed",
-            "created_at",
-            "updated_at",
+            "user_detail",
+            "closed",
         ]
         read_only_fields = [
-            "user",
+            "closed",
             "updated_at",
             "created_at",
         ]
+
+    user_detail = UserSerializer(source="user", read_only=True)
 
 
 class TagSerializer(serializers.ModelSerializer):

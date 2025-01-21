@@ -2,7 +2,7 @@ import os
 import time
 from django.db.models.signals import pre_save, pre_delete, post_save
 from django.dispatch import receiver
-from core.models import Client, Sale, SaleHistory
+from core.models import Client, Sale, SaleHistory, Task
 
 
 def delete_cover(instance):
@@ -34,6 +34,12 @@ def client_cover_update(sender, instance, *args, **kwargs):
         return
 
     delete_cover(old_instance)
+
+
+@receiver(pre_save, sender=Task)
+def set_task_closed(sender, instance, **kwargs):
+    if instance.status in ["done", "cancelled"]:
+        instance.closed = True
 
 
 @receiver(pre_save, sender=Sale)

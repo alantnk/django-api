@@ -14,11 +14,10 @@ class SaleSerializer(serializers.ModelSerializer):
             "status",
             "funnel_stage",
             "expected_date",
-            "user",
             "notes",
             "user_detail",
-            "created_at",
             "updated_at",
+            "created_at",
         ]
         read_only_fields = [
             "updated_at",

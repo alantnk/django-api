@@ -57,7 +57,7 @@ class SaleTest(BaseTestCase):
 
     def test_update_sale(self):
         sale = self.make_sale(user=self.simple_user)
-        new_status = "UPDATED"
+        new_status = "done"
         req = self.factory.patch(
             "/api/sales/",
             {
@@ -99,7 +99,7 @@ class SaleTest(BaseTestCase):
 class SaleHistoryTest(BaseTestCase):
     def test_list_sale_history(self):
         self.APIClient.force_authenticate(user=self.staff_user)
-        obj = {"funnel_stage": "lorem ipsum mum", "status": "UPDATED", "chance": 99}
+        obj = {"funnel_stage": "lorem ipsum mum", "status": "on_hold", "chance": 99}
         sale = self.make_sale(user=self.staff_user)
         self.APIClient.patch(
             f"/api/sales/{sale.id}/",

@@ -23,7 +23,7 @@ class TaskViewSet(SaveUserMixin, OwnerPermissionMixin, ModelViewSet):
         return qs.filter(user=self.request.user)
 
     def create(self, request, *args, **kwargs):
-        if Task.objects.filter(user=request.user, completed=False).exists():
+        if Task.objects.filter(user=request.user, closed=False).exists():
             raise serializers.ValidationError(
                 {
                     "non_field_errors": ["This user already has a task in progress."],
@@ -32,12 +32,15 @@ class TaskViewSet(SaveUserMixin, OwnerPermissionMixin, ModelViewSet):
         return super().create(request, *args, **kwargs)
 
     def partial_update(self, request, *args, **kwargs):
-        if Task.objects.filter(user=request.user, completed=True).exists():
+        if Task.objects.filter(
+            user=request.user, closed=True, pk=kwargs["pk"]
+        ).exists():
             raise serializers.ValidationError(
                 {
                     "non_field_errors": ["This user already has a task finished."],
                 }
             )
+
         return super().update(request, *args, **kwargs)
 
 

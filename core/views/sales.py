@@ -18,7 +18,7 @@ class SaleViewSet(OwnerPermissionMixin, ModelViewSet):
         "client__office_name",
         "updated_at",
     ]
-    ordering = ["-id"]
+    ordering = ["id"]
 
     def get_queryset(self):
         qs = super().get_queryset()

@@ -7,3 +7,13 @@ class BaseModel(models.Model):
 
     class Meta:
         abstract = True
+
+
+STATUS_CHOICES = (
+    ("todo", "A fazer"),
+    ("in_progress", "Em andamento"),
+    ("on_hold", "Em espera"),
+    ("cancelled", "Cancelada"),
+    ("pending", "Pendente"),
+    ("done", "Concluida"),
+)
