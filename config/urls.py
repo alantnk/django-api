@@ -28,6 +28,7 @@ from django.views.generic.base import RedirectView
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/", include("core.urls")),
+    path("auth/", include("user_control.urls")),
     path("", RedirectView.as_view(url="api/")),
 ]
 

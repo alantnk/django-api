@@ -1,4 +1,4 @@
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 from rest_framework.permissions import IsAdminUser
 from rest_framework.filters import OrderingFilter, SearchFilter
 from django_filters.rest_framework import DjangoFilterBackend
@@ -32,9 +32,9 @@ class SaleViewSet(OwnerPermissionMixin, ModelViewSet):
         serializer.save(user=self.request.user)
 
 
-class SaleHistoryViewSet(ModelViewSet):
+class SaleHistoryViewSet(ReadOnlyModelViewSet):
     queryset = SaleHistory.objects.all()
-    permission_classes = [IsAdminUser]  # MUDAR PARA IS_ADMIN_USER
+    permission_classes = [IsAdminUser]
     serializer_class = SaleHistorySerializer
     filter_backends = [DjangoFilterBackend, OrderingFilter]
     filterset_fields = ["sale_id", "user_id"]
@@ -45,5 +45,3 @@ class SaleHistoryViewSet(ModelViewSet):
         "changed_at",
     ]
     ordering = ["-id"]
-
-    http_method_names = ["get", "head", "options"]

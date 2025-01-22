@@ -40,3 +40,5 @@ class SaleHistorySerializer(serializers.ModelSerializer):
         model = SaleHistory
         fields = "__all__"
         read_only_fields = ["__all__"]
+
+    user = serializers.StringRelatedField(read_only=True)

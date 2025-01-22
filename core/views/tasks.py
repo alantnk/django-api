@@ -65,3 +65,8 @@ class TagViewSet(ModelViewSet):
     queryset = Tag.objects.all()
     permission_classes = [IsAdminUser]
     serializer_class = TagSerializer
+
+    filter_backends = [DjangoFilterBackend, OrderingFilter, SearchFilter]
+    search_fields = ["name"]
+    ordering_fields = ["id", "name", "updated_at"]
+    ordering = ["-id"]

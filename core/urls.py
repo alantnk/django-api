@@ -12,11 +12,7 @@ from core.views import (
 )
 from .views.base import *
 from rest_framework.routers import SimpleRouter
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-    TokenVerifyView,
-)
+
 
 app_name = "core"
 
@@ -48,10 +44,6 @@ tags_router.register("tags", TagViewSet, basename="tags-api")
 
 
 urlpatterns = [
-    # Auth Routes
-    path("token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
-    path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
-    path("token/verify/", TokenVerifyView.as_view(), name="token_verify"),
     # Public Routes
     path("ping/", PingView.as_view(), name="ping"),
     path("", ApiPageView.as_view(), name="api_index"),
