@@ -146,7 +146,7 @@ class TagTest(BaseTestCase):
         response = TagViewSet.as_view({"post": "create"})(req)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertIsInstance(response.renderer_context["view"], TagViewSet)
-        self.assertEqual(response.data["name"], tag_obj["name"])
+        self.assertEqual(response.data["name"], tag_obj["name"].upper())
 
     def test_update_tag(self):
         tag = self.make_tag()
@@ -163,7 +163,7 @@ class TagTest(BaseTestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsInstance(response.renderer_context["view"], TagViewSet)
         self.assertEqual(response.data["id"], tag.id)
-        self.assertEqual(response.data["name"], new_name)
+        self.assertEqual(response.data["name"], new_name.upper())
 
     def test_destroy_tag(self):
         tag = self.make_tag()

@@ -387,7 +387,7 @@ class CategoryTest(BaseTestCase):
         response = CategoryViewSet.as_view({"post": "create"})(req)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertIsInstance(response.renderer_context["view"], CategoryViewSet)
-        self.assertEqual(response.data["name"], category_obj["name"])
+        self.assertEqual(response.data["name"], category_obj["name"].upper())
 
     def test_update_category(self):
         category = self.make_category()
@@ -405,7 +405,7 @@ class CategoryTest(BaseTestCase):
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsInstance(response.renderer_context["view"], CategoryViewSet)
-        self.assertEqual(response.data["name"], new_name)
+        self.assertEqual(response.data["name"], new_name.upper())
 
     def test_destroy_category(self):
         category = self.make_category()

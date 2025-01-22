@@ -1,6 +1,6 @@
 from core.models import Sale, SaleHistory
 from rest_framework import serializers
-from .base import UserSerializer
+from .base import UserSerializer, ClientDetailSerializer
 
 
 class SaleSerializer(serializers.ModelSerializer):
@@ -8,7 +8,6 @@ class SaleSerializer(serializers.ModelSerializer):
         model = Sale
         fields = [
             "id",
-            "client",
             "estimated_value",
             "chance",
             "status",
@@ -16,15 +15,24 @@ class SaleSerializer(serializers.ModelSerializer):
             "expected_date",
             "notes",
             "user_detail",
+            "client_detail",
+            # READ_ONLY
             "updated_at",
             "created_at",
+            # WRITE_ONLY
+            "client",
         ]
         read_only_fields = [
             "updated_at",
             "created_at",
         ]
 
+        extra_kwargs = {
+            "client": {"write_only": True},
+        }
+
     user_detail = UserSerializer(source="user", read_only=True)
+    client_detail = ClientDetailSerializer(source="client", read_only=True)
 
 
 class SaleHistorySerializer(serializers.ModelSerializer):

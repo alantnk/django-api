@@ -32,8 +32,10 @@ class TaskViewSet(SaveUserMixin, OwnerPermissionMixin, ModelViewSet):
         return qs.filter(user=self.request.user)
 
     def list(self, request, *args, **kwargs):
+        qs = self.get_queryset()
         if "tags" in request.query_params:
-            print(request.GET.getlist["tags"])
+            print(request.query_params["tags"])
+            print(qs.filter(tags__id=2))
         return super().list(request, *args, **kwargs)
 
     def create(self, request, *args, **kwargs):

@@ -1,5 +1,5 @@
 from core.models import Client, Category, Contact, Position
-from .base import UserSerializer
+from .base import UserSerializer, ClientDetailSerializer
 from rest_framework import serializers
 
 
@@ -79,16 +79,6 @@ class ClientSerializer(serializers.ModelSerializer):
             "zip_code": obj.zip_code,
         }
         return AddressSerializer(obj_addr).data
-
-
-class ClientDetailSerializer(ClientSerializer):
-    class Meta:
-        model = Client
-        fields = [
-            "id",
-            "fantasy_name",
-            "office_name",
-        ]
 
 
 class ContactSerializer(serializers.ModelSerializer):

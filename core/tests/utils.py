@@ -70,9 +70,10 @@ def make_data():
     print("Categories,Positions,Tags CREATED")
 
     for i in range(2):
+        names = ["kelly", "smith"]
         user = User.objects.create_user(
-            username=fake.user_name(),
-            email=fake.email(),
+            username=names[i],
+            email=f"{names[i]}@abc.com",
             password="qwerty",
         )
         user.is_staff = True if i > 0 else False
@@ -80,10 +81,11 @@ def make_data():
     print("Users CREATED")
 
     for i in range(50):
+        fake_com_name = fake.company()
         make_client(
             user=get_random_instance(User),
-            office_name=fake.company(),
-            fantasy_name=fake.company(),
+            fantasy_name=fake_com_name,
+            office_name=fake_com_name,
             idoc=f"X{fake.msisdn()}",
             phone=fake.ssn(),
             category=get_random_instance(Category),
@@ -108,17 +110,6 @@ def make_data():
         )
     print("Contacts CREATED")
 
-    make_task(
-        user=get_random_instance(User),
-        tags=[get_random_instance(Tag), get_random_instance(Tag)],
-        title=fake.word(ext_word_list=["pop", "boom", "knock", "crack"]),
-        description=fake.catch_phrase(),
-        due_date=fake.date_time(tzinfo=datetime.timezone.utc),
-        status="todo",
-        closed=False,
-    )
-    print("Tasks CREATED")
-
     for i in range(10):
         make_sale(
             user=get_random_instance(User),
@@ -129,3 +120,14 @@ def make_data():
             expected_date=fake.future_datetime(tzinfo=datetime.timezone.utc),
         )
     print("Sales CREATED")
+
+    make_task(
+        user=get_random_instance(User),
+        tags=[get_random_instance(Tag), get_random_instance(Tag)],
+        title=fake.word(ext_word_list=["pop", "boom", "knock", "crack"]),
+        description=fake.catch_phrase(),
+        due_date=fake.date_time(tzinfo=datetime.timezone.utc),
+        status="todo",
+        closed=False,
+    )
+    print("Tasks CREATED")
