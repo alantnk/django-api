@@ -74,9 +74,9 @@ class TaskTest(BaseTestCase):
         self.assertEqual(response.data["status"], new_status)
 
     def test_destroy_task(self):
-        task = self.make_task(user=self.simple_user)
+        task = self.make_task(user=self.staff_user)
         req = self.factory.delete("/api/tasks/")
-        force_authenticate(req, user=self.simple_user)
+        force_authenticate(req, user=self.staff_user)
         response = TaskViewSet.as_view({"delete": "destroy"})(req, pk=task.id)
         self.assertIsInstance(response.renderer_context["view"], TaskViewSet)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)

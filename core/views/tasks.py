@@ -5,7 +5,7 @@ from rest_framework import serializers
 from django_filters.rest_framework import DjangoFilterBackend
 from core.models import Task, Tag
 from ..serializers import TaskSerializer, TagSerializer
-from ..mixins import OwnerPermissionMixin, SaveUserMixin
+from ..mixins import OwnerPermissionMixin, SaveUserMixin, AdminDestroyPermissionMixin
 
 
 class TaskViewSet(SaveUserMixin, OwnerPermissionMixin, ModelViewSet):
@@ -44,7 +44,7 @@ class TaskViewSet(SaveUserMixin, OwnerPermissionMixin, ModelViewSet):
         return super().update(request, *args, **kwargs)
 
 
-class TagViewSet(ModelViewSet):
+class TagViewSet(AdminDestroyPermissionMixin, ModelViewSet):
     queryset = Tag.objects.all()
     permission_classes = [IsAdminUser]
     serializer_class = TagSerializer

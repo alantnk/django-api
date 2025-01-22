@@ -59,3 +59,11 @@ class BaseTestCase(APITestCase):
     def make_tag(self, **kwargs):
         tag = baker.make("core.Tag", _refresh_after_create=True, **kwargs)
         return tag
+
+    def make_position(self, **kwargs):
+        position = baker.make("core.Position", _refresh_after_create=True, **kwargs)
+        return position
+
+    def make_category(self, **kwargs):
+        category = baker.make("core.Category", _refresh_after_create=True, **kwargs)
+        return category

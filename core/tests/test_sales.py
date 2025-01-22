@@ -76,9 +76,9 @@ class SaleTest(BaseTestCase):
         self.assertEqual(response.data["status"], new_status)
 
     def test_destroy_sale(self):
-        sale = self.make_sale(user=self.simple_user)
+        sale = self.make_sale(user=self.staff_user)
         req = self.factory.delete("/api/sales/")
-        force_authenticate(req, user=self.simple_user)
+        force_authenticate(req, user=self.staff_user)
         response = SaleViewSet.as_view({"delete": "destroy"})(req, pk=sale.id)
         self.assertIsInstance(response.renderer_context["view"], SaleViewSet)
 
