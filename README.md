@@ -129,4 +129,4 @@ Ou execute `pytest`
 
 #### HTTP Client(Insomnia)
 
-Caso use o Insomnia, importe o arquivo **melo_api.json**
+Caso use o Insomnia, importe o arquivo **api_collection.json**

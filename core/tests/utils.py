@@ -77,6 +77,7 @@ def make_data():
             username=names[i],
             email=f"{names[i]}@abc.com",
             password="qwerty",
+            role="admin",
         )
         user.is_staff = True if i > 0 else False
         user.save()
