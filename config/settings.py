@@ -30,8 +30,12 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG")
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["http://127.0.0.1:8000"]
 
+CORS_ALLOWED_ORIGINS = [
+    "https://example.com",
+    "http://localhost:5040",
+]
 
 # Application definition
 
@@ -49,6 +53,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_simplejwt",
     "django_filters",
+    "corsheaders",
 ]
 
 AUTH_USER_MODEL = "user_control.User"
@@ -57,6 +62,7 @@ AUTH_USER_MODEL = "user_control.User"
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
