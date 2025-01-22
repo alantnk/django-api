@@ -12,11 +12,12 @@ class SaleViewSet(OwnerPermissionMixin, ModelViewSet):
     serializer_class = SaleSerializer
     filter_backends = [DjangoFilterBackend, OrderingFilter, SearchFilter]
     search_fields = ["client__fantasy_name", "client__office_name", "user__username"]
-    filterset_fields = ["client_id", "user_id"]
+    filterset_fields = ["client_id", "user_id", "status"]
     ordering_fields = [
         "id",
         "client__fantasy_name",
         "client__office_name",
+        "expected_date",
         "updated_at",
     ]
     ordering = ["-id"]

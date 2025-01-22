@@ -97,20 +97,65 @@ class TaskTest(BaseTestCase):
         spam_tag = self.make_tag()
         bacon_tag = self.make_tag()
         eggs_tag = self.make_tag()
+        cheese_tag = self.make_tag()
+        self.make_task(user=self.simple_user, tags=[spam_tag, cheese_tag])
         for i in range(20):
-            if i < 5:
+            if i <= 1:
                 self.make_task(user=self.staff_user, tags=[spam_tag])
-            elif i < 10:
+            elif 1 < i < 19:
                 self.make_task(user=self.staff_user, tags=[bacon_tag])
             else:
-                self.make_task(user=self.staff_user, tags=[bacon_tag, eggs_tag])
+                self.make_task(user=self.staff_user, tags=[eggs_tag])
 
-        req = self.factory.get(f"/api/tasks?tags=8")
+        req = self.factory.get(f"/api/tasks?tags={spam_tag.id},{eggs_tag.id}")
         force_authenticate(req, user=self.staff_user)
         response = TaskViewSet.as_view({"get": "list"})(req)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsInstance(response.renderer_context["view"], TaskViewSet)
-        self.assertEqual(response.data["count"], 10)
+        self.assertEqual(response.data["count"], 4)
+
+    def test_not_update_task_closed(self):
+        self.APIClient.force_authenticate(user=self.staff_user)
+        task = self.make_task(user=self.staff_user, closed=True)
+        resp = self.APIClient.patch(
+            f"/api/tasks/{task.id}/",
+            {"description": "test description"},
+            format="json",
+        )
+        self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIsInstance(resp.renderer_context["view"], TaskViewSet)
+        self.assertEqual(
+            resp.data["task_error"],
+            ["This user already has a task closed."],
+        )
+
+    def test_not_create_multiple_task(self):
+        self.APIClient.force_authenticate(user=self.staff_user)
+        self.APIClient.post(
+            "/api/tasks/",
+            {
+                "title": "test title",
+                "description": "test description",
+                "tags": [self.make_tag().id],
+            },
+            format="json",
+        )
+        resp = self.APIClient.post(
+            "/api/tasks/",
+            {
+                "title": "test title",
+                "description": "test description",
+                "tags": [self.make_tag().id],
+            },
+            format="json",
+        )
+
+        self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIsInstance(resp.renderer_context["view"], TaskViewSet)
+        self.assertEqual(
+            resp.data["task_error"],
+            ["This user already has a task in progress."],
+        )
 
 
 class TagTest(BaseTestCase):

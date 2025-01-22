@@ -30,8 +30,8 @@ class ContactViewSet(SaveUserMixin, OwnerAdminPermissionMixin, ModelViewSet):
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
     filter_backends = [DjangoFilterBackend, OrderingFilter, SearchFilter]
-    search_fields = ["full_name"]
-    filterset_fields = ["client_id", "position_id"]
+    search_fields = ["full_name", "email"]
+    filterset_fields = ["client_id", "position_id", "email"]
     ordering_fields = ["id", "full_name", "updated_at"]
     ordering = ["-id"]
 
@@ -42,7 +42,6 @@ class CategoryViewSet(AdminDestroyPermissionMixin, ModelViewSet):
     permission_classes = [IsAuthenticated]
     filter_backends = [DjangoFilterBackend, OrderingFilter, SearchFilter]
     search_fields = ["name"]
-    filterset_fields = ["name"]
     ordering_fields = ["id", "name", "updated_at"]
     ordering = ["-id"]
 
@@ -53,6 +52,5 @@ class PositionViewSet(AdminDestroyPermissionMixin, ModelViewSet):
     permission_classes = [IsAuthenticated]
     filter_backends = [DjangoFilterBackend, OrderingFilter, SearchFilter]
     search_fields = ["name"]
-    filterset_fields = ["name"]
     ordering_fields = ["id", "name", "updated_at"]
     ordering = ["-id"]
