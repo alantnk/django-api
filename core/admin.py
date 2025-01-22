@@ -3,7 +3,6 @@ from django.contrib import admin
 from core.models import Client, Category, Contact, Position, Sale, Task, Tag
 
 
-# Register your models here.
 @admin.register(Client)
 class ClientAdmin(admin.ModelAdmin):
     search_fields = ["fantasy_name", "office_name", "idoc", "email"]

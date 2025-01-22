@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 from django_resized import ResizedImageField
 from .base import BaseModel
 
@@ -32,14 +33,17 @@ class Client(BaseModel):
     )
 
     user = models.ForeignKey(
-        "auth.User",
+        settings.AUTH_USER_MODEL,
         on_delete=models.SET_NULL,
         related_name="created_clients",
         null=True,
     )
 
     user_editor = models.ForeignKey(
-        "auth.User", on_delete=models.SET_NULL, related_name="edited_clients", null=True
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        related_name="edited_clients",
+        null=True,
     )
 
     def __str__(self):
@@ -64,13 +68,13 @@ class Contact(BaseModel):
     address = models.CharField(max_length=100, null=True)
     notes = models.TextField(blank=True, null=True)
     user = models.ForeignKey(
-        "auth.User",
+        settings.AUTH_USER_MODEL,
         on_delete=models.SET_NULL,
         related_name="created_contacts",
         null=True,
     )
     user_editor = models.ForeignKey(
-        "auth.User",
+        settings.AUTH_USER_MODEL,
         on_delete=models.SET_NULL,
         related_name="edited_contacts",
         null=True,

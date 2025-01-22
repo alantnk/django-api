@@ -1,14 +1,6 @@
 from django.db import models
 
 
-class BaseModel(models.Model):
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        abstract = True
-
-
 STATUS_CHOICES = (
     ("todo", "A fazer"),
     ("in_progress", "Em andamento"),
@@ -17,3 +9,11 @@ STATUS_CHOICES = (
     ("pending", "Pendente"),
     ("done", "Concluida"),
 )
+
+
+class BaseModel(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True

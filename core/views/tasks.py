@@ -44,7 +44,7 @@ class TaskViewSet(SaveUserMixin, OwnerPermissionMixin, ModelViewSet):
         return super().update(request, *args, **kwargs)
 
 
-class TagViewSet(AdminDestroyPermissionMixin, ModelViewSet):
+class TagViewSet(ModelViewSet):
     queryset = Tag.objects.all()
     permission_classes = [IsAdminUser]
     serializer_class = TagSerializer

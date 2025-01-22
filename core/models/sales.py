@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 from .base import BaseModel, STATUS_CHOICES
 from .clients import Client
 
@@ -12,7 +13,9 @@ class Sale(BaseModel):
     )
     funnel_stage = models.CharField(max_length=50)
     expected_date = models.DateTimeField()
-    user = models.ForeignKey("auth.User", on_delete=models.SET_NULL, null=True)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True
+    )
     notes = models.TextField(blank=True, null=True)
 
     def __str__(self):
@@ -22,7 +25,9 @@ class Sale(BaseModel):
 class SaleHistory(models.Model):
     sale = models.ForeignKey(Sale, on_delete=models.CASCADE, related_name="history")
     changed_at = models.DateTimeField(auto_now_add=True)
-    in_charge = models.ForeignKey("auth.User", on_delete=models.SET_NULL, null=True)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True
+    )
     field = models.CharField(max_length=100)
     old_value = models.TextField()
     new_value = models.TextField()

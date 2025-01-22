@@ -1,8 +1,11 @@
 import os
-import time
-from django.db.models.signals import pre_save, pre_delete, post_save
+from django.contrib.auth import get_user_model
+from django.db.models.signals import pre_save, pre_delete
 from django.dispatch import receiver
 from core.models import Client, Sale, SaleHistory, Task
+
+
+User = get_user_model()
 
 
 def delete_cover(instance):
@@ -63,7 +66,7 @@ def track_sale_changes(sender, instance, **kwargs):
 
                 SaleHistory.objects.create(
                     sale=instance,
-                    in_charge=instance.user,
+                    user=instance.user,
                     field=field,
                     old_value=str(old_value),
                     new_value=str(new_value),
