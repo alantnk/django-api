@@ -1,3 +1,4 @@
+import random
 from rest_framework.test import force_authenticate
 from rest_framework import status
 from .base import BaseTestCase
@@ -6,7 +7,8 @@ from core.views import SaleViewSet, SaleHistoryViewSet
 
 class SaleTest(BaseTestCase):
     def test_list_sales_by_user(self):
-        for _ in range(5):
+        count = random.randint(1, 10)
+        for _ in range(count):
             self.make_sale(user=self.simple_user)
         self.make_sale(user=self.staff_user)
         req = self.factory.get("/api/sales/")
@@ -14,7 +16,7 @@ class SaleTest(BaseTestCase):
         response = SaleViewSet.as_view({"get": "list"})(req)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsInstance(response.renderer_context["view"], SaleViewSet)
-        self.assertEqual(response.data["count"], 5)
+        self.assertEqual(response.data["count"], count)
 
     def test_status_unauthorized(self):
         req = self.factory.get("/api/sales/")
