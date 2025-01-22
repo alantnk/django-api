@@ -39,7 +39,7 @@ Thumbs.db
 # Django coverage files
 .coverage
 .coverage.*
-.htmlcov/
+htmlcov/
 
 # Django test files
 .tox/

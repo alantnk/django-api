@@ -14,9 +14,27 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.contrib import admin
+from django.http import HttpResponse
 from django.urls import path
+from django.conf.urls import include
+
+from django.conf import settings
+from django.conf.urls.static import static
+
+from django.views.generic.base import RedirectView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path("admin/", admin.site.urls),
+    path("api/", include("core.urls")),
+    path("auth/", include("user_control.urls")),
+    path("", RedirectView.as_view(url="api/")),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+admin.AdminSite.site_header = "ADM"
+admin.AdminSite.site_title = "Site admin"
+admin.AdminSite.index_title = "Site administration"
