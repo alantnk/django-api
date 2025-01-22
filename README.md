@@ -75,7 +75,7 @@ Crie e ative o ambiente
 
 ```bash
 $ virtualenv .venv
-& source .venv/bin/activate
+$ source .venv/bin/activate
 ```
 
 **Veja:** [**Como instalar virtualenv no Linux e Windows**](https://www.geeksforgeeks.org/creating-python-virtual-environment-windows-linux/)

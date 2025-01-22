@@ -266,14 +266,14 @@ class ContactTest(BaseTestCase):
             response.data["results"][0]["position_detail"]["id"], position.id
         )
 
-    def test_order_list_contact_by_full_name(self):
+    def test_search_list_contact_by_full_name(self):
         name = "lorem ipsum"
         for i in range(10):
             if i < random.randint(0, 9):
-                self.make_contact(full_name=name)
+                self.make_contact(full_name="NOT " + name, user=self.staff_user)
             else:
-                self.make_contact(full_name="NOT " + name)
-        req = self.factory.get(f"/api/contacts?ordering=full_name")
+                self.make_contact(full_name=name, user=self.simple_user)
+        req = self.factory.get(f"/api/contacts?search={name}")
         force_authenticate(req, user=self.simple_user)
 
         response = ContactViewSet.as_view({"get": "list"})(req)
