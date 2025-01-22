@@ -63,11 +63,13 @@ def get_admin_user():
 
 
 def make_data():
+
+    print("Creating data...")
     for i in range(4):
         make_category(name=fake.safe_color_name())
         make_position(name=fake.job())
         make_tag(name=fake.currency_code())
-    print("Categories,Positions,Tags CREATED")
+    print("Categories, Positions, Tags CREATED")
 
     for i in range(2):
         names = ["kelly", "smith"]
