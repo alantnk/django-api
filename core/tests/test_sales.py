@@ -9,10 +9,10 @@ class SaleTest(BaseTestCase):
     def test_list_sales_by_user(self):
         count = random.randint(1, 10)
         for _ in range(count):
-            self.make_sale(user=self.simple_user)
-        self.make_sale(user=self.staff_user)
+            self.make_sale(user=self.basic_user)
+        self.make_sale(user=self.admin_user)
         req = self.factory.get("/api/sales/")
-        force_authenticate(req, user=self.simple_user)
+        force_authenticate(req, user=self.basic_user)
         response = SaleViewSet.as_view({"get": "list"})(req)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsInstance(response.renderer_context["view"], SaleViewSet)
@@ -25,19 +25,19 @@ class SaleTest(BaseTestCase):
 
     def test_list_sales_by_admin_user(self):
         for _ in range(5):
-            self.make_sale(user=self.simple_user)
-        self.make_sale(user=self.staff_user)
+            self.make_sale(user=self.basic_user)
+        self.make_sale(user=self.admin_user)
         req = self.factory.get("/api/sales/")
-        force_authenticate(req, user=self.staff_user)
+        force_authenticate(req, user=self.admin_user)
         response = SaleViewSet.as_view({"get": "list"})(req)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsInstance(response.renderer_context["view"], SaleViewSet)
         self.assertEqual(response.data["count"], 6)
 
     def test_retrieve_sale(self):
-        sale = self.make_sale(user=self.simple_user)
+        sale = self.make_sale(user=self.basic_user)
         req = self.factory.get("/api/sales/")
-        force_authenticate(req, user=self.simple_user)
+        force_authenticate(req, user=self.basic_user)
         response = SaleViewSet.as_view({"get": "retrieve"})(req, pk=sale.id)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsInstance(response.renderer_context["view"], SaleViewSet)
@@ -50,7 +50,7 @@ class SaleTest(BaseTestCase):
             sale_obj,
             format="json",
         )
-        force_authenticate(req, user=self.simple_user)
+        force_authenticate(req, user=self.basic_user)
         response = SaleViewSet.as_view({"post": "create"})(req)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertIsInstance(response.renderer_context["view"], SaleViewSet)
@@ -58,7 +58,7 @@ class SaleTest(BaseTestCase):
         self.assertEqual(response.data["funnel_stage"], sale_obj["funnel_stage"])
 
     def test_update_sale(self):
-        sale = self.make_sale(user=self.simple_user)
+        sale = self.make_sale(user=self.basic_user)
         new_status = "done"
         req = self.factory.patch(
             "/api/sales/",
@@ -67,7 +67,7 @@ class SaleTest(BaseTestCase):
             },
             format="json",
         )
-        force_authenticate(req, user=self.simple_user)
+        force_authenticate(req, user=self.basic_user)
         response = SaleViewSet.as_view({"patch": "partial_update"})(req, pk=sale.id)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsInstance(response.renderer_context["view"], SaleViewSet)
@@ -76,9 +76,9 @@ class SaleTest(BaseTestCase):
         self.assertEqual(response.data["status"], new_status)
 
     def test_destroy_sale(self):
-        sale = self.make_sale(user=self.staff_user)
+        sale = self.make_sale(user=self.admin_user)
         req = self.factory.delete("/api/sales/")
-        force_authenticate(req, user=self.staff_user)
+        force_authenticate(req, user=self.admin_user)
         response = SaleViewSet.as_view({"delete": "destroy"})(req, pk=sale.id)
         self.assertIsInstance(response.renderer_context["view"], SaleViewSet)
 
@@ -88,11 +88,11 @@ class SaleTest(BaseTestCase):
     def test_list_sales_by_user_username(self):
         for i in range(10):
             if i == 0:
-                self.make_sale(user=self.staff_user)
+                self.make_sale(user=self.admin_user)
             else:
-                self.make_sale(user=self.simple_user)
-        req = self.factory.get(f"/api/sales?search={self.simple_user.username}")
-        force_authenticate(req, user=self.staff_user)
+                self.make_sale(user=self.basic_user)
+        req = self.factory.get(f"/api/sales?search={self.basic_user.username}")
+        force_authenticate(req, user=self.admin_user)
         response = SaleViewSet.as_view({"get": "list"})(req)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["count"], 9)
@@ -100,9 +100,9 @@ class SaleTest(BaseTestCase):
 
 class SaleHistoryTest(BaseTestCase):
     def test_list_sale_history(self):
-        self.APIClient.force_authenticate(user=self.staff_user)
+        self.APIClient.force_authenticate(user=self.admin_user)
         obj = {"funnel_stage": "lorem ipsum mum", "status": "on_hold", "chance": 99}
-        sale = self.make_sale(user=self.staff_user)
+        sale = self.make_sale(user=self.admin_user)
         self.APIClient.patch(
             f"/api/sales/{sale.id}/",
             obj,

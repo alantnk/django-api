@@ -9,9 +9,9 @@ class TaskTest(BaseTestCase):
     def test_list_tasks_by_user(self):
         count = random.randint(1, 10)
         for _ in range(count):
-            self.make_task(user=self.simple_user)
+            self.make_task(user=self.basic_user)
         req = self.factory.get("/api/tasks/")
-        force_authenticate(req, user=self.simple_user)
+        force_authenticate(req, user=self.basic_user)
         response = TaskViewSet.as_view({"get": "list"})(req)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsInstance(response.renderer_context["view"], TaskViewSet)
@@ -24,19 +24,19 @@ class TaskTest(BaseTestCase):
 
     def test_list_tasks_by_admin_user(self):
         for _ in range(5):
-            self.make_task(user=self.simple_user)
-        self.make_task(user=self.staff_user)
+            self.make_task(user=self.basic_user)
+        self.make_task(user=self.admin_user)
         req = self.factory.get("/api/tasks/")
-        force_authenticate(req, user=self.staff_user)
+        force_authenticate(req, user=self.admin_user)
         response = TaskViewSet.as_view({"get": "list"})(req)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsInstance(response.renderer_context["view"], TaskViewSet)
         self.assertEqual(response.data["count"], 6)
 
     def test_retrieve_task(self):
-        task = self.make_task(user=self.simple_user)
+        task = self.make_task(user=self.basic_user)
         req = self.factory.get("/api/tasks/")
-        force_authenticate(req, user=self.simple_user)
+        force_authenticate(req, user=self.basic_user)
         response = TaskViewSet.as_view({"get": "retrieve"})(req, pk=task.id)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsInstance(response.renderer_context["view"], TaskViewSet)
@@ -47,17 +47,17 @@ class TaskTest(BaseTestCase):
             "title": "test",
             "description": "test",
             "tags": [self.make_tag().id],
-            "user": self.simple_user.id,
+            "user": self.basic_user.id,
         }
         req = self.factory.post("/api/tasks/", task_obj, format="json")
-        force_authenticate(req, user=self.simple_user)
+        force_authenticate(req, user=self.basic_user)
         response = TaskViewSet.as_view({"post": "create"})(req)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertIsInstance(response.renderer_context["view"], TaskViewSet)
         self.assertEqual(response.data["title"], task_obj["title"])
 
     def test_update_task(self):
-        task = self.make_task(user=self.simple_user)
+        task = self.make_task(user=self.basic_user)
         new_status = "done"
         req = self.factory.patch(
             "/api/tasks/",
@@ -66,7 +66,7 @@ class TaskTest(BaseTestCase):
             },
             format="json",
         )
-        force_authenticate(req, user=self.simple_user)
+        force_authenticate(req, user=self.basic_user)
         response = TaskViewSet.as_view({"patch": "partial_update"})(req, pk=task.id)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsInstance(response.renderer_context["view"], TaskViewSet)
@@ -74,9 +74,9 @@ class TaskTest(BaseTestCase):
         self.assertEqual(response.data["status"], new_status)
 
     def test_destroy_task(self):
-        task = self.make_task(user=self.staff_user)
+        task = self.make_task(user=self.admin_user)
         req = self.factory.delete("/api/tasks/")
-        force_authenticate(req, user=self.staff_user)
+        force_authenticate(req, user=self.admin_user)
         response = TaskViewSet.as_view({"delete": "destroy"})(req, pk=task.id)
         self.assertIsInstance(response.renderer_context["view"], TaskViewSet)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
@@ -85,9 +85,9 @@ class TaskTest(BaseTestCase):
     def test_list_tasks_by_search_username(self):
         for _ in range(5):
             self.make_task(user=self.super_user)
-        self.make_task(user=self.staff_user)
+        self.make_task(user=self.admin_user)
         req = self.factory.get(f"/api/tasks?username={self.super_user.username}")
-        force_authenticate(req, user=self.staff_user)
+        force_authenticate(req, user=self.admin_user)
         response = TaskViewSet.as_view({"get": "list"})(req)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsInstance(response.renderer_context["view"], TaskViewSet)
@@ -98,25 +98,25 @@ class TaskTest(BaseTestCase):
         bacon_tag = self.make_tag()
         eggs_tag = self.make_tag()
         cheese_tag = self.make_tag()
-        self.make_task(user=self.simple_user, tags=[spam_tag, cheese_tag])
+        self.make_task(user=self.basic_user, tags=[spam_tag, cheese_tag])
         for i in range(20):
             if i <= 1:
-                self.make_task(user=self.staff_user, tags=[spam_tag])
+                self.make_task(user=self.admin_user, tags=[spam_tag])
             elif 1 < i < 19:
-                self.make_task(user=self.staff_user, tags=[bacon_tag])
+                self.make_task(user=self.admin_user, tags=[bacon_tag])
             else:
-                self.make_task(user=self.staff_user, tags=[eggs_tag])
+                self.make_task(user=self.admin_user, tags=[eggs_tag])
 
         req = self.factory.get(f"/api/tasks?tags={spam_tag.id},{eggs_tag.id}")
-        force_authenticate(req, user=self.staff_user)
+        force_authenticate(req, user=self.admin_user)
         response = TaskViewSet.as_view({"get": "list"})(req)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsInstance(response.renderer_context["view"], TaskViewSet)
         self.assertEqual(response.data["count"], 4)
 
     def test_not_update_task_closed(self):
-        self.APIClient.force_authenticate(user=self.staff_user)
-        task = self.make_task(user=self.staff_user, closed=True)
+        self.APIClient.force_authenticate(user=self.admin_user)
+        task = self.make_task(user=self.admin_user, closed=True)
         resp = self.APIClient.patch(
             f"/api/tasks/{task.id}/",
             {"description": "test description"},
@@ -130,7 +130,7 @@ class TaskTest(BaseTestCase):
         )
 
     def test_not_create_multiple_task(self):
-        self.APIClient.force_authenticate(user=self.staff_user)
+        self.APIClient.force_authenticate(user=self.admin_user)
         self.APIClient.post(
             "/api/tasks/",
             {
@@ -164,7 +164,7 @@ class TagTest(BaseTestCase):
         for _ in range(count):
             self.make_tag()
         req = self.factory.get("/api/tags/")
-        force_authenticate(req, user=self.staff_user)
+        force_authenticate(req, user=self.admin_user)
         response = TagViewSet.as_view({"get": "list"})(req)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsInstance(response.renderer_context["view"], TagViewSet)
@@ -178,7 +178,7 @@ class TagTest(BaseTestCase):
     def test_retrieve_tag(self):
         tag = self.make_tag()
         req = self.factory.get("/api/tags/")
-        force_authenticate(req, user=self.staff_user)
+        force_authenticate(req, user=self.admin_user)
         response = TagViewSet.as_view({"get": "retrieve"})(req, pk=tag.id)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsInstance(response.renderer_context["view"], TagViewSet)
@@ -187,7 +187,7 @@ class TagTest(BaseTestCase):
     def test_create_tag(self):
         tag_obj = {"name": "test"}
         req = self.factory.post("/api/tags/", tag_obj, format="json")
-        force_authenticate(req, user=self.staff_user)
+        force_authenticate(req, user=self.admin_user)
         response = TagViewSet.as_view({"post": "create"})(req)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertIsInstance(response.renderer_context["view"], TagViewSet)
@@ -203,7 +203,7 @@ class TagTest(BaseTestCase):
             },
             format="json",
         )
-        force_authenticate(req, user=self.staff_user)
+        force_authenticate(req, user=self.admin_user)
         response = TagViewSet.as_view({"patch": "partial_update"})(req, pk=tag.id)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsInstance(response.renderer_context["view"], TagViewSet)
@@ -213,7 +213,7 @@ class TagTest(BaseTestCase):
     def test_destroy_tag(self):
         tag = self.make_tag()
         req = self.factory.delete("/api/tags/")
-        force_authenticate(req, user=self.staff_user)
+        force_authenticate(req, user=self.admin_user)
         response = TagViewSet.as_view({"delete": "destroy"})(req, pk=tag.id)
         self.assertIsInstance(response.renderer_context["view"], TagViewSet)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
@@ -222,7 +222,7 @@ class TagTest(BaseTestCase):
     def test_simple_user_forbidden_create(self):
         tag_obj = {"name": "ipsum"}
         req = self.factory.post("/api/tags/", tag_obj, format="json")
-        force_authenticate(req, user=self.simple_user)
+        force_authenticate(req, user=self.basic_user)
         response = TagViewSet.as_view({"post": "create"})(req)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
@@ -236,13 +236,13 @@ class TagTest(BaseTestCase):
             },
             format="json",
         )
-        force_authenticate(req, user=self.simple_user)
+        force_authenticate(req, user=self.basic_user)
         response = TagViewSet.as_view({"patch": "partial_update"})(req, pk=tag.id)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_simple_user_forbidden_retrieve(self):
         tag = self.make_tag()
         req = self.factory.get("/api/tags/")
-        force_authenticate(req, user=self.simple_user)
+        force_authenticate(req, user=self.basic_user)
         response = TagViewSet.as_view({"get": "retrieve"})(req, pk=tag.id)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
