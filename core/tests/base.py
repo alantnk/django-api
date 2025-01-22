@@ -3,6 +3,16 @@ from rest_framework.test import APITestCase, APIRequestFactory, APIClient
 from model_bakery import baker
 import datetime
 
+from .utils import (
+    make_category,
+    make_contact,
+    make_client,
+    make_position,
+    make_tag,
+    make_task,
+    make_sale,
+)
+
 User = get_user_model()
 
 
@@ -34,37 +44,37 @@ class BaseTestCase(APITestCase):
         return super().setUp()
 
     def make_position(self, **kwargs):
-        position = baker.make("core.Position", _refresh_after_create=True, **kwargs)
+        position = make_position(**kwargs)
         return position
 
     def make_category(self, **kwargs):
-        category = baker.make("core.Category", _refresh_after_create=True, **kwargs)
+        category = make_category(**kwargs)
         return category
 
     def make_client(self, **kwargs):
-        client = baker.make("core.Client", _refresh_after_create=True, **kwargs)
+        client = make_client(**kwargs)
         return client
 
     def make_contact(self, **kwargs):
-        contact = baker.make("core.Contact", _refresh_after_create=True, **kwargs)
+        contact = make_contact(**kwargs)
         return contact
 
     def make_sale(self, **kwargs):
-        sale = baker.make("core.Sale", _refresh_after_create=True, **kwargs)
+        sale = make_sale(**kwargs)
         return sale
 
     def make_task(self, **kwargs):
-        task = baker.make("core.Task", _refresh_after_create=True, **kwargs)
+        task = make_task(**kwargs)
         return task
 
     def make_tag(self, **kwargs):
-        tag = baker.make("core.Tag", _refresh_after_create=True, **kwargs)
+        tag = make_tag(**kwargs)
         return tag
 
     def make_position(self, **kwargs):
-        position = baker.make("core.Position", _refresh_after_create=True, **kwargs)
+        position = make_position(**kwargs)
         return position
 
     def make_category(self, **kwargs):
-        category = baker.make("core.Category", _refresh_after_create=True, **kwargs)
+        category = make_category(**kwargs)
         return category

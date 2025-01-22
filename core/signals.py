@@ -2,7 +2,7 @@ import os
 from django.contrib.auth import get_user_model
 from django.db.models.signals import pre_save, pre_delete
 from django.dispatch import receiver
-from core.models import Client, Sale, SaleHistory, Task
+from core.models import Client, Sale, SaleHistory, Task, Tag, Category, Position
 
 
 User = get_user_model()
@@ -15,8 +15,19 @@ def delete_cover(instance):
         ...
 
 
+@receiver(pre_save, sender=Tag)
+@receiver(pre_save, sender=Category)
+def set_name_uppercase(sender, instance, **kwargs):
+    instance.name = instance.name.upper()
+
+
+@receiver(pre_save, sender=Position)
+def set_name_lowercase(sender, instance, **kwargs):
+    instance.name = instance.name.lower()
+
+
 @receiver(pre_save, sender=Client)
-def set_uppercase(sender, instance, **kwargs):
+def set_client_names_uppercase(sender, instance, **kwargs):
     instance.fantasy_name = instance.fantasy_name.upper()
     instance.office_name = instance.office_name.upper()
 

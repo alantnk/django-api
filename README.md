@@ -31,14 +31,14 @@ Este projeto tem como objetivo construir um CRM simples utilizando Django. O sis
 -   **Dashboard**: Painel de controle com métricas básicas como o total de vendas fechadas, número de oportunidades em cada estágio, e tarefas pendentes.
 -   **Relatórios de Vendas**: Exibir o valor total das vendas realizadas e as oportunidades que estão em aberto.
 
-### 5. Gestão de Usuários (opcional)
+### 5. Gestão de Usuários
 
 -   **Cadastro de Usuários**: Cadastro de usuários com diferentes permissões (administrador, representante de vendas).
 -   **Permissões**: Controle de permissões para cada tipo de usuário, definindo quem pode visualizar ou editar determinadas informações.
 
 ## Estrutura do Projeto
 
-O projeto será dividido em cinco principais **apps**:
+O projeto será dividido em cinco principais **partes**:
 
 ### 1. `clients`
 
@@ -52,16 +52,12 @@ O projeto será dividido em cinco principais **apps**:
 
 ### 3. `tasks`
 
--   Modelos: `Task`
+-   Modelos: `Task`, `Tag`
 -   Funcionalidades: Gerenciamento de tarefas relacionadas aos clientes e oportunidades, com vencimento e status de conclusão.
 
-### 4. `reports`
+### 5. `user_control` (_app_)
 
--   Funcionalidades: Geração de relatórios e dashboard com métricas de vendas e produtividade.
-
-### 5. `users` (opcional)
-
--   Modelos: `CustomUser`
+-   Modelos: `User`
 -   Funcionalidades: Gerenciamento de usuários e permissões no sistema.
 
 ## Instalação

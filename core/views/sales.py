@@ -12,13 +12,14 @@ class SaleViewSet(OwnerPermissionMixin, ModelViewSet):
     serializer_class = SaleSerializer
     filter_backends = [DjangoFilterBackend, OrderingFilter, SearchFilter]
     search_fields = ["client__fantasy_name", "client__office_name", "user__username"]
+    filterset_fields = ["client_id", "user_id"]
     ordering_fields = [
         "id",
         "client__fantasy_name",
         "client__office_name",
         "updated_at",
     ]
-    ordering = ["id"]
+    ordering = ["-id"]
 
     def get_queryset(self):
         qs = super().get_queryset()
@@ -35,6 +36,7 @@ class SaleHistoryViewSet(ModelViewSet):
     permission_classes = [IsAdminUser]  # MUDAR PARA IS_ADMIN_USER
     serializer_class = SaleHistorySerializer
     filter_backends = [DjangoFilterBackend, OrderingFilter]
+    filterset_fields = ["sale_id", "user_id"]
     ordering_fields = [
         "id",
         "client__fantasy_name",

@@ -12,8 +12,17 @@ class TaskViewSet(SaveUserMixin, OwnerPermissionMixin, ModelViewSet):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
     filter_backends = [DjangoFilterBackend, OrderingFilter, SearchFilter]
-    search_fields = ["title, user__username", "tag__name"]
-    ordering_fields = ["id", "title", "updated_at"]
+    search_fields = ["title, user__username"]
+    filterset_fields = ["user_id", "tags__id"]
+    ordering_fields = [
+        "id",
+        "title",
+        "updated_at",
+        "tags",
+        "user",
+        "due_date",
+        "status",
+    ]
     ordering = ["-id"]
 
     def get_queryset(self):
@@ -21,6 +30,11 @@ class TaskViewSet(SaveUserMixin, OwnerPermissionMixin, ModelViewSet):
         if self.request.user.is_staff:
             return qs
         return qs.filter(user=self.request.user)
+
+    def list(self, request, *args, **kwargs):
+        if "tags" in request.query_params:
+            print(request.GET.getlist["tags"])
+        return super().list(request, *args, **kwargs)
 
     def create(self, request, *args, **kwargs):
         if Task.objects.filter(user=request.user, closed=False).exists():

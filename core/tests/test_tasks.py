@@ -93,6 +93,25 @@ class TaskTest(BaseTestCase):
         self.assertIsInstance(response.renderer_context["view"], TaskViewSet)
         self.assertEqual(response.data["count"], 6)
 
+    def test_list_tasks_by_query_tags_id(self):
+        spam_tag = self.make_tag()
+        bacon_tag = self.make_tag()
+        eggs_tag = self.make_tag()
+        for i in range(20):
+            if i < 5:
+                self.make_task(user=self.staff_user, tags=[spam_tag])
+            elif i < 10:
+                self.make_task(user=self.staff_user, tags=[bacon_tag])
+            else:
+                self.make_task(user=self.staff_user, tags=[bacon_tag, eggs_tag])
+
+        req = self.factory.get(f"/api/tasks?tags=8")
+        force_authenticate(req, user=self.staff_user)
+        response = TaskViewSet.as_view({"get": "list"})(req)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIsInstance(response.renderer_context["view"], TaskViewSet)
+        self.assertEqual(response.data["count"], 10)
+
 
 class TagTest(BaseTestCase):
     def test_list_tags(self):

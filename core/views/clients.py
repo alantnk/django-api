@@ -33,6 +33,7 @@ class ContactViewSet(SaveUserMixin, OwnerAdminPermissionMixin, ModelViewSet):
     search_fields = ["full_name"]
     filterset_fields = ["client_id", "position_id"]
     ordering_fields = ["id", "full_name", "updated_at"]
+    ordering = ["-id"]
 
 
 class CategoryViewSet(AdminDestroyPermissionMixin, ModelViewSet):

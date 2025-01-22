@@ -11,7 +11,7 @@ class Sale(BaseModel):
     status = models.CharField(
         max_length=50, choices=STATUS_CHOICES[1:], default="in_progress"
     )
-    funnel_stage = models.CharField(max_length=50)
+    funnel_stage = models.CharField(max_length=150)
     expected_date = models.DateTimeField()
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True
