@@ -55,7 +55,7 @@ O projeto será dividido em quatro **partes**:
 -   Modelos: `Task`, `Tag`
 -   Funcionalidades: Gerenciamento de tarefas relacionadas aos clientes e oportunidades, com vencimento e status de conclusão.
 
-#### 5. `user_control` (_app_)
+#### 4. `user_control` (_app_)
 
 -   Modelos: `User`
 -   Funcionalidades: Gerenciamento de usuários e permissões no sistema.

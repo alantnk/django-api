@@ -101,7 +101,7 @@ class SaleTest(BaseTestCase):
 class SaleHistoryTest(BaseTestCase):
     def test_list_sale_history(self):
         self.APIClient.force_authenticate(user=self.admin_user)
-        obj = {"funnel_stage": "lorem ipsum mum", "status": "on_hold", "chance": 99}
+        obj = {"funnel_stage": "lorem ipsum", "status": "on_hold", "chance": 99}
         sale = self.make_sale(user=self.admin_user)
         self.APIClient.patch(
             f"/api/sales/{sale.id}/",
@@ -117,3 +117,21 @@ class SaleHistoryTest(BaseTestCase):
         resp = self.APIClient.get("/api/sales-history/")
         self.assertEqual(resp.status_code, status.HTTP_401_UNAUTHORIZED)
         self.assertIsInstance(resp.renderer_context["view"], SaleHistoryViewSet)
+
+    def test_post_method_not_allowed(self):
+        self.APIClient.force_authenticate(user=self.admin_user)
+        resp_post = self.APIClient.post("/api/sales-history/")
+        self.assertEqual(resp_post.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+        self.assertIsInstance(resp_post.renderer_context["view"], SaleHistoryViewSet)
+
+    def test_patch_method_not_allowed(self):
+        self.APIClient.force_authenticate(user=self.admin_user)
+        resp_patch = self.APIClient.patch("/api/sales-history/1/")
+        self.assertEqual(resp_patch.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+        self.assertIsInstance(resp_patch.renderer_context["view"], SaleHistoryViewSet)
+
+    def test_delete_method_not_allowed(self):
+        self.APIClient.force_authenticate(user=self.admin_user)
+        resp_delete = self.APIClient.delete("/api/sales-history/1/")
+        self.assertEqual(resp_delete.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+        self.assertIsInstance(resp_delete.renderer_context["view"], SaleHistoryViewSet)

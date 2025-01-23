@@ -72,17 +72,22 @@ aside .nav {
 }
 
 aside .info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
     margin-top: auto;
     margin-right: 2rem;
 }
 
 aside .info a {
-    color: #0079a5;
+    color: #00a0da;
+    font-size: 1.05rem;
     font-weight: 700;
 }
 
 aside .info a:hover {
-    color: blanchedalmond;
+    /* color: #fff; */
+    opacity: 0.4;
 }
 
 aside .title {
