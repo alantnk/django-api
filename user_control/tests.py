@@ -16,7 +16,7 @@ class UserTestCase(APITestCase):
 
     def test_get_info(self):
         self.APIClient.force_authenticate(user=self.basic_user)
-        resp = self.APIClient.get("/auth/u/info/")
+        resp = self.APIClient.get("/auth/u/me/")
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         self.assertIsInstance(resp.renderer_context["view"], UserViewSet)
         self.assertEqual(resp.data["username"], self.basic_user.username)
