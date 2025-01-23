@@ -114,7 +114,7 @@ class ClientTest(BaseTestCase):
         response = ClientViewSet.as_view({"get": "list"})(req)
         self.assertEqual(response.data["results"][0]["office_name"], name)
 
-    def test_user_forbidden_update_client(self):
+    def test_forbidden_basic_user_update_client(self):
         client = self.make_client(user=self.admin_user)
         req = self.factory.patch(
             "/api/clients/",
@@ -127,7 +127,7 @@ class ClientTest(BaseTestCase):
         response = ClientViewSet.as_view({"patch": "partial_update"})(req, pk=client.id)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
-    def test_user_forbidden_delete_client(self):
+    def test_forbidden_basic_user_delete_client(self):
         client = self.make_client(user=self.admin_user)
         req = self.factory.delete("/api/clients/")
         force_authenticate(req, user=self.basic_user)
@@ -279,7 +279,7 @@ class ContactTest(BaseTestCase):
         response = ContactViewSet.as_view({"get": "list"})(req)
         self.assertEqual(response.data["results"][0]["full_name"], name)
 
-    def test_forbidden_update_contact(self):
+    def test_forbidden_basic_user_update_contact(self):
         contact = self.make_contact(user=self.admin_user)
         req = self.factory.patch(
             "/api/contacts/",
@@ -294,7 +294,7 @@ class ContactTest(BaseTestCase):
         )
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
-    def test_forbidden_delete_contact(self):
+    def test_forbidden_basic_user_delete_contact(self):
         contact = self.make_contact(user=self.admin_user)
         req = self.factory.delete("/api/contacts/")
         force_authenticate(req, user=self.basic_user)
@@ -349,7 +349,7 @@ class PositionTest(BaseTestCase):
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertIsInstance(response.renderer_context["view"], PositionViewSet)
 
-    def test_simple_user_forbidden_destroy_position(self):
+    def test_forbidden_basic_user_destroy_position(self):
         position = self.make_position()
         req = self.factory.delete("/api/positions/")
         force_authenticate(req, user=self.basic_user)
@@ -415,7 +415,7 @@ class CategoryTest(BaseTestCase):
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertIsInstance(response.renderer_context["view"], CategoryViewSet)
 
-    def test_simple_user_forbidden_destroy_category(self):
+    def test_basic_user_forbidden_destroy_category(self):
         category = self.make_category()
         req = self.factory.delete("/api/categories/")
         force_authenticate(req, user=self.basic_user)

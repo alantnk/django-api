@@ -16,7 +16,6 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.http import HttpResponse
 from django.urls import path
 from django.conf.urls import include
 
@@ -35,6 +34,6 @@ urlpatterns = [
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
-admin.AdminSite.site_header = "ADM"
-admin.AdminSite.site_title = "Site admin"
-admin.AdminSite.index_title = "Site administration"
+admin.AdminSite.site_header = "🛡️"
+admin.AdminSite.site_title = "🔐"
+admin.AdminSite.index_title = "Staff-Only Zone"
