@@ -38,7 +38,7 @@ Este projeto tem como objetivo construir um CRM simples utilizando Django. O sis
 
 ## Estrutura do Projeto
 
-O projeto será dividido em cinco principais **partes**:
+O projeto será dividido em quatro **partes**:
 
 #### 1. `clients`
 
@@ -85,7 +85,7 @@ $ source .venv/bin/activate
 Execute a instalação dos pacotes
 
 ```bash
-(.venv) $ pip install -r requirements.txt
+$ pip install -r requirements.txt
 ```
 
 #### 4. Migrations
@@ -93,7 +93,7 @@ Execute a instalação dos pacotes
 Renomeie o arquivo `.env-example` para `.env` e execute as migrations
 
 ```bash
-(.venv) $ python3 manage.py migrate
+$ python3 manage.py migrate
 ```
 
 #### 5 Iniciar servidor
@@ -103,7 +103,7 @@ Primeiro crie um usuário com o comando `python3 manage.py createsuperuser`.
 Preencha os campos e depois inicie o servidor
 
 ```bash
-(.venv) $ python3 manage.py runserver
+$ python3 manage.py runserver
 ```
 
 Acesse o endereço base http://127.0.0.1:8000 e leia a documentação.
@@ -122,7 +122,7 @@ Depois feche o terminal e rode o servidor novamente
 ## Tests
 
 ```bash
-(.venv) $ python3 manage.py test
+$ python3 manage.py test
 ```
 
 Ou execute `pytest`
