@@ -24,6 +24,7 @@
             </div>
         </a>
     </header>
+    <div></div>
     <aside>
         <div class="nav title">
             Content
@@ -31,8 +32,12 @@
         <div class="nav content">
             <div class="nav list">
                 <p>AUTH</p>
-                <p class="subtitle">Login</p>
-                <p class="subtitle">User</p>
+                <p class="subtitle">
+                    <a href="#tokens">Tokens</a>
+                </p>
+                <p class="subtitle">
+                    <a href="#user">User</a>
+                </p>
 
             </div>
             <div class="nav list">
@@ -68,6 +73,111 @@
     </aside>
     <main>
 
+        <section class="alpha">
+            <div class="big">
+                <h1 class="title">AUTH</h1>
+                <div class="bs">
+                    Base URL:
+                    <span class="route">http://127.0.0.1:8000/auth/</span>
+                </div>
+                <hr>
+            </div>
+            <div class="desc">Is responsible for managing authentication and authorization within the application. It provides mechanisms to issue, refresh, and verify authentication tokens, ensuring secure access to protected API functionalities. All data exchanged through this endpoint should be sent in JSON format, and requests must be made over HTTPS to maintain information security.</div>
+            <div class="feat">
+
+                <h2 id="tokens">Tokens</h2>
+
+
+                <div class="sub-routes">
+
+                    <div class="http">
+                        <div>
+                            <span class="route">/token</span>
+                            </span>Methods: POST</span>
+                        </div>
+                        <pre class="code">
+                            <div class="request">
+                                {
+                                    "username": "smith",
+                                    "password": "abc123"
+                                }
+                            </div>
+                            <div class="response">
+                                {
+                                    "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc0MDI0ODIyMSwiaWF0IjoxNzM3NjU2MjIxLCJqdGkiOiJkYTgyODg0ZjZiOTQ0NWY5YTFlMDZmNzZkZDA4ZmZlNCIsInVzZXJfaWQiOjJ9.98kHh_wydVcrLiZvxMY9_XwR9kgnwtdbREoTSrLvK0M",
+                                    "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM3NjU4MDIxLCJpYXQiOjE3Mzc2NTYyMjEsImp0aSI6IjQyNjkxZDM1YjQyNTQxNTZiNGJlOWJlZjVjZWEyODdiIiwidXNlcl9pZCI6Mn0.rhRFOp1bNaRMQWpgd2Qy6JOF0CoVVnHOXQxRhhC7S4M"
+                                }
+                            </div>
+                        </pre>
+                    </div>
+                    <div class="http">
+                        <div>
+                            <span class="route">/token/refresh</span>
+                            </span>Methods: POST</span>
+                        </div>
+                        <pre class="code">
+                            <div class="request">
+                                {
+                                    "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc0MDI0ODIyMSwiaWF0IjoxNzM3NjU2MjIxLCJqdGkiOiJkYTgyODg0ZjZiOTQ0NWY5YTFlMDZmNzZkZDA4ZmZlNCIsInVzZXJfaWQiOjJ9.98kHh_wydVcrLiZvxMY9_XwR9kgnwtdbREoTSrLvK0M","refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc0MDI0ODIyMSwiaWF0IjoxNzM3NjU2MjIxLCJqdGkiOiJkYTgyODg0ZjZiOTQ0NWY5YTFlMDZmNzZkZDA4ZmZlNCIsInVzZXJfaWQiOjJ9.98kHh_wydVcrLiZvxMY9_XwR9kgnwtdbREoTSrLvK0M",
+                                }
+                            </div>
+                            <div class="response">
+                                {
+                                    "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM3NjU4MDIxLCJpYXQiOjE3Mzc2NTYyMjEsImp0aSI6IjQyNjkxZDM1YjQyNTQxNTZiNGJlOWJlZjVjZWEyODdiIiwidXNlcl9pZCI6Mn0.rhRFOp1bNaRMQWpgd2Qy6JOF0CoVVnHOXQxRhhC7S4M"
+                                }
+                            </div>
+                        </pre>
+                    </div>
+                    <div class="http">
+                        <div>
+                            <span class="route">/token/verify</span>
+                            </span>Methods: POST</span>
+                        </div>
+                        <pre class="code">
+                            <div class="request">
+                                {
+                                    "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc0MDI0ODIyMSwiaWF0IjoxNzM3NjU2MjIxLCJqdGkiOiJkYTgyODg0ZjZiOTQ0NWY5YTFlMDZmNzZkZDA4ZmZlNCIsInVzZXJfaWQiOjJ9.98kHh_wydVcrLiZvxMY9_XwR9kgnwtdbREoTSrLvK0M","refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc0MDI0ODIyMSwiaWF0IjoxNzM3NjU2MjIxLCJqdGkiOiJkYTgyODg0ZjZiOTQ0NWY5YTFlMDZmNzZkZDA4ZmZlNCIsInVzZXJfaWQiOjJ9.98kHh_wydVcrLiZvxMY9_XwR9kgnwtdbREoTSrLvK0M",
+                                }
+                            </div>
+                            <div class="response">
+                                // status 200 OK
+                            </div>
+                        </pre>
+                    </div>
+                </div>
+            </div>
+            <div class="feat">
+                <h2 id="user">User</h2>
+                <p>*Include the Bearer token in the Authorization header</p>
+                <div class="sub-routes">
+
+                    <div class="http">
+                        <div>
+                            <span class="route">/u/me</span>
+                            </span>Methods: GET</span>
+                        </div>
+                        <pre class="code">
+                            <div class="request"></div>
+                            <div class="response">
+                                {
+                                    "username": "smith",
+                                    "email": "smith@abc.com",
+                                    "first_name": "agent",
+                                    "last_name": "smith",
+                                    "role": "admin",
+                                    "avatar": null,
+                                    "date_joined": "2025-01-22T18:17:59-03:00"
+                                }
+                            </div>
+                        </pre>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+        <section class="alpha">
+
+        </section>
     </main>
     <footer></footer>
     <a href="#header" class="go-top">
