@@ -20,7 +20,7 @@ class UserViewSet(ReadOnlyModelViewSet):
         return qs
 
     @action(detail=False, methods=["get"])
-    def info(self, request):
+    def me(self, request):
         obj = self.get_queryset().first()
         serializer = self.get_serializer(instance=obj)
         return Response(serializer.data)

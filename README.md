@@ -96,7 +96,7 @@ Renomeie o arquivo `.env-example` para `.env` e execute as migrations
 $ python3 manage.py migrate
 ```
 
-#### 5 Iniciar servidor
+#### 5. Iniciar servidor
 
 Primeiro crie um usuário com o comando `python3 manage.py createsuperuser`.
 
@@ -108,7 +108,7 @@ $ python3 manage.py runserver
 
 Acesse o endereço base http://127.0.0.1:8000 e leia a documentação.
 
-#### 6 Seeds (Opcional)
+#### 6. Seeds (Opcional)
 
 Para pre-popular o banco abra o **shell** do Django com `python3 manage.py shell`
 
