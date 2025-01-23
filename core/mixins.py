@@ -1,5 +1,9 @@
-from core.permissions import IsOwnerOrAdmin, isOwner
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from user_control.permisssions import (
+    IsOwnerOrAdminControl,
+    IsOwnerControl,
+    IsAdminControl,
+)
+from rest_framework.permissions import IsAuthenticated
 
 
 class SaveUserMixin:
@@ -15,7 +19,7 @@ class AdminDestroyPermissionMixin:
 
     def get_permissions(self):
         if self.request.method in ["DELETE"]:
-            return [IsAdminUser()]
+            return [IsAdminControl()]
         else:
             return [IsAuthenticated()]
 
@@ -23,7 +27,7 @@ class AdminDestroyPermissionMixin:
 class OwnerAdminPermissionMixin(AdminDestroyPermissionMixin):
     def get_permissions(self):
         if self.request.method in ["PATCH"]:
-            return [IsOwnerOrAdmin()]
+            return [IsOwnerOrAdminControl()]
         else:
             return super().get_permissions()
 
@@ -31,6 +35,6 @@ class OwnerAdminPermissionMixin(AdminDestroyPermissionMixin):
 class OwnerPermissionMixin(AdminDestroyPermissionMixin):
     def get_permissions(self):
         if self.request.method in ["PATCH"]:
-            return [isOwner()]
+            return [IsOwnerControl()]
         else:
             return super().get_permissions()

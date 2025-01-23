@@ -14,7 +14,7 @@ class ClientTest(BaseTestCase):
         for i in range(count):
             self.make_client()
         req = self.factory.get("/api/clients/")
-        force_authenticate(req, user=self.simple_user)
+        force_authenticate(req, user=self.basic_user)
         response = ClientViewSet.as_view({"get": "list"})(req)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsInstance(response.renderer_context["view"], ClientViewSet)
@@ -25,7 +25,7 @@ class ClientTest(BaseTestCase):
     def test_retrieve_client(self):
         client = self.make_client()
         req = self.factory.get("/api/clients/")
-        force_authenticate(req, user=self.simple_user)
+        force_authenticate(req, user=self.basic_user)
         response = ClientViewSet.as_view({"get": "retrieve"})(req, pk=client.id)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsInstance(response.renderer_context["view"], ClientViewSet)
@@ -38,7 +38,7 @@ class ClientTest(BaseTestCase):
             self.client_post_obj,
             format="json",
         )
-        force_authenticate(req, user=self.simple_user)
+        force_authenticate(req, user=self.basic_user)
         response = ClientViewSet.as_view({"post": "create"})(req)
         self.assertContains(response, "id", status_code=status.HTTP_201_CREATED)
         self.assertIsInstance(response.renderer_context["view"], ClientViewSet)
@@ -48,7 +48,7 @@ class ClientTest(BaseTestCase):
         )
 
     def test_update_client(self):
-        client = self.make_client(user=self.simple_user)
+        client = self.make_client(user=self.basic_user)
         new_email = "lorem.ipsum@example.com"
         req = self.factory.patch(
             "/api/clients/",
@@ -57,7 +57,7 @@ class ClientTest(BaseTestCase):
             },
             format="json",
         )
-        force_authenticate(req, user=self.simple_user)
+        force_authenticate(req, user=self.basic_user)
         response = ClientViewSet.as_view({"patch": "partial_update"})(req, pk=client.id)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsInstance(response.renderer_context["view"], ClientViewSet)
@@ -66,9 +66,9 @@ class ClientTest(BaseTestCase):
         self.assertEqual(response.data["email"], new_email)
 
     def test_delete_client(self):
-        client = self.make_client(user=self.staff_user)
+        client = self.make_client(user=self.admin_user)
         req = self.factory.delete("/api/clients/")
-        force_authenticate(req, user=self.staff_user)
+        force_authenticate(req, user=self.admin_user)
         response = ClientViewSet.as_view({"delete": "destroy"})(req, pk=client.id)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertIsInstance(response.renderer_context["view"], ClientViewSet)
@@ -94,7 +94,7 @@ class ClientTest(BaseTestCase):
             else:
                 self.make_client()
         req = self.factory.get(f"/api/clients?category_id={category.id}")
-        force_authenticate(req, user=self.simple_user)
+        force_authenticate(req, user=self.basic_user)
 
         response = ClientViewSet.as_view({"get": "list"})(req)
         self.assertEqual(
@@ -109,13 +109,13 @@ class ClientTest(BaseTestCase):
             else:
                 self.make_client(office_name="NOT " + name)
         req = self.factory.get(f"/api/clients?ordering=office_name")
-        force_authenticate(req, user=self.simple_user)
+        force_authenticate(req, user=self.basic_user)
 
         response = ClientViewSet.as_view({"get": "list"})(req)
         self.assertEqual(response.data["results"][0]["office_name"], name)
 
     def test_user_forbidden_update_client(self):
-        client = self.make_client(user=self.staff_user)
+        client = self.make_client(user=self.admin_user)
         req = self.factory.patch(
             "/api/clients/",
             {
@@ -123,19 +123,19 @@ class ClientTest(BaseTestCase):
             },
             format="json",
         )
-        force_authenticate(req, user=self.simple_user)
+        force_authenticate(req, user=self.basic_user)
         response = ClientViewSet.as_view({"patch": "partial_update"})(req, pk=client.id)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_user_forbidden_delete_client(self):
-        client = self.make_client(user=self.staff_user)
+        client = self.make_client(user=self.admin_user)
         req = self.factory.delete("/api/clients/")
-        force_authenticate(req, user=self.simple_user)
+        force_authenticate(req, user=self.basic_user)
         response = ClientViewSet.as_view({"delete": "destroy"})(req, pk=client.id)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_admin_user_update_client(self):
-        client = self.make_client(user=self.simple_user)
+        client = self.make_client(user=self.basic_user)
         req = self.factory.patch(
             "/api/clients/",
             {
@@ -143,14 +143,14 @@ class ClientTest(BaseTestCase):
             },
             format="json",
         )
-        force_authenticate(req, user=self.staff_user)
+        force_authenticate(req, user=self.admin_user)
         response = ClientViewSet.as_view({"patch": "partial_update"})(req, pk=client.id)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_admin_user_delete_client(self):
-        client = self.make_client(user=self.simple_user)
+        client = self.make_client(user=self.basic_user)
         req = self.factory.delete("/api/clients/")
-        force_authenticate(req, user=self.staff_user)
+        force_authenticate(req, user=self.admin_user)
         response = ClientViewSet.as_view({"delete": "destroy"})(req, pk=client.id)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
@@ -162,7 +162,7 @@ class ContactTest(BaseTestCase):
         for _ in range(count):
             self.make_contact()
         req = self.factory.get("/api/contacts/")
-        force_authenticate(req, user=self.simple_user)
+        force_authenticate(req, user=self.basic_user)
         response = ContactViewSet.as_view({"get": "list"})(req)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsInstance(response.renderer_context["view"], ContactViewSet)
@@ -172,7 +172,7 @@ class ContactTest(BaseTestCase):
     def test_retrieve_contact(self):
         contact = self.make_contact()
         req = self.factory.get("/api/contacts/")
-        force_authenticate(req, user=self.simple_user)
+        force_authenticate(req, user=self.basic_user)
         response = ContactViewSet.as_view({"get": "retrieve"})(req, pk=contact.id)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsInstance(response.renderer_context["view"], ContactViewSet)
@@ -190,14 +190,14 @@ class ContactTest(BaseTestCase):
             },
             format="json",
         )
-        force_authenticate(req, user=self.simple_user)
+        force_authenticate(req, user=self.basic_user)
         response = ContactViewSet.as_view({"post": "create"})(req)
         self.assertContains(response, "id", status_code=status.HTTP_201_CREATED)
         self.assertIsInstance(response.renderer_context["view"], ContactViewSet)
 
     def test_update_contact(self):
 
-        contact = self.make_contact(user=self.simple_user)
+        contact = self.make_contact(user=self.basic_user)
         new_email = "lorem.ipsum@example.com"
         req = self.factory.patch(
             "/api/contacts/",
@@ -206,7 +206,7 @@ class ContactTest(BaseTestCase):
             },
             format="json",
         )
-        force_authenticate(req, user=self.simple_user)
+        force_authenticate(req, user=self.basic_user)
         response = ContactViewSet.as_view({"patch": "partial_update"})(
             req, pk=contact.id
         )
@@ -217,9 +217,9 @@ class ContactTest(BaseTestCase):
         self.assertEqual(response.data["email"], new_email)
 
     def test_delete_contact(self):
-        contact = self.make_contact(user=self.staff_user)
+        contact = self.make_contact(user=self.admin_user)
         req = self.factory.delete("/api/contacts/")
-        force_authenticate(req, user=self.staff_user)
+        force_authenticate(req, user=self.admin_user)
         response = ContactViewSet.as_view({"delete": "destroy"})(req, pk=contact.id)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertIsInstance(response.renderer_context["view"], ContactViewSet)
@@ -246,7 +246,7 @@ class ContactTest(BaseTestCase):
             else:
                 self.make_contact()
         req = self.factory.get(f"/api/contacts?client_id={client.id}")
-        force_authenticate(req, user=self.simple_user)
+        force_authenticate(req, user=self.basic_user)
 
         response = ContactViewSet.as_view({"get": "list"})(req)
         self.assertEqual(response.data["results"][0]["client_detail"]["id"], client.id)
@@ -259,28 +259,28 @@ class ContactTest(BaseTestCase):
             else:
                 self.make_contact()
         req = self.factory.get(f"/api/contacts?position_id={position.id}")
-        force_authenticate(req, user=self.simple_user)
+        force_authenticate(req, user=self.basic_user)
 
         response = ContactViewSet.as_view({"get": "list"})(req)
         self.assertEqual(
             response.data["results"][0]["position_detail"]["id"], position.id
         )
 
-    def test_order_list_contact_by_full_name(self):
+    def test_search_list_contact_by_full_name(self):
         name = "lorem ipsum"
         for i in range(10):
             if i < random.randint(0, 9):
-                self.make_contact(full_name=name)
+                self.make_contact(full_name="NOT " + name, user=self.admin_user)
             else:
-                self.make_contact(full_name="NOT " + name)
-        req = self.factory.get(f"/api/contacts?ordering=full_name")
-        force_authenticate(req, user=self.simple_user)
+                self.make_contact(full_name=name, user=self.basic_user)
+        req = self.factory.get(f"/api/contacts?search={name}")
+        force_authenticate(req, user=self.basic_user)
 
         response = ContactViewSet.as_view({"get": "list"})(req)
         self.assertEqual(response.data["results"][0]["full_name"], name)
 
     def test_forbidden_update_contact(self):
-        contact = self.make_contact(user=self.staff_user)
+        contact = self.make_contact(user=self.admin_user)
         req = self.factory.patch(
             "/api/contacts/",
             {
@@ -288,16 +288,16 @@ class ContactTest(BaseTestCase):
             },
             format="json",
         )
-        force_authenticate(req, user=self.simple_user)
+        force_authenticate(req, user=self.basic_user)
         response = ContactViewSet.as_view({"patch": "partial_update"})(
             req, pk=contact.id
         )
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_forbidden_delete_contact(self):
-        contact = self.make_contact(user=self.staff_user)
+        contact = self.make_contact(user=self.admin_user)
         req = self.factory.delete("/api/contacts/")
-        force_authenticate(req, user=self.simple_user)
+        force_authenticate(req, user=self.basic_user)
         response = ContactViewSet.as_view({"delete": "destroy"})(req, pk=contact.id)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
@@ -308,7 +308,7 @@ class PositionTest(BaseTestCase):
         for _ in range(count):
             self.make_position()
         req = self.factory.get("/api/positions/")
-        force_authenticate(req, user=self.simple_user)
+        force_authenticate(req, user=self.basic_user)
         response = PositionViewSet.as_view({"get": "list"})(req)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsInstance(response.renderer_context["view"], PositionViewSet)
@@ -317,7 +317,7 @@ class PositionTest(BaseTestCase):
     def test_retrieve_position(self):
         position = self.make_position()
         req = self.factory.get("/api/positions/")
-        force_authenticate(req, user=self.simple_user)
+        force_authenticate(req, user=self.basic_user)
         response = PositionViewSet.as_view({"get": "retrieve"})(req, pk=position.id)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsInstance(response.renderer_context["view"], PositionViewSet)
@@ -333,7 +333,7 @@ class PositionTest(BaseTestCase):
             },
             format="json",
         )
-        force_authenticate(req, user=self.staff_user)
+        force_authenticate(req, user=self.admin_user)
         response = PositionViewSet.as_view({"patch": "partial_update"})(
             req, pk=position.id
         )
@@ -344,7 +344,7 @@ class PositionTest(BaseTestCase):
     def test_destroy_position(self):
         position = self.make_position()
         req = self.factory.delete("/api/positions/")
-        force_authenticate(req, user=self.staff_user)
+        force_authenticate(req, user=self.admin_user)
         response = PositionViewSet.as_view({"delete": "destroy"})(req, pk=position.id)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertIsInstance(response.renderer_context["view"], PositionViewSet)
@@ -352,7 +352,7 @@ class PositionTest(BaseTestCase):
     def test_simple_user_forbidden_destroy_position(self):
         position = self.make_position()
         req = self.factory.delete("/api/positions/")
-        force_authenticate(req, user=self.simple_user)
+        force_authenticate(req, user=self.basic_user)
         response = PositionViewSet.as_view({"delete": "destroy"})(req, pk=position.id)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
@@ -363,7 +363,7 @@ class CategoryTest(BaseTestCase):
         for _ in range(count):
             self.make_category()
         req = self.factory.get("/api/categories/")
-        force_authenticate(req, user=self.simple_user)
+        force_authenticate(req, user=self.basic_user)
         response = CategoryViewSet.as_view({"get": "list"})(req)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsInstance(response.renderer_context["view"], CategoryViewSet)
@@ -372,7 +372,7 @@ class CategoryTest(BaseTestCase):
     def test_retrieve_category(self):
         category = self.make_category()
         req = self.factory.get("/api/categories/")
-        force_authenticate(req, user=self.simple_user)
+        force_authenticate(req, user=self.basic_user)
         response = CategoryViewSet.as_view({"get": "retrieve"})(req, pk=category.id)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsInstance(response.renderer_context["view"], CategoryViewSet)
@@ -383,7 +383,7 @@ class CategoryTest(BaseTestCase):
             "name": "ipsum",
         }
         req = self.factory.post("/api/categories/", category_obj, format="json")
-        force_authenticate(req, user=self.simple_user)
+        force_authenticate(req, user=self.basic_user)
         response = CategoryViewSet.as_view({"post": "create"})(req)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertIsInstance(response.renderer_context["view"], CategoryViewSet)
@@ -399,7 +399,7 @@ class CategoryTest(BaseTestCase):
             },
             format="json",
         )
-        force_authenticate(req, user=self.simple_user)
+        force_authenticate(req, user=self.basic_user)
         response = CategoryViewSet.as_view({"patch": "partial_update"})(
             req, pk=category.id
         )
@@ -410,7 +410,7 @@ class CategoryTest(BaseTestCase):
     def test_destroy_category(self):
         category = self.make_category()
         req = self.factory.delete("/api/categories/")
-        force_authenticate(req, user=self.staff_user)
+        force_authenticate(req, user=self.admin_user)
         response = CategoryViewSet.as_view({"delete": "destroy"})(req, pk=category.id)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertIsInstance(response.renderer_context["view"], CategoryViewSet)
@@ -418,6 +418,6 @@ class CategoryTest(BaseTestCase):
     def test_simple_user_forbidden_destroy_category(self):
         category = self.make_category()
         req = self.factory.delete("/api/categories/")
-        force_authenticate(req, user=self.simple_user)
+        force_authenticate(req, user=self.basic_user)
         response = CategoryViewSet.as_view({"delete": "destroy"})(req, pk=category.id)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)

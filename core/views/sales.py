@@ -1,9 +1,9 @@
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
-from rest_framework.permissions import IsAdminUser
 from rest_framework.filters import OrderingFilter, SearchFilter
 from django_filters.rest_framework import DjangoFilterBackend
 from core.mixins import OwnerPermissionMixin
 from core.models import Sale, SaleHistory
+from user_control.permisssions import IsAdminControl
 from ..serializers import SaleSerializer, SaleHistorySerializer
 
 
@@ -24,7 +24,7 @@ class SaleViewSet(OwnerPermissionMixin, ModelViewSet):
 
     def get_queryset(self):
         qs = super().get_queryset()
-        if self.request.user.is_staff:
+        if self.request.user.role == "admin":
             return qs
         return qs.filter(user=self.request.user)
 
@@ -34,7 +34,7 @@ class SaleViewSet(OwnerPermissionMixin, ModelViewSet):
 
 class SaleHistoryViewSet(ReadOnlyModelViewSet):
     queryset = SaleHistory.objects.all()
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsAdminControl]
     serializer_class = SaleHistorySerializer
     filter_backends = [DjangoFilterBackend, OrderingFilter]
     filterset_fields = ["sale_id", "user_id"]

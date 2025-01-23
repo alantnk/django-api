@@ -20,9 +20,11 @@ class BaseTestCase(APITestCase):
     def setUp(self):
         self.factory = APIRequestFactory()
         self.APIClient = APIClient()
-        self.super_user = baker.make(User)
-        self.simple_user = baker.make(User, is_staff=False, is_superuser=False)
-        self.staff_user = baker.make(User, is_staff=True)
+        self.super_user = baker.make(User, is_superuser=True)
+        self.basic_user = baker.make(User, is_staff=False, is_superuser=False)
+        self.admin_user = baker.make(
+            User, is_staff=False, is_superuser=False, role="admin"
+        )
         self.client_post_obj = {
             "fantasy_name": "spam eggs x1",
             "office_name": "spam eggs xy",
