@@ -31,7 +31,9 @@
         </div>
         <div class="nav content">
             <div class="nav list">
-                <p>AUTH</p>
+                <p>
+                    <a href="#auth">AUTH</a>
+                </p>
                 <p class="subtitle">
                     <a href="#tokens">Tokens</a>
                 </p>
@@ -41,7 +43,9 @@
 
             </div>
             <div class="nav list">
-                <p>API</p>
+                <p>
+                    <a href="#api">API</a>
+                </p>
                 <div>
                     <p class="subtitle">
                         <a href="#modules">Modules</a>
@@ -93,7 +97,7 @@
 
         <section class="alpha">
             <div class="big">
-                <h1 class="title">AUTH</h1>
+                <h1 id="auth" class="title">AUTH</h1>
                 <div class="bs">
                     Base URL:
                     <span class="route">http://127.0.0.1:8000/auth/</span>
@@ -195,7 +199,7 @@
         </section>
         <section class="alpha">
             <div class="big">
-                <h1 class="title">API</h1>
+                <h1 id="api" class="title">API</h1>
                 <div class="bs">
                     Base URL:
                     <span class="route">http://127.0.0.1:8000/api/</span>
@@ -211,6 +215,7 @@
 
             <div class="feat">
                 <h2 id="modules">Modules</h2>
+                <br>
                 <br>
 
                 <h3 id="clients">Clients</h3>
@@ -837,6 +842,8 @@
                 </div>
                 <div class="desc">
                     <b><i>Specific field names:</i></b>: Query parameters can also match specific field names, allowing you to filter results directly based on those fields.
+                    <br>
+                    <br>
                     <p><i>/clients</i></p>
                     <ul>
                         <li>?category_id</li>
