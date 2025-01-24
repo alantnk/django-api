@@ -37,6 +37,11 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5040",
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://example.com",
+    "http://localhost:5040",
+]
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -123,6 +128,9 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
+
+CSRF_COOKIE_HTTPONLY = True
+CSRF_COOKIE_SECURE = True
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_COOKIE_AGE = 30 * 60

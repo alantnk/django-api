@@ -11,47 +11,42 @@ class SaleTest(BaseTestCase):
         for _ in range(count):
             self.make_sale(user=self.basic_user)
         self.make_sale(user=self.admin_user)
-        req = self.factory.get("/api/sales/")
-        force_authenticate(req, user=self.basic_user)
-        response = SaleViewSet.as_view({"get": "list"})(req)
+        self.APIClient.force_authenticate(user=self.basic_user)
+        response = self.APIClient.get("/api/sales/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsInstance(response.renderer_context["view"], SaleViewSet)
         self.assertEqual(response.data["count"], count)
 
     def test_status_unauthorized(self):
-        req = self.factory.get("/api/sales/")
-        response = SaleViewSet.as_view({"get": "list"})(req)
+        response = self.APIClient.get("/api/sales/")
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_list_sales_by_admin_user(self):
         for _ in range(5):
             self.make_sale(user=self.basic_user)
         self.make_sale(user=self.admin_user)
-        req = self.factory.get("/api/sales/")
-        force_authenticate(req, user=self.admin_user)
-        response = SaleViewSet.as_view({"get": "list"})(req)
+        self.APIClient.force_authenticate(user=self.admin_user)
+        response = self.APIClient.get("/api/sales/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsInstance(response.renderer_context["view"], SaleViewSet)
         self.assertEqual(response.data["count"], 6)
 
     def test_retrieve_sale(self):
         sale = self.make_sale(user=self.basic_user)
-        req = self.factory.get("/api/sales/")
-        force_authenticate(req, user=self.basic_user)
-        response = SaleViewSet.as_view({"get": "retrieve"})(req, pk=sale.id)
+        self.APIClient.force_authenticate(user=self.basic_user)
+        response = self.APIClient.get(f"/api/sales/{sale.id}/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsInstance(response.renderer_context["view"], SaleViewSet)
         self.assertEqual(response.data["id"], sale.id)
 
     def test_create_sale(self):
         sale_obj = {**self.sale_post_obj, "client": self.make_client().id}
-        req = self.factory.post(
+        self.APIClient.force_authenticate(user=self.basic_user)
+        response = self.APIClient.post(
             "/api/sales/",
             sale_obj,
             format="json",
         )
-        force_authenticate(req, user=self.basic_user)
-        response = SaleViewSet.as_view({"post": "create"})(req)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertIsInstance(response.renderer_context["view"], SaleViewSet)
 
@@ -60,15 +55,14 @@ class SaleTest(BaseTestCase):
     def test_update_sale(self):
         sale = self.make_sale(user=self.basic_user)
         new_status = "done"
-        req = self.factory.patch(
-            "/api/sales/",
+        self.APIClient.force_authenticate(user=self.basic_user)
+        response = self.APIClient.patch(
+            f"/api/sales/{sale.id}/",
             {
                 "status": new_status,
             },
             format="json",
         )
-        force_authenticate(req, user=self.basic_user)
-        response = SaleViewSet.as_view({"patch": "partial_update"})(req, pk=sale.id)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsInstance(response.renderer_context["view"], SaleViewSet)
 
@@ -77,9 +71,8 @@ class SaleTest(BaseTestCase):
 
     def test_destroy_sale(self):
         sale = self.make_sale(user=self.admin_user)
-        req = self.factory.delete("/api/sales/")
-        force_authenticate(req, user=self.admin_user)
-        response = SaleViewSet.as_view({"delete": "destroy"})(req, pk=sale.id)
+        self.APIClient.force_authenticate(user=self.admin_user)
+        response = self.APIClient.delete(f"/api/sales/{sale.id}/")
         self.assertIsInstance(response.renderer_context["view"], SaleViewSet)
 
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
@@ -96,6 +89,34 @@ class SaleTest(BaseTestCase):
         response = SaleViewSet.as_view({"get": "list"})(req)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["count"], 9)
+
+    def test_not_update_sale_by_another_user(self):
+        sale = self.make_sale(user=self.basic_user)
+        new_status = "on_hold"
+        self.APIClient.force_authenticate(user=self.admin_user)
+        response = self.APIClient.patch(
+            f"/api/sales/{sale.id}/",
+            {
+                "status": new_status,
+            },
+            format="json",
+        )
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertIsInstance(response.renderer_context["view"], SaleViewSet)
+
+    def test_not_update_sale_closed(self):
+        self.APIClient.force_authenticate(user=self.basic_user)
+        sale = self.make_sale(user=self.basic_user, closed=True)
+        new_data = "lorem ipsum sit amet"
+        resp = self.APIClient.patch(
+            f"/api/sales/{sale.id}/",
+            {
+                "funnel_stage": new_data,
+            },
+            format="json",
+        )
+        self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIsInstance(resp.renderer_context["view"], SaleViewSet)
 
 
 class SaleHistoryTest(BaseTestCase):

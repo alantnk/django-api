@@ -31,7 +31,9 @@
         </div>
         <div class="nav content">
             <div class="nav list">
-                <p>AUTH</p>
+                <p>
+                    <a href="#auth">AUTH</a>
+                </p>
                 <p class="subtitle">
                     <a href="#tokens">Tokens</a>
                 </p>
@@ -41,23 +43,43 @@
 
             </div>
             <div class="nav list">
-                <p>API</p>
+                <p>
+                    <a href="#api">API</a>
+                </p>
                 <div>
-                    <p class="subtitle">Modules</p>
+                    <p class="subtitle">
+                        <a href="#modules">Modules</a>
+                    </p>
                     <ul>
-                        <li>Clients</li>
-                        <li>Contacts</li>
-                        <li>Sales</li>
-                        <li>Tasks</li>
+                        <li>
+                            <a href="#clients">Clients</a>
+                        </li>
+                        <li>
+                            <a href="#contacts">Contacts</a>
+                        </li>
+                        <li>
+                            <a href="#sales">Sales</a>
+                        </li>
+                        <li>
+                            <a href="#tasks">Tasks</a>
+                        </li>
 
                     </ul>
                 </div>
                 <div>
-                    <p class="subtitle">Filters</p>
+                    <p class="subtitle">
+                        <a href="#filters">Filters</a>
+                    </p>
                     <ul>
-                        <li>Search</li>
-                        <li>Ordering</li>
-                        <li>Field</li>
+                        <li>
+                            <a href="#filters">Search</a>
+                        </li>
+                        <li>
+                            <a href="#filters">Ordering</a>
+                        </li>
+                        <li>
+                            <a href="#filters">Field</a>
+                        </li>
 
                     </ul>
                 </div>
@@ -75,7 +97,7 @@
 
         <section class="alpha">
             <div class="big">
-                <h1 class="title">AUTH</h1>
+                <h1 id="auth" class="title">AUTH</h1>
                 <div class="bs">
                     Base URL:
                     <span class="route">http://127.0.0.1:8000/auth/</span>
@@ -176,10 +198,698 @@
             </div>
         </section>
         <section class="alpha">
+            <div class="big">
+                <h1 id="api" class="title">API</h1>
+                <div class="bs">
+                    Base URL:
+                    <span class="route">http://127.0.0.1:8000/api/</span>
+                </div>
+                <hr>
+            </div>
+            <div class="desc">
+                Provides access to various functionalities through the routes /clients, /contacts, /sales, and /tasks. All routes are protected and require authentication via valid access tokens for any interaction. Additionally, certain routes or specific actions within them may be restricted based on the permissions associated with the authenticated user, ensuring that only authorized users can access or modify sensitive data.
+            </div>
+            <div class="desc">
+                Some fields in the request body act as foreign keys, meaning their associated records must be created first before making a request. For example <b>category</b>, <b>client</b>, <b>position</b> and <b>tag</b> fields must reference an existing instance. <b>Each foreign key has its own dedicated route</b> in the API, with full support for all HTTP methods (GET, POST, PUT, DELETE), enabling complete management of these related entities.
+            </div>
+
+            <div class="feat">
+                <h2 id="modules">Modules</h2>
+                <br>
+                <br>
+
+                <h3 id="clients">Clients</h3>
+                <div class="http">
+                    <div>
+                        <span class="route">/clients/</span>
+                        </span>Methods: GET - POST - PATCH - DELETE</span>
+                    </div>
+                    <pre class="code">
+
+                        // GET List
+                        <div class="response">
+                            {
+                                "count": 50,
+                                "next": "http://127.0.0.1:8000/api/clients/?page=2",
+                                "previous": null,
+                                "results": [
+                                    {
+                                        "id": 50,
+                                        "fantasy_name": "FABBRI SPA",
+                                        "office_name": "FABBRI SPA",
+                                        "category_detail": {
+                                            "id": 1,
+                                            "name": "VERDE"
+                                        },
+                                        "idoc": "X7506243849857",
+                                        "full_address": {
+                                            "location": "Málaga",
+                                            "state_code": "23",
+                                            "zip_code": "23149",
+                                            "district": "Street",
+                                            "address": "Glorieta de Benigno Aragón 89\nAlicante, 06012"
+                                        },
+                                        "cover": null,
+                                        "phone": "423-31-4835",
+                                        "email": "OZoDrCMWAz@example.com",
+                                        "created_at": "2025-01-22T18:17:59.855516-03:00",
+                                        "updated_at": "2025-01-22T18:17:59.855535-03:00",
+                                        "user_detail": {
+                                            "id": 2,
+                                            "username": "smith"
+                                        },
+                                        "user_editor_detail": null
+                                    },
+                                    ...
+                                ]
+                            }
+                        </div>
+
+                        // GET /id
+                        <div class="response">
+                            {
+                                "id": 22,
+                                "fantasy_name": "BOITO-COSSIGA E FIGLI",
+                                "office_name": "BOITO-COSSIGA E FIGLI",
+                                "category_detail": {
+                                    "id": 4,
+                                    "name": "ROJO"
+                                },
+                                "idoc": "X0743915732512",
+                                "full_address": {
+                                    "location": "Scandolara Ripa D'Oglio",
+                                    "state_code": "73",
+                                    "zip_code": "09025",
+                                    "district": "Viale",
+                                    "address": "Rambla Amaro Salas 675 Piso 9 \nAsturias, 12416"
+                                },
+                                "cover": null,
+                                "phone": "728-12-5174",
+                                "email": "uKraeaaAXt@example.com",
+                                "created_at": "2025-01-22T18:17:59.688449-03:00",
+                                "updated_at": "2025-01-22T18:17:59.688471-03:00",
+                                "user_detail": {
+                                    "id": 2,
+                                    "username": "smith"
+                                },
+                                "user_editor_detail": null
+                            }
+                        </div>
+
+                        // POST
+                        <div class="request">
+                            {
+                                "fantasy_name": "BANCO INTEGRALES S.L.U.",
+                                "office_name": "BANCO INTEGRALES S.L.U.",
+                                "category": 3,
+                                "idoc": "X3096282772259",
+                                "location": "Marnate",
+                                "state_code": "41",
+                                "zip_code": "26019",
+                                "district": "Street",
+                                "address": "Contrada Cesaroni, 324 Appartamento 26\n12050, Roddino (CN)",
+                                "phone": "FRRRMN24B67C910N",
+                                "email": "YBYLtQspOS@example.com"
+
+                            }
+                        </div>
+                        <div class="response">
+                            {
+                                "id": 23,
+                                "fantasy_name": "BANCO INTEGRALES S.L.U.",
+                                "office_name": "BANCO INTEGRALES S.L.U.",
+                                "category_detail": {
+                                    "id": 3,
+                                    "name": "AQUA"
+                                },
+                                "idoc": "X3096282772259",
+                                "full_address": {
+                                    "location": "Marnate",
+                                    "state_code": "41",
+                                    "zip_code": "26019",
+                                    "district": "Street",
+                                    "address": "Contrada Cesaroni, 324 Appartamento 26\n12050, Roddino (CN)"
+                                },
+                                "cover": null,
+                                "phone": "FRRRMN24B67C910N",
+                                "email": "YBYLtQspOS@example.com",
+                                "created_at": "2025-01-22T18:17:59.694104-03:00",
+                                "updated_at": "2025-01-22T18:17:59.694125-03:00",
+                                "user_detail": {
+                                    "id": 2,
+                                    "username": "smith"
+                                },
+                                "user_editor_detail": null
+                            }
+                        </div>
+
+                        // PATCH /id
+                        <div class="request">
+                            {
+                                "email": "john.doe@example.com"
+                            }
+                        </div>
+                        <div class="response">
+                            {
+                                "id": 23,
+                                "fantasy_name": "BANCO INTEGRALES S.L.U.",
+                                "office_name": "BANCO INTEGRALES S.L.U.",
+                                "category_detail": {
+                                    "id": 3,
+                                    "name": "AQUA"
+                                },
+                                "idoc": "X3096282772259",
+                                "full_address": {
+                                    "location": "Marnate",
+                                    "state_code": "41",
+                                    "zip_code": "26019",
+                                    "district": "Street",
+                                    "address": "Contrada Cesaroni, 324 Appartamento 26\n12050, Roddino (CN)"
+                                },
+                                "cover": null,
+                                "phone": "FRRRMN24B67C910N",
+                                "email": "john.doe@example.com",
+                                "created_at": "2025-01-22T18:17:59.694104-03:00",
+                                "updated_at": "2025-01-22T18:17:59.694125-03:00",
+                                "user_detail": {
+                                    "id": 2,
+                                    "username": "smith"
+                                },
+                                "user_editor_detail": null
+                            }
+                        </div>
+
+                        // DELETE /id (Admin Only)
+                        <div class="response">
+                            // status 204 No Content
+                        </div>
+                    </pre>
+                </div>
+
+                <h3 id="contacts">Contacts</h3>
+                <div class="http">
+                    <div>
+                        <span class="route">/contacts/</span>
+                        </span>Methods: GET - POST - PATCH - DELETE</span>
+                    </div>
+                    <pre class="code">
+
+                        // GET List
+                        <div class="response">
+                            {
+                                "count": 120,
+                                "next": "http://127.0.0.1:8000/api/contacts/?page=2",
+                                "previous": null,
+                                "results": [
+                                    {
+                                        "id": 120,
+                                        "full_name": "Florencia Iriarte Ibañez",
+                                        "email": "lodovicoantonini@tiscali.it",
+                                        "client_detail": {
+                                            "id": 20,
+                                            "fantasy_name": "ACCARDO-SEMITECOLO E FIGLI",
+                                            "office_name": "ACCARDO-SEMITECOLO E FIGLI"
+                                        },
+                                        "phone": "192-57-7788",
+                                        "position_detail": {
+                                            "id": 1,
+                                            "name": "doctor, general practice"
+                                        },
+                                        "location": null,
+                                        "district": "aliquid",
+                                        "address": "Rotonda Adelasia, 915\n24066, Pedrengo (BG)",
+                                        "notes": null,
+                                        "user_detail": {
+                                            "id": 2,
+                                            "username": "smith"
+                                        },
+                                        "user_editor_detail": null,
+                                        "created_at": "2025-01-22T18:18:00.451703-03:00",
+                                        "updated_at": "2025-01-22T18:18:00.451721-03:00"
+                                    },
+                                    ...
+                                ]
+                            }
+                        </div>
+
+                        // GET /id
+                        <div class="response">
+                            {
+                                "id": 44,
+                                "full_name": "Gabriella Morandini",
+                                "email": "gastone33@virgilio.it",
+                                "client_detail": {
+                                    "id": 27,
+                                    "fantasy_name": "RESTAURACIÓN CABEZA & ASOCIADOS S.L.N.E",
+                                    "office_name": "RESTAURACIÓN CABEZA & ASOCIADOS S.L.N.E"
+                                },
+                                "phone": "736-71-7252",
+                                "position_detail": {
+                                    "id": 4,
+                                    "name": "director de servicios de educación"
+                                },
+                                "location": null,
+                                "district": "corrente",
+                                "address": "Acceso de Candela Marín 35\nMelilla, 51368",
+                                "notes": null,
+                                "user_detail": {
+                                    "id": 2,
+                                    "username": "smith"
+                                },
+                                "user_editor_detail": null,
+                                "created_at": "2025-01-22T18:18:00.073585-03:00",
+                                "updated_at": "2025-01-22T18:18:00.073604-03:00"
+                            }
+                        </div>
+
+                        // POST
+                        <div class="request">
+                            {
+                                "full_name": "Dorotea Almagro Morán",
+                                "email": "faugnobeatrice@alice.it",
+                                "client": 46,
+                                "phone": "006-04-3863",
+                                "position": 4,
+                                "location": null,
+                                "district": "distinctio",
+                                "address": "Camino de Alejo Montoya 75\nBarcelona, 09131",
+                                "notes": null
+                            }
+                        </div>
+
+                        <div class="response">
+                            {
+                                "id": 45,
+                                "full_name": "Dorotea Almagro Morán",
+                                "email": "faugnobeatrice@alice.it",
+                                "client_detail": {
+                                    "id": 46,
+                                    "fantasy_name": "BENAVIDES Y ASOCIADOS S.L.",
+                                    "office_name": "BENAVIDES Y ASOCIADOS S.L."
+                                },
+                                "phone": "006-04-3863",
+                                "position_detail": {
+                                    "id": 4,
+                                    "name": "director de servicios de educación"
+                                },
+                                "location": null,
+                                "district": "distinctio",
+                                "address": "Camino de Alejo Montoya 75\nBarcelona, 09131",
+                                "notes": null,
+                                "user_detail": {
+                                    "id": 2,
+                                    "username": "smith"
+                                },
+                                "user_editor_detail": null,
+                                "created_at": "2025-01-22T18:18:00.079057-03:00",
+                                "updated_at": "2025-01-22T18:18:00.079076-03:00"
+                            }
+                        </div>
+
+                        // PATCH /id
+                        <div class="request">
+                            {
+                                "phone": "999-88-777"
+                            }
+                        </div>
+                        <div class="response">
+                            {
+                                "id": 45,
+                                "full_name": "Dorotea Almagro Morán",
+                                "email": "faugnobeatrice@alice.it",
+                                "client_detail": {
+                                    "id": 46,
+                                    "fantasy_name": "BENAVIDES Y ASOCIADOS S.L.",
+                                    "office_name": "BENAVIDES Y ASOCIADOS S.L."
+                                },
+                                "phone": "999-88-777",
+                                "position_detail": {
+                                    "id": 4,
+                                    "name": "director de servicios de educación"
+                                },
+                                "location": null,
+                                "district": "distinctio",
+                                "address": "Camino de Alejo Montoya 75\nBarcelona, 09131",
+                                "notes": null,
+                                "user_detail": {
+                                    "id": 2,
+                                    "username": "smith"
+                                },
+                                "user_editor_detail": null,
+                                "created_at": "2025-01-22T18:18:00.079057-03:00",
+                                "updated_at": "2025-01-22T18:18:00.079076-03:00"
+                            }
+                        </div>
+
+                        // DELETE /id (Admin Only)
+                        <div class="response">
+                            // status 204 No Content
+                        </div>
+                    </pre>
+                </div>
+
+                <h3 id="sales">Sales</h3>
+                <p>Sale instance.closed cannot be edited.</p>
+                <p>To close a sale put status field to 'done' or 'cancelled'.</p>
+                <div>
+                    The API includes a dedicated route, <i><b>/sale-history/</b></i>, which is accessible only via the GET and is Admin-only. This endpoint provides a detailed history of all sales. Since it is a read-only route designed for administrative oversight, it ensures secure and controlled access to sensitive sales data.
+                </p>
+                <div class="http">
+                    <div>
+                        <span class="route">/sales/</span>
+                        </span>Methods: GET - POST - PATCH - DELETE</span>
+                    </div>
+                    <pre class="code">
+
+                        // GET List
+                        <div class="response">
+                            {
+                                "count": 10,
+                                "next": null,
+                                "previous": null,
+                                "results": [
+                                    {
+                                        "id": 10,
+                                        "estimated_value": "1629713.30",
+                                        "chance": "99.00",
+                                        "status": "pending",
+                                        "funnel_stage": "Dolore attento labbro.",
+                                        "expected_date": "2025-02-17T08:46:19.328705-03:00",
+                                        "notes": null,
+                                        "user_detail": {
+                                            "id": 2,
+                                            "username": "smith"
+                                        },
+                                        "client_detail": {
+                                            "id": 2,
+                                            "fantasy_name": "ESCRIBANO Y VILLAVERDE S.A.T.",
+                                            "office_name": "ESCRIBANO Y VILLAVERDE S.A.T."
+                                        },
+                                        "updated_at": "2025-01-22T18:18:00.499086-03:00",
+                                        "created_at": "2025-01-22T18:18:00.499065-03:00"
+                                    },
+                                    ...
+                                ]
+                            }
+                        </div>
+
+                        // GET /id (Owner or Admin Only)
+                        <div class="response">
+                            {
+                                "id": 10,
+                                "estimated_value": "1629713.30",
+                                "chance": "99.00",
+                                "status": "pending",
+                                "funnel_stage": "Dolore attento labbro.",
+                                "expected_date": "2025-02-17T08:46:19.328705-03:00",
+                                "notes": null,
+                                "user_detail": {
+                                    "id": 2,
+                                    "username": "smith"
+                                },
+                                "client_detail": {
+                                    "id": 2,
+                                    "fantasy_name": "ESCRIBANO Y VILLAVERDE S.A.T.",
+                                    "office_name": "ESCRIBANO Y VILLAVERDE S.A.T."
+                                },
+                                "updated_at": "2025-01-22T18:18:00.499086-03:00",
+                                "created_at": "2025-01-22T18:18:00.499065-03:00"
+                            }
+                        </div>
+
+                        // POST
+                        <div class="request">
+                            {
+                                "id": 11,
+                                "estimated_value": "8406885.49",
+                                "chance": "16.00",
+                                "funnel_stage": "Famiglia capo buio piccolo ragazza uscire.",
+                                "expected_date": "2025-02-04T00:35:26.869409-03:00",
+                                "notes": null,
+                                "client": 3
+                            }
+                        </div>
+                        <div class="response">
+                            {
+                                "id": 11,
+                                "estimated_value": "8406885.49",
+                                "chance": "16.00",
+                                "status": "on_hold",
+                                "funnel_stage": "Famiglia capo buio piccolo ragazza uscire.",
+                                "expected_date": "2025-02-04T00:35:26.869409-03:00",
+                                "notes": null,
+                                "user_detail": {
+                                    "id": 2,
+                                    "username": "smith"
+                                },
+                                "client_detail": {
+                                    "id": 3,
+                                    "fantasy_name": "MARIÑO ASOCIADOS S.C.P",
+                                    "office_name": "MARIÑO ASOCIADOS S.C.P"
+                                },
+                                "updated_at": "2025-01-22T18:18:00.471123-03:00",
+                                "created_at": "2025-01-22T18:18:00.471105-03:00"
+                            }
+                        </div>
+
+                        // PATCH /id (Owner Only)
+                        <div class="request">
+                            {
+                                "funnel_stage": "Lorem ipsum sit amet"
+                            }
+                        </div>
+                        <div class="response">
+                            {
+                                "id": 11,
+                                "estimated_value": "8406885.49",
+                                "chance": "16.00",
+                                "status": "on_hold",
+                                "funnel_stage": "Lorem ipsum sit amet",
+                                "expected_date": "2025-02-04T00:35:26.869409-03:00",
+                                "notes": null,
+                                "user_detail": {
+                                    "id": 2,
+                                    "username": "smith"
+                                },
+                                "client_detail": {
+                                    "id": 3,
+                                    "fantasy_name": "MARIÑO ASOCIADOS S.C.P",
+                                    "office_name": "MARIÑO ASOCIADOS S.C.P"
+                                },
+                                "updated_at": "2025-01-22T18:18:00.471123-03:00",
+                                "created_at": "2025-01-22T18:18:00.471105-03:00"
+                            }
+                        </div>
+
+                        // DELETE /id (Admin Only)
+                        <div class="response">
+                            // status 204 No Content
+                        </div>
+
+                    </pre>
+                </div>
+
+                <h3 id="tasks">Tasks</h3>
+                <p>Task instance.closed cannot be edited.</p>
+                <p>If Owner has not task.closed then task cannot be created.</p>
+                <p>To close a task put status field to 'done' or 'cancelled'.</p>
+
+                <div class="http">
+                    <div>
+                        <span class="route">/tasks/</span>
+                        </span>Methods: GET - POST - PATCH - DELETE</span>
+                        <pre class="code">
+
+                            // GET List by Owner (List All Admin Only)
+                            <div class="response">
+                                {
+                                    "count": 1,
+                                    "next": null,
+                                    "previous": null,
+                                    "results": [
+                                        {
+                                            "id": 1,
+                                            "title": "boom",
+                                            "description": "Polarized grid-enabled synergy",
+                                            "status": "todo",
+                                            "due_date": "2012-07-23T07:21:39.548949-03:00",
+                                            "user_detail": {
+                                                "id": 2,
+                                                "username": "smith"
+                                            },
+                                            "tag_list": [
+                                                {
+                                                    "id": 3,
+                                                    "name": "TMT"
+                                                },
+                                                {
+                                                    "id": 4,
+                                                    "name": "ARS"
+                                                }
+                                            ],
+                                            "closed": true,
+                                            "updated_at": "2025-01-24T15:08:42.517474-03:00",
+                                            "created_at": "2025-01-24T15:08:42.517452-03:00"
+                                        }
+                                    ]
+                                }
+                            </div>
+
+                            // GET /id (Owner or Admin Only)
+                            <div class="response">
+                                {
+                                    "count": 1,
+                                    "next": null,
+                                    "previous": null,
+                                    "results": [
+                                        {
+                                            "id": 1,
+                                            "title": "boom",
+                                            "description": "Polarized grid-enabled synergy",
+                                            "status": "done",
+                                            "due_date": "2012-07-23T07:21:39.548949-03:00",
+                                            "user_detail": {
+                                                "id": 2,
+                                                "username": "smith"
+                                            },
+                                            "tag_list": [
+                                                {
+                                                    "id": 3,
+                                                    "name": "TMT"
+                                                },
+                                                {
+                                                    "id": 4,
+                                                    "name": "ARS"
+                                                }
+                                            ],
+                                            "closed": true,
+                                            "updated_at": "2025-01-24T15:08:42.517474-03:00",
+                                            "created_at": "2025-01-24T15:08:42.517452-03:00"
+                                        }
+                                    ]
+                                }
+                            </div>
+
+                            // POST
+                            <div class="request">
+                                {
+                                    "title": "bang"
+                                }
+                            </div>
+                            <div class="response">
+                                {
+                                    "id": 2,
+                                    "title": "bang",
+                                    "description": null,
+                                    "status": "todo",
+                                    "due_date": null,
+                                    "user_detail": {
+                                        "id": 2,
+                                        "username": "smith"
+                                    },
+                                    "tag_list": [],
+                                    "closed": false,
+                                    "updated_at": "2025-01-24T17:00:29.863734-03:00",
+                                    "created_at": "2025-01-24T16:50:49.214114-03:00"
+                                }
+                            </div>
+
+                            // PATCH /id (Owner Only)
+                            <div class="request">
+                                {
+                                    "description": "Cribro deduco vitiosus caute candidus."
+                                }
+                            </div>
+                            <div class="response">
+                                {
+                                    "id": 2,
+                                    "title": "bang",
+                                    "description": "Cribro deduco vitiosus caute candidus.",
+                                    "status": "todo",
+                                    "due_date": null,
+                                    "user_detail": {
+                                        "id": 2,
+                                        "username": "smith"
+                                    },
+                                    "tag_list": [],
+                                    "closed": false,
+                                    "updated_at": "2025-01-24T17:00:29.863734-03:00",
+                                    "created_at": "2025-01-24T16:50:49.214114-03:00"
+                                }
+                            </div>
+
+                            // DELETE /id (Admin Only)
+                            <div class="response">
+                                // status 204 No Content
+                            </div>
+                        </pre>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="feat">
+                <h2 id="filters">Filters</h2>
+                <div class="desc">The API supports the use of query parameters to enhance and customize the results of requests.</div>
+                <br>
+
+                <div class="desc">
+                    <b><i>search:</i></b> Use this to perform a keyword-based search across fields specified for the endpoint. This is useful for quickly finding records matching certain criteria.
+                </div>
+                <div class="desc">
+                    <b><i>ordering:</i></b> Use this to sort results based on one or more fields. Prefix a field with a minus sign (-) to sort in descending order (e.g., ?ordering=-created_at)
+                </div>
+                <div class="desc">
+                    <b><i>Specific field names:</i></b>: Query parameters can also match specific field names, allowing you to filter results directly based on those fields.
+                    <br>
+                    <br>
+                    <p><i>/clients</i></p>
+                    <ul>
+                        <li>?category_id</li>
+                    </ul>
+                    <p><i>/contacts</i></p>
+
+                    <ul>
+                        <li>?client_id</li>
+                        <li>?position_id</li>
+                        <li>?email</li>
+                    </ul>
+                    <p><i>/sales</i></p>
+
+                    <ul>
+                        <li>?client_id</li>
+                        <li>?user_id</li>
+                        <li>?status</li>
+                    </ul>
+                    <p><i>/tasks</i></p>
+
+                    <ul>
+                        <li>?status</li>
+                        <li>?user_id</li>
+                        <li>?tags__id (list)</li>
+
+                    </ul>
+
+                </div>
+            </div>
 
         </section>
+
     </main>
-    <footer></footer>
+    <footer>
+        <div class="title">
+            References and Resources:
+        </div>
+        <div class="links">
+
+            <a href="https://www.djangoproject.com/">Django Web Framework</a>
+            <a href="https://www.django-rest-framework.org/">Django REST Framework</a>
+            <a href="https://docs.pytest.org/en/stable/"> Python pytest</a>
+
+        </div>
+
+    </footer>
     <a href="#header" class="go-top">
         <i class="fa-solid fa-circle-chevron-up"></i>
     </a>

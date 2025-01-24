@@ -24,7 +24,7 @@ class AdminDestroyPermissionMixin:
             return [IsAuthenticated()]
 
 
-class OwnerAdminPermissionMixin(AdminDestroyPermissionMixin):
+class OwnerAdminUpdatePermissionMixin(AdminDestroyPermissionMixin):
     def get_permissions(self):
         if self.request.method in ["PATCH"]:
             return [IsOwnerOrAdminControl()]
@@ -32,7 +32,7 @@ class OwnerAdminPermissionMixin(AdminDestroyPermissionMixin):
             return super().get_permissions()
 
 
-class OwnerPermissionMixin(AdminDestroyPermissionMixin):
+class OwnerUpdatePermissionMixin(AdminDestroyPermissionMixin):
     def get_permissions(self):
         if self.request.method in ["PATCH"]:
             return [IsOwnerControl()]

@@ -50,8 +50,9 @@ def client_cover_update(sender, instance, *args, **kwargs):
     delete_cover(old_instance)
 
 
+@receiver(pre_save, sender=Sale)
 @receiver(pre_save, sender=Task)
-def set_task_closed(sender, instance, **kwargs):
+def set_closed(sender, instance, **kwargs):
     if instance.status in ["done", "cancelled"]:
         instance.closed = True
 

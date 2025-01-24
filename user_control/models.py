@@ -14,7 +14,7 @@ class User(AbstractUser):
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, default="basic")
     email = models.EmailField(unique=True)
     avatar = ResizedImageField(
-        size=[300, 300], upload_to="accounts/avatars/%Y/%m/", blank=True, null=True
+        size=[300, 300], upload_to="users/avatars/%Y/%m/", blank=True, null=True
     )
 
     REQUIRED_FIELDS = ["email"]

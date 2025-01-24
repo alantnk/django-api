@@ -119,6 +119,3 @@ class ContactSerializer(serializers.ModelSerializer):
     client_detail = ClientDetailSerializer(source="client", read_only=True)
 
     position_detail = PositionSerializer(source="position", read_only=True)
-
-    updated_at = serializers.DateTimeField(read_only=True)
-    created_at = serializers.DateTimeField(read_only=True)
