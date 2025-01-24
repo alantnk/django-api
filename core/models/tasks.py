@@ -11,7 +11,7 @@ class Tag(models.Model):
 
 
 class Task(BaseModel):
-    title = models.CharField(max_length=100, null=True)
+    title = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True

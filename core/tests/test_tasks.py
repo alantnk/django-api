@@ -49,14 +49,14 @@ class TaskTest(BaseTestCase):
 
     def test_update_task(self):
         task = self.make_task(user=self.basic_user)
-        new_status = "done"
+        new_desc = "the quick brown fox jumps over the lazy dog."
         self.APIClient.force_authenticate(user=self.basic_user)
         response = self.APIClient.patch(
-            f"/api/tasks/{task.id}/", {"status": new_status}, format="json"
+            f"/api/tasks/{task.id}/", {"description": new_desc}, format="json"
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["id"], task.id)
-        self.assertEqual(response.data["status"], new_status)
+        self.assertEqual(response.data["description"], new_desc)
 
     def test_destroy_task(self):
         task = self.make_task(user=self.admin_user)

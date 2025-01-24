@@ -202,7 +202,12 @@
                 </div>
                 <hr>
             </div>
-            <div class="desc">Provides access to various functionalities through the routes /clients, /contacts, /sales, and /tasks. All routes are protected and require authentication via valid access tokens for any interaction. Additionally, certain routes or specific actions within them may be restricted based on the permissions associated with the authenticated user, ensuring that only authorized users can access or modify sensitive data. Be sure to review the detailed documentation for each route to understand the required authentication and authorization rules.</div>
+            <div class="desc">
+                Provides access to various functionalities through the routes /clients, /contacts, /sales, and /tasks. All routes are protected and require authentication via valid access tokens for any interaction. Additionally, certain routes or specific actions within them may be restricted based on the permissions associated with the authenticated user, ensuring that only authorized users can access or modify sensitive data.
+            </div>
+            <div class="desc">
+                Some fields in the request body act as foreign keys, meaning their associated records must be created first before making a request. For example <b>category</b>, <b>client</b>, <b>position</b> and <b>tag</b> fields must reference an existing instance. <b>Each foreign key has its own dedicated route</b> in the API, with full support for all HTTP methods (GET, POST, PUT, DELETE), enabling complete management of these related entities.
+            </div>
 
             <div class="feat">
                 <h2 id="modules">Modules</h2>
@@ -369,7 +374,7 @@
                             }
                         </div>
 
-                        // DELETE /id
+                        // DELETE /id (Admin Only)
                         <div class="response">
                             // status 204 No Content
                         </div>
@@ -531,7 +536,7 @@
                             }
                         </div>
 
-                        // DELETE /id
+                        // DELETE /id (Admin Only)
                         <div class="response">
                             // status 204 No Content
                         </div>
@@ -539,7 +544,8 @@
                 </div>
 
                 <h3 id="sales">Sales</h3>
-                <p>Sale with status "done" or "cancelled" cannot be edited</p>
+                <p>Sale instance.closed cannot be edited.</p>
+                <p>To close a sale put status field to 'done' or 'cancelled'.</p>
                 <div class="http">
                     <div>
                         <span class="route">/sales/</span>
@@ -547,7 +553,7 @@
                     </div>
                     <pre class="code">
 
-                        // GET List by Owner
+                        // GET List by Owner (List all Admin Only)
                         <div class="response">
                             {
                                 "count": 10,
@@ -579,7 +585,7 @@
                             }
                         </div>
 
-                        // GET /id
+                        // GET /id (Owner or Admin Only)
                         <div class="response">
                             {
                                 "id": 10,
@@ -637,11 +643,190 @@
                                 "created_at": "2025-01-22T18:18:00.471105-03:00"
                             }
                         </div>
+
+                        // PATCH /id (Owner Only)
+                        <div class="request">
+                            {
+                                "funnel_stage": "Lorem ipsum sit amet"
+                            }
+                        </div>
+                        <div class="response">
+                            {
+                                "id": 11,
+                                "estimated_value": "8406885.49",
+                                "chance": "16.00",
+                                "status": "on_hold",
+                                "funnel_stage": "Lorem ipsum sit amet",
+                                "expected_date": "2025-02-04T00:35:26.869409-03:00",
+                                "notes": null,
+                                "user_detail": {
+                                    "id": 2,
+                                    "username": "smith"
+                                },
+                                "client_detail": {
+                                    "id": 3,
+                                    "fantasy_name": "MARIÑO ASOCIADOS S.C.P",
+                                    "office_name": "MARIÑO ASOCIADOS S.C.P"
+                                },
+                                "updated_at": "2025-01-22T18:18:00.471123-03:00",
+                                "created_at": "2025-01-22T18:18:00.471105-03:00"
+                            }
+                        </div>
+
+                        // DELETE /id (Admin Only)
+                        <div class="response">
+                            // status 204 No Content
+                        </div>
+
                     </pre>
+                </div>
+
+                <h3 id="tasks">Tasks</h3>
+                <p>Task instance.closed cannot be edited.</p>
+                <p>If Owner has not task.closed then task cannot be created.</p>
+                <p>To close a task put status field to 'done' or 'cancelled'.</p>
+
+                <div class="http">
+                    <div>
+                        <span class="route">/tasks/</span>
+                        </span>Methods: GET - POST - PATCH - DELETE</span>
+                        <pre class="code">
+
+                            // GET List by Owner (List All Admin Only)
+                            <div class="response">
+                                {
+                                    "count": 1,
+                                    "next": null,
+                                    "previous": null,
+                                    "results": [
+                                        {
+                                            "id": 1,
+                                            "title": "boom",
+                                            "description": "Polarized grid-enabled synergy",
+                                            "status": "todo",
+                                            "due_date": "2012-07-23T07:21:39.548949-03:00",
+                                            "user_detail": {
+                                                "id": 2,
+                                                "username": "smith"
+                                            },
+                                            "tag_list": [
+                                                {
+                                                    "id": 3,
+                                                    "name": "TMT"
+                                                },
+                                                {
+                                                    "id": 4,
+                                                    "name": "ARS"
+                                                }
+                                            ],
+                                            "closed": true,
+                                            "updated_at": "2025-01-24T15:08:42.517474-03:00",
+                                            "created_at": "2025-01-24T15:08:42.517452-03:00"
+                                        }
+                                    ]
+                                }
+                            </div>
+
+                            // GET /id (Owner or Admin Only)
+                            <div class="response">
+                                {
+                                    "count": 1,
+                                    "next": null,
+                                    "previous": null,
+                                    "results": [
+                                        {
+                                            "id": 1,
+                                            "title": "boom",
+                                            "description": "Polarized grid-enabled synergy",
+                                            "status": "done",
+                                            "due_date": "2012-07-23T07:21:39.548949-03:00",
+                                            "user_detail": {
+                                                "id": 2,
+                                                "username": "smith"
+                                            },
+                                            "tag_list": [
+                                                {
+                                                    "id": 3,
+                                                    "name": "TMT"
+                                                },
+                                                {
+                                                    "id": 4,
+                                                    "name": "ARS"
+                                                }
+                                            ],
+                                            "closed": true,
+                                            "updated_at": "2025-01-24T15:08:42.517474-03:00",
+                                            "created_at": "2025-01-24T15:08:42.517452-03:00"
+                                        }
+                                    ]
+                                }
+                            </div>
+
+                            // POST
+                            <div class="request">
+                                {
+                                    "title": "bang"
+                                }
+                            </div>
+                            <div class="response">
+                                {
+                                    "id": 2,
+                                    "title": "bang",
+                                    "description": null,
+                                    "status": "todo",
+                                    "due_date": null,
+                                    "user_detail": {
+                                        "id": 2,
+                                        "username": "smith"
+                                    },
+                                    "tag_list": [],
+                                    "closed": false,
+                                    "updated_at": "2025-01-24T17:00:29.863734-03:00",
+                                    "created_at": "2025-01-24T16:50:49.214114-03:00"
+                                }
+                            </div>
+
+                            // PATCH /id (Owner Only)
+                            <div class="request">
+                                {
+                                    "description": "Cribro deduco vitiosus caute candidus."
+                                }
+                            </div>
+                            <div class="response">
+                                {
+                                    "id": 2,
+                                    "title": "bang",
+                                    "description": "Cribro deduco vitiosus caute candidus.",
+                                    "status": "todo",
+                                    "due_date": null,
+                                    "user_detail": {
+                                        "id": 2,
+                                        "username": "smith"
+                                    },
+                                    "tag_list": [],
+                                    "closed": false,
+                                    "updated_at": "2025-01-24T17:00:29.863734-03:00",
+                                    "created_at": "2025-01-24T16:50:49.214114-03:00"
+                                }
+                            </div>
+
+                            // DELETE /id (Admin Only)
+                            <div class="response">
+                                // status 204 No Content
+                            </div>
+                        </pre>
+                    </div>
                 </div>
 
 
             </div>
+
+            <div class="feat">
+                <h2 id="filters">Filters</h2>
+                <br>
+                <div class="desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed nam perferendis suscipit optio quas non, autem, consectetur debitis aliquam, inventore ducimus ad! Minus corrupti accusamus aperiam pariatur nostrum dicta recusandae!</div>
+            </div>
+
         </section>
 
     </main>

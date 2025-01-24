@@ -49,16 +49,14 @@ class TaskViewSet(SaveUserMixin, OwnerUpdatePermissionMixin, ModelViewSet):
         return super().create(request, *args, **kwargs)
 
     def partial_update(self, request, *args, **kwargs):
-        if Task.objects.filter(
-            user=request.user, closed=True, pk=kwargs["pk"]
-        ).exists():
+        if Task.objects.filter(pk=kwargs["pk"], closed=True).exists():
             raise serializers.ValidationError(
                 {
                     "task_error": ["This task is already closed."],
                 }
             )
 
-        return super().update(request, *args, **kwargs)
+        return super().partial_update(request, *args, **kwargs)
 
 
 class TagViewSet(ModelViewSet):

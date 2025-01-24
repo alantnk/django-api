@@ -2,8 +2,6 @@
 
 * {
     font-family: "Lato", sans-serif;
-    font-weight: 400;
-    font-style: normal;
 
     margin: 0;
     padding: 0;
@@ -188,6 +186,10 @@ section.alpha h2 {
 section.alpha h3 {
     font-size: 1.2rem;
     text-decoration: underline;
+}
+
+section .desc {
+    margin-bottom: 0.7rem;
 }
 
 section.alpha .route {
