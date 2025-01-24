@@ -219,14 +219,14 @@ class TagTest(BaseTestCase):
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertIsInstance(response.renderer_context["view"], TagViewSet)
 
-    def test_simple_user_forbidden_create(self):
+    def test_basic_user_forbidden_create(self):
         tag_obj = {"name": "ipsum"}
         req = self.factory.post("/api/tags/", tag_obj, format="json")
         force_authenticate(req, user=self.basic_user)
         response = TagViewSet.as_view({"post": "create"})(req)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
-    def test_simple_user_forbidden_update(self):
+    def test_basic_user_forbidden_update(self):
         tag = self.make_tag()
         new_name = "ipsum"
         req = self.factory.patch(
@@ -240,7 +240,7 @@ class TagTest(BaseTestCase):
         response = TagViewSet.as_view({"patch": "partial_update"})(req, pk=tag.id)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
-    def test_simple_user_forbidden_retrieve(self):
+    def test_basic_user_forbidden_retrieve(self):
         tag = self.make_tag()
         req = self.factory.get("/api/tags/")
         force_authenticate(req, user=self.basic_user)

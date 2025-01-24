@@ -97,6 +97,36 @@ class SaleTest(BaseTestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["count"], 9)
 
+    def test_not_update_sale_by_another_user(self):
+        sale = self.make_sale(user=self.basic_user)
+        new_status = "on_hold"
+        req = self.factory.patch(
+            "/api/sales/",
+            {
+                "status": new_status,
+            },
+            format="json",
+        )
+        force_authenticate(req, user=self.admin_user)
+        response = SaleViewSet.as_view({"patch": "partial_update"})(req, pk=sale.id)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertIsInstance(response.renderer_context["view"], SaleViewSet)
+
+    def test_not_update_sale_closed(self):
+        sale = self.make_sale(user=self.basic_user)
+        new_status = random.choice(["cancelled", "done"])
+        req = self.factory.patch(
+            "/api/sales/",
+            {
+                "status": new_status,
+            },
+            format="json",
+        )
+        force_authenticate(req, user=self.basic_user)
+        response = SaleViewSet.as_view({"patch": "partial_update"})(req, pk=sale.id)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertIsInstance(response.renderer_context["view"], SaleViewSet)
+
 
 class SaleHistoryTest(BaseTestCase):
     def test_list_sale_history(self):

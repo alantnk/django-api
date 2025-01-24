@@ -1,5 +1,6 @@
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 from rest_framework.filters import OrderingFilter, SearchFilter
+from rest_framework import serializers
 from django_filters.rest_framework import DjangoFilterBackend
 from core.mixins import OwnerPermissionMixin
 from core.models import Sale, SaleHistory
@@ -30,6 +31,18 @@ class SaleViewSet(OwnerPermissionMixin, ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+    def partial_update(self, request, *args, **kwargs):
+        if Sale.objects.filter(
+            user=request.user, closed=True, pk=kwargs["pk"]
+        ).exists():
+            raise serializers.ValidationError(
+                {
+                    "sale_error": ["This user already has a sale closed."],
+                }
+            )
+
+        return super().update(request, *args, **kwargs)
 
 
 class SaleHistoryViewSet(ReadOnlyModelViewSet):

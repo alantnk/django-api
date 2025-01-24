@@ -182,6 +182,12 @@ section.alpha h1 {
 
 section.alpha h2 {
     font-size: 1.4rem;
+    font-weight: 600;
+}
+
+section.alpha h3 {
+    font-size: 1.2rem;
+    text-decoration: underline;
 }
 
 section.alpha .route {
