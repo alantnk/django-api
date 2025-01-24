@@ -68,13 +68,13 @@
                     </p>
                     <ul>
                         <li>
-                            <a href="#search">Search</a>
+                            <a href="#filters">Search</a>
                         </li>
                         <li>
-                            <a href="#ordering">Ordering</a>
+                            <a href="#filters">Ordering</a>
                         </li>
                         <li>
-                            <a href="#field">Field</a>
+                            <a href="#filters">Field</a>
                         </li>
 
                     </ul>
@@ -546,6 +546,9 @@
                 <h3 id="sales">Sales</h3>
                 <p>Sale instance.closed cannot be edited.</p>
                 <p>To close a sale put status field to 'done' or 'cancelled'.</p>
+                <div>
+                    The API includes a dedicated route, <i><b>/sale-history/</b></i>, which is accessible only via the GET and is Admin-only. This endpoint provides a detailed history of all sales. Since it is a read-only route designed for administrative oversight, it ensures secure and controlled access to sensitive sales data.
+                </p>
                 <div class="http">
                     <div>
                         <span class="route">/sales/</span>
@@ -553,7 +556,7 @@
                     </div>
                     <pre class="code">
 
-                        // GET List by Owner (List all Admin Only)
+                        // GET List
                         <div class="response">
                             {
                                 "count": 10,
@@ -823,8 +826,45 @@
 
             <div class="feat">
                 <h2 id="filters">Filters</h2>
+                <div class="desc">The API supports the use of query parameters to enhance and customize the results of requests.</div>
                 <br>
-                <div class="desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed nam perferendis suscipit optio quas non, autem, consectetur debitis aliquam, inventore ducimus ad! Minus corrupti accusamus aperiam pariatur nostrum dicta recusandae!</div>
+
+                <div class="desc">
+                    <b><i>search:</i></b> Use this to perform a keyword-based search across fields specified for the endpoint. This is useful for quickly finding records matching certain criteria.
+                </div>
+                <div class="desc">
+                    <b><i>ordering:</i></b> Use this to sort results based on one or more fields. Prefix a field with a minus sign (-) to sort in descending order (e.g., ?ordering=-created_at)
+                </div>
+                <div class="desc">
+                    <b><i>Specific field names:</i></b>: Query parameters can also match specific field names, allowing you to filter results directly based on those fields.
+                    <p><i>/clients</i></p>
+                    <ul>
+                        <li>?category_id</li>
+                    </ul>
+                    <p><i>/contacts</i></p>
+
+                    <ul>
+                        <li>?client_id</li>
+                        <li>?position_id</li>
+                        <li>?email</li>
+                    </ul>
+                    <p><i>/sales</i></p>
+
+                    <ul>
+                        <li>?client_id</li>
+                        <li>?user_id</li>
+                        <li>?status</li>
+                    </ul>
+                    <p><i>/tasks</i></p>
+
+                    <ul>
+                        <li>?status</li>
+                        <li>?user_id</li>
+                        <li>?tags__id (list)</li>
+
+                    </ul>
+
+                </div>
             </div>
 
         </section>

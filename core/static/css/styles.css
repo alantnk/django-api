@@ -192,6 +192,11 @@ section .desc {
     margin-bottom: 0.7rem;
 }
 
+section .desc ul {
+    margin-left: 1rem;
+    margin-bottom: 0.4rem;
+}
+
 section.alpha .route {
     border: 2px solid #820000;
     color: #820000;
