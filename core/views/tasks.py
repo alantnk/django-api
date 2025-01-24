@@ -6,10 +6,10 @@ from django_filters.rest_framework import DjangoFilterBackend
 from core.models import Task, Tag
 from user_control.permisssions import IsAdminControl
 from ..serializers import TaskSerializer, TagSerializer
-from ..mixins import OwnerPermissionMixin, SaveUserMixin
+from ..mixins import OwnerUpdatePermissionMixin, SaveUserMixin
 
 
-class TaskViewSet(SaveUserMixin, OwnerPermissionMixin, ModelViewSet):
+class TaskViewSet(SaveUserMixin, OwnerUpdatePermissionMixin, ModelViewSet):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
     filter_backends = [DjangoFilterBackend, OrderingFilter, SearchFilter]
@@ -54,7 +54,7 @@ class TaskViewSet(SaveUserMixin, OwnerPermissionMixin, ModelViewSet):
         ).exists():
             raise serializers.ValidationError(
                 {
-                    "task_error": ["This user already has a task closed."],
+                    "task_error": ["This task is already closed."],
                 }
             )
 

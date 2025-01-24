@@ -3,7 +3,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.filters import OrderingFilter, SearchFilter
 from django_filters.rest_framework import DjangoFilterBackend
 from core.mixins import (
-    OwnerAdminPermissionMixin,
+    OwnerAdminUpdatePermissionMixin,
     SaveUserMixin,
     AdminDestroyPermissionMixin,
 )
@@ -16,7 +16,7 @@ from ..serializers import (
 )
 
 
-class ClientViewSet(SaveUserMixin, OwnerAdminPermissionMixin, ModelViewSet):
+class ClientViewSet(SaveUserMixin, OwnerAdminUpdatePermissionMixin, ModelViewSet):
     queryset = Client.objects.all()
     serializer_class = ClientSerializer
     filter_backends = [DjangoFilterBackend, OrderingFilter, SearchFilter]
@@ -26,7 +26,7 @@ class ClientViewSet(SaveUserMixin, OwnerAdminPermissionMixin, ModelViewSet):
     ordering = ["-id"]
 
 
-class ContactViewSet(SaveUserMixin, OwnerAdminPermissionMixin, ModelViewSet):
+class ContactViewSet(SaveUserMixin, OwnerAdminUpdatePermissionMixin, ModelViewSet):
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
     filter_backends = [DjangoFilterBackend, OrderingFilter, SearchFilter]
