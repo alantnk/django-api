@@ -10,12 +10,14 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
-import os
 from datetime import timedelta
 from dotenv import load_dotenv
 from pathlib import Path
+from . import get_env_var, parse_str_to_list
+
 
 load_dotenv()
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,22 +27,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
+SECRET_KEY = get_env_var("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DEBUG")
+DEBUG = get_env_var("DEBUG")
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+ALLOWED_HOSTS = parse_str_to_list(get_env_var("ALLOWED_HOSTS"))
 
-CORS_ALLOWED_ORIGINS = [
-    "https://example.com",
-    "http://localhost:5040",
-]
-
-CSRF_TRUSTED_ORIGINS = [
-    "https://example.com",
-    "http://localhost:5040",
-]
+CORS_ALLOWED_ORIGINS = parse_str_to_list(get_env_var("CORS_ALLOWED_ORIGINS"))
+CSRF_TRUSTED_ORIGINS = parse_str_to_list(get_env_var("CSRF_TRUSTED_ORIGINS"))
 
 # Application definition
 
@@ -101,12 +96,12 @@ WSGI_APPLICATION = "config.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": os.environ.get("DATABASE_ENGINE"),
-        "NAME": os.environ.get("DATABASE_NAME"),
-        "USER": os.environ.get("DATABASE_USER"),
-        "PASSWORD": os.environ.get("DATABASE_PASSWORD"),
-        "HOST": os.environ.get("DATABASE_HOST"),
-        "PORT": os.environ.get("DATABASE_PORT"),
+        "ENGINE": get_env_var("DATABASE_ENGINE"),
+        "NAME": get_env_var("DATABASE_NAME"),
+        "USER": get_env_var("DATABASE_USER"),
+        "PASSWORD": get_env_var("DATABASE_PASSWORD"),
+        "HOST": get_env_var("DATABASE_HOST"),
+        "PORT": get_env_var("DATABASE_PORT"),
     }
 }
 
@@ -174,6 +169,6 @@ REST_FRAMEWORK = {
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=30),
-    "SIGNING_KEY": os.environ.get("JWT_SECRET_KEY"),
+    "SIGNING_KEY": get_env_var("JWT_SECRET_KEY"),
     "AUTH_HEADER_TYPES": ("Bearer",),
 }
