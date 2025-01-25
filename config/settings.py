@@ -30,7 +30,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = get_env_var("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = get_env_var("DEBUG")
+DEBUG = int(get_env_var("DEBUG"))
 
 ALLOWED_HOSTS = parse_str_to_list(get_env_var("ALLOWED_HOSTS"))
 
