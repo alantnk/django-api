@@ -65,7 +65,7 @@ O projeto será dividido em quatro **partes**:
 #### 1. Clone o repositório
 
 ```bash
-$ git clone https://github.com/alant2031/melo-crm-backend.git
+$ git clone https://github.com/alant4k/melo-crm-backend.git
 $ cd melo-crm-backend
 ```
 
