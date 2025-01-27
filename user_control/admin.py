@@ -28,3 +28,13 @@ class CustomUserAdmin(UserAdmin):
         (("Important dates"), {"fields": ("last_login", "date_joined")}),
         (("Extra fields"), {"fields": ("role", "avatar")}),
     )
+
+    list_display = (
+        "username",
+        "email",
+        "first_name",
+        "last_name",
+        "role",
+        "is_staff",
+        "is_active",
+    )
