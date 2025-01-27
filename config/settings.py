@@ -99,7 +99,7 @@ WSGI_APPLICATION = "config.wsgi.application"
 tmpPostgres = urlparse(get_env_var("DATABASE_URL"))
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
+        "ENGINE": get_env_var("DATABASE_ENGINE"),
         "NAME": tmpPostgres.path.replace("/", ""),
         "USER": tmpPostgres.username,
         "PASSWORD": tmpPostgres.password,

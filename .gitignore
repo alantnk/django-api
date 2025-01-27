@@ -4,6 +4,7 @@
 *.pyc
 __pycache__/
 *.sqlite3
+neondb
 
 # Django media files
 media/
