@@ -5,9 +5,6 @@
 __pycache__/
 *.sqlite3
 
-# Django static files
-staticfiles/
-
 # Django media files
 media/
 
