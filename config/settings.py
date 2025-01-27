@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from datetime import timedelta
 from dotenv import load_dotenv
 from pathlib import Path
+from urllib.parse import urlparse
 from . import get_env_var, parse_str_to_list
 
 
@@ -61,6 +62,7 @@ AUTH_USER_MODEL = "user_control.User"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -94,17 +96,24 @@ WSGI_APPLICATION = "config.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+tmpPostgres = urlparse(get_env_var("DATABASE_URL"))
+
 DATABASES = {
     "default": {
-        "ENGINE": get_env_var("DATABASE_ENGINE"),
-        "NAME": get_env_var("DATABASE_NAME"),
-        "USER": get_env_var("DATABASE_USER"),
-        "PASSWORD": get_env_var("DATABASE_PASSWORD"),
-        "HOST": get_env_var("DATABASE_HOST"),
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": tmpPostgres.path.replace("/", ""),
+        "USER": tmpPostgres.username,
+        "PASSWORD": tmpPostgres.password,
+        "HOST": tmpPostgres.hostname,
         "PORT": get_env_var("DATABASE_PORT"),
     }
 }
 
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
