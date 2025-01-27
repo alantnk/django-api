@@ -72,18 +72,17 @@ def make_data():
     print("Categories, Positions, Tags CREATED")
 
     for i in range(2):
-        names = ["kelly", "smith"]
+        names = ["smith", "kelly"]
         user = User.objects.create_user(
             username=names[i],
             email=f"{names[i]}@abc.com",
             password="qwerty",
-            role="admin",
+            role="admin" if i == 0 else "basic",
         )
-        user.is_staff = True if i > 0 else False
         user.save()
     print("Users CREATED")
 
-    for i in range(50):
+    for i in range(10):
         fake_com_name = fake.company()
         make_client(
             user=get_random_instance(User),
@@ -100,7 +99,7 @@ def make_data():
         )
     print("Clients CREATED")
 
-    for i in range(120):
+    for i in range(30):
         make_contact(
             user=get_random_instance(User),
             client=get_random_instance(Client),
@@ -113,7 +112,7 @@ def make_data():
         )
     print("Contacts CREATED")
 
-    for i in range(10):
+    for i in range(6):
         make_sale(
             user=get_random_instance(User),
             client=get_random_instance(Client),
