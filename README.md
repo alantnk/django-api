@@ -65,8 +65,8 @@ O projeto será dividido em quatro **partes**:
 #### 1. Clone o repositório
 
 ```bash
-$ git clone https://github.com/alant4k/melo-crm-backend.git
-$ cd melo-crm-backend
+$ git clone https://github.com/alant4k/crm-django.git
+$ cd crm-django
 ```
 
 #### 2. Ambiente virtual
