@@ -65,7 +65,7 @@ O projeto será dividido em quatro **partes**:
 #### 1. Clone o repositório
 
 ```bash
-$ git clone https://github.com/alant4k/crm-django.git
+$ git clone https://github.com/alantnk/crm-django.git
 $ cd crm-django
 ```
 
