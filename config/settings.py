@@ -96,15 +96,15 @@ WSGI_APPLICATION = "config.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-tmpPostgres = urlparse(get_env_var("DATABASE_URL"))
+parsedDatabaseUrl = urlparse(get_env_var("DATABASE_URL"))
 DATABASES = {
     "default": {
         "ENGINE": get_env_var("DATABASE_ENGINE"),
-        "NAME": tmpPostgres.path.replace("/", ""),
-        "USER": tmpPostgres.username,
-        "PASSWORD": tmpPostgres.password,
-        "HOST": tmpPostgres.hostname,
-        "PORT": get_env_var("DATABASE_PORT"),
+        "NAME": parsedDatabaseUrl.path.replace("/", ""),
+        "USER": parsedDatabaseUrl.username,
+        "PASSWORD": parsedDatabaseUrl.password,
+        "HOST": parsedDatabaseUrl.hostname,
+        "PORT": parsedDatabaseUrl.port,
     }
 }
 

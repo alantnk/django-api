@@ -1,21 +1,25 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="icon" type="image/x-icon" href={% static "img/logo.png" %}>
-	<title>MeloCRM - API</title>
+    <title>MeloCRM - API</title>
     <link rel="stylesheet" href={% static "css/styles.css" %}>
     <script src={% static "js/script.js" %}></script>
 </head>
+
 <body>
     <header id="header">
         <div class="title">
             MeloCRM API documentation
         </div>
-        <a href="https://github.com/alantnk/crm-django/">
+        <a href="https://github.com/alantnk/django-api">
             <div class="github">
                 <i class="fa-brands fa-github"></i>
                 <p>
@@ -100,11 +104,14 @@
                 <h1 id="auth" class="title">AUTH</h1>
                 <div class="bs">
                     Base URL:
-                    <span class="route">https://melo-api.up.railway.app/auth/</span>
+                    <span class="route">http://127.0.0.1:8000/auth/</span>
                 </div>
                 <hr>
             </div>
-            <div class="desc">Is responsible for managing authentication and authorization within the application. It provides mechanisms to issue, refresh, and verify authentication tokens, ensuring secure access to protected API functionalities. All data exchanged through this endpoint should be sent in JSON format, and requests must be made over HTTPS to maintain information security.</div>
+            <div class="desc">Is responsible for managing authentication and authorization within the application. It
+                provides mechanisms to issue, refresh, and verify authentication tokens, ensuring secure access to
+                protected API functionalities. All data exchanged through this endpoint should be sent in JSON format,
+                and requests must be made over HTTPS to maintain information security.</div>
             <div class="feat">
 
                 <h2 id="tokens">Tokens</h2>
@@ -202,15 +209,23 @@
                 <h1 id="api" class="title">API</h1>
                 <div class="bs">
                     Base URL:
-                    <span class="route">https://melo-api.up.railway.app/api/</span>
+                    <span class="route">http://127.0.0.1:8000/api/</span>
                 </div>
                 <hr>
             </div>
             <div class="desc">
-                Provides access to various functionalities through the routes /clients, /contacts, /sales, and /tasks. All routes are protected and require authentication via valid access tokens for any interaction. Additionally, certain routes or specific actions within them may be restricted based on the permissions associated with the authenticated user, ensuring that only authorized users can access or modify sensitive data.
+                Provides access to various functionalities through the routes /clients, /contacts, /sales, and /tasks.
+                All routes are protected and require authentication via valid access tokens for any interaction.
+                Additionally, certain routes or specific actions within them may be restricted based on the permissions
+                associated with the authenticated user, ensuring that only authorized users can access or modify
+                sensitive data.
             </div>
             <div class="desc">
-                Some fields in the request body act as foreign keys, meaning their associated records must be created first before making a request. For example <b>category</b>, <b>client</b>, <b>position</b> and <b>tag</b> fields must reference an existing instance. <b>Each foreign key has its own dedicated route</b> in the API, with full support for all HTTP methods (GET, POST, PUT, DELETE), enabling complete management of these related entities.
+                Some fields in the request body act as foreign keys, meaning their associated records must be created
+                first before making a request. For example <b>category</b>, <b>client</b>, <b>position</b> and
+                <b>tag</b> fields must reference an existing instance. <b>Each foreign key has its own dedicated
+                    route</b> in the API, with full support for all HTTP methods (GET, POST, PUT, DELETE), enabling
+                complete management of these related entities.
             </div>
 
             <div class="feat">
@@ -230,7 +245,7 @@
                         <div class="response">
                             {
                                 "count": 50,
-                                "next": "https://melo-api.up.railway.app/api/clients/?page=2",
+                                "next": "http://127.0.0.1:8000/api/clients/?page=2",
                                 "previous": null,
                                 "results": [
                                     {
@@ -398,7 +413,7 @@
                         <div class="response">
                             {
                                 "count": 120,
-                                "next": "https://melo-api.up.railway.app/api/contacts/?page=2",
+                                "next": "http://127.0.0.1:8000/api/contacts/?page=2",
                                 "previous": null,
                                 "results": [
                                     {
@@ -552,14 +567,17 @@
                 <p>Sale instance.closed cannot be edited.</p>
                 <p>To close a sale put status field to 'done' or 'cancelled'.</p>
                 <div>
-                    The API includes a dedicated route, <i><b>/sale-history/</b></i>, which is accessible only via the GET and is Admin-only. This endpoint provides a detailed history of all sales. Since it is a read-only route designed for administrative oversight, it ensures secure and controlled access to sensitive sales data.
-                </p>
-                <div class="http">
-                    <div>
-                        <span class="route">/sales/</span>
-                        </span>Methods: GET - POST - PATCH - DELETE</span>
-                    </div>
-                    <pre class="code">
+                    The API includes a dedicated route, <i><b>/sale-history/</b></i>, which is accessible only via the
+                    GET and is Admin-only. This endpoint provides a detailed history of all sales. Since it is a
+                    read-only route designed for administrative oversight, it ensures secure and controlled access to
+                    sensitive sales data.
+                    </p>
+                    <div class="http">
+                        <div>
+                            <span class="route">/sales/</span>
+                            </span>Methods: GET - POST - PATCH - DELETE</span>
+                        </div>
+                        <pre class="code">
 
                         // GET List
                         <div class="response">
@@ -687,18 +705,18 @@
                         </div>
 
                     </pre>
-                </div>
+                    </div>
 
-                <h3 id="tasks">Tasks</h3>
-                <p>Task instance.closed cannot be edited.</p>
-                <p>If Owner has not task.closed then task cannot be created.</p>
-                <p>To close a task put status field to 'done' or 'cancelled'.</p>
+                    <h3 id="tasks">Tasks</h3>
+                    <p>Task instance.closed cannot be edited.</p>
+                    <p>If Owner has not task.closed then task cannot be created.</p>
+                    <p>To close a task put status field to 'done' or 'cancelled'.</p>
 
-                <div class="http">
-                    <div>
-                        <span class="route">/tasks/</span>
-                        </span>Methods: GET - POST - PATCH - DELETE</span>
-                        <pre class="code">
+                    <div class="http">
+                        <div>
+                            <span class="route">/tasks/</span>
+                            </span>Methods: GET - POST - PATCH - DELETE</span>
+                            <pre class="code">
 
                             // GET List by Owner (List All Admin Only)
                             <div class="response">
@@ -823,56 +841,60 @@
                                 // status 204 No Content
                             </div>
                         </pre>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="feat">
+                    <h2 id="filters">Filters</h2>
+                    <div class="desc">The API supports the use of query parameters to enhance and customize the results
+                        of requests.</div>
+                    <br>
+
+                    <div class="desc">
+                        <b><i>search:</i></b> Use this to perform a keyword-based search across fields specified for the
+                        endpoint. This is useful for quickly finding records matching certain criteria.
+                    </div>
+                    <div class="desc">
+                        <b><i>ordering:</i></b> Use this to sort results based on one or more fields. Prefix a field
+                        with a minus sign (-) to sort in descending order (e.g., ?ordering=-created_at)
+                    </div>
+                    <div class="desc">
+                        <b><i>Specific field names:</i></b>: Query parameters can also match specific field names,
+                        allowing you to filter results directly based on those fields.
+                        <br>
+                        <br>
+                        <p><i>/clients</i></p>
+                        <ul>
+                            <li>?category_id</li>
+                        </ul>
+                        <p><i>/contacts</i></p>
+
+                        <ul>
+                            <li>?client_id</li>
+                            <li>?position_id</li>
+                            <li>?email</li>
+                        </ul>
+                        <p><i>/sales</i></p>
+
+                        <ul>
+                            <li>?client_id</li>
+                            <li>?user_id</li>
+                            <li>?status</li>
+                        </ul>
+                        <p><i>/tasks</i></p>
+
+                        <ul>
+                            <li>?status</li>
+                            <li>?user_id</li>
+                            <li>?tags__id (list)</li>
+
+                        </ul>
+
                     </div>
                 </div>
-
-
-            </div>
-
-            <div class="feat">
-                <h2 id="filters">Filters</h2>
-                <div class="desc">The API supports the use of query parameters to enhance and customize the results of requests.</div>
-                <br>
-
-                <div class="desc">
-                    <b><i>search:</i></b> Use this to perform a keyword-based search across fields specified for the endpoint. This is useful for quickly finding records matching certain criteria.
-                </div>
-                <div class="desc">
-                    <b><i>ordering:</i></b> Use this to sort results based on one or more fields. Prefix a field with a minus sign (-) to sort in descending order (e.g., ?ordering=-created_at)
-                </div>
-                <div class="desc">
-                    <b><i>Specific field names:</i></b>: Query parameters can also match specific field names, allowing you to filter results directly based on those fields.
-                    <br>
-                    <br>
-                    <p><i>/clients</i></p>
-                    <ul>
-                        <li>?category_id</li>
-                    </ul>
-                    <p><i>/contacts</i></p>
-
-                    <ul>
-                        <li>?client_id</li>
-                        <li>?position_id</li>
-                        <li>?email</li>
-                    </ul>
-                    <p><i>/sales</i></p>
-
-                    <ul>
-                        <li>?client_id</li>
-                        <li>?user_id</li>
-                        <li>?status</li>
-                    </ul>
-                    <p><i>/tasks</i></p>
-
-                    <ul>
-                        <li>?status</li>
-                        <li>?user_id</li>
-                        <li>?tags__id (list)</li>
-
-                    </ul>
-
-                </div>
-            </div>
 
         </section>
 
@@ -894,4 +916,5 @@
         <i class="fa-solid fa-circle-chevron-up"></i>
     </a>
 </body>
+
 </html>

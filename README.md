@@ -32,8 +32,8 @@ O projeto será dividido em quatro **partes**:
 #### 1. Clone o repositório
 
 ```bash
-$ git clone https://github.com/alantnk/crm-django.git
-$ cd crm-django
+$ git clone git@github.com:alantnk/django-api.git
+$ cd django-api
 ```
 
 #### 2. Ambiente virtual
