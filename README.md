@@ -1,55 +1,30 @@
-# CRM em Django
+# CRM in Django
 
-Este projeto tem como objetivo construir um CRM simples utilizando Django. O sistema é voltado para o gerenciamento básico de clientes, oportunidades de vendas, tarefas e relatórios, permitindo que os usuários possam visualizar e gerenciar essas informações de maneira prática e intuitiva.
+This project aims to build a simple CRM using Django.
 
+## Installation and Usage
 
-## Estrutura do Projeto
-
-O projeto será dividido em quatro **partes**:
-
-#### 1. `clients`
-
--   Modelos: `Client`, `Contact`
--   Funcionalidades: Cadastro e gerenciamento de clientes, além de registros de contatos.
-
-#### 2. `sales`
-
--   Modelos: `Sale`, `SaleHistory`
--   Funcionalidades: Gerenciamento de oportunidades de vendas, incluindo a criação e atualização de estágios.
-
-#### 3. `tasks`
-
--   Modelos: `Task`, `Tag`
--   Funcionalidades: Gerenciamento de tarefas relacionadas aos clientes e oportunidades, com vencimento e status de conclusão.
-
-#### 4. `user_control` (_app_)
-
--   Modelos: `User`
--   Funcionalidades: Gerenciamento de usuários e permissões no sistema.
-
-## Instalação e uso
-
-#### 1. Clone o repositório
+#### 1. Clone the repository
 
 ```bash
 $ git clone git@github.com:alantnk/django-api.git
 $ cd django-api
 ```
 
-#### 2. Ambiente virtual
+#### 2. Virtual environment
 
-Crie e ative o ambiente
+Create and activate the environment:
 
 ```bash
 $ virtualenv .venv
 $ source .venv/bin/activate
 ```
 
-**Veja:** [**Como instalar virtualenv no Linux e Windows**](https://www.geeksforgeeks.org/creating-python-virtual-environment-windows-linux/)
+**See:** [**How to install virtualenv on Linux and Windows**](https://www.geeksforgeeks.org/creating-python-virtual-environment-windows-linux/)
 
-#### 3. Instalação
+#### 3. Installation
 
-Execute a instalação dos pacotes
+Run the packages installation:
 
 ```bash
 $ pip install -r requirements.txt
@@ -57,34 +32,34 @@ $ pip install -r requirements.txt
 
 #### 4. Migrations
 
-Renomeie o arquivo `.env-example` para `.env` e execute as migrations
+Rename the `.env-example` file to `.env` and run the migrations:
 
 ```bash
 $ python3 manage.py migrate
 ```
 
-#### 5. Iniciar servidor
+#### 5. Start server
 
-Primeiro crie um usuário com o comando `python3 manage.py createsuperuser`.
+First, create a user with the command `python3 manage.py createsuperuser`.
 
-Preencha os campos e depois inicie o servidor
+Fill in the fields and then start the server:
 
 ```bash
 $ python3 manage.py runserver
 ```
 
-Acesse o endereço base http://127.0.0.1:8000 e leia a documentação.
+Access the base address http://127.0.0.1:8000 and read the documentation.
 
-#### 6. Seeds (Opcional)
+#### 6. Seeds (Optional)
 
-Para pre-popular o banco abra o **shell** do Django com `python3 manage.py shell`
+To pre-populate the database, open the Django **shell** with `python3 manage.py shell`
 
 ```py
 from core.tests import make_data
 make_data()
 ```
 
-Depois feche o terminal e rode o servidor novamente
+Then close the terminal and run the server again.
 
 ## Tests
 
@@ -92,8 +67,8 @@ Depois feche o terminal e rode o servidor novamente
 $ python3 manage.py test
 ```
 
-Ou execute `pytest`
+Or run `pytest`.
 
 #### HTTP Client(Insomnia)
 
-Caso use o Insomnia, importe o arquivo **api_collection.json**
+If you use Insomnia, import the **api_collection.json** file.
